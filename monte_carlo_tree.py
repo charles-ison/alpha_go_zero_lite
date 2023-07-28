@@ -10,7 +10,7 @@ class Node:
             if child.row == row and child.column == column:
                 return child
 
-        new_move = Move(player_num, row, column)
+        new_move = Move(player_num, row, column, self)
         self.add_child(new_move)
         return new_move
 
@@ -20,10 +20,14 @@ class Root(Node):
         self.game_name = game_name
 
 class Move(Node):
-    def __init__(self, player, row, column):
+    def __init__(self, player, row, column, parent):
         super().__init__()
         self.player = player
         self.row = row
         self.column = column
-        self.visits = 0
-        self.wins = 0
+        self.parent = parent
+        self.num_wins = 0
+        self.num_simulations = 0
+
+    def get_win_rate(self):
+        return float(self.num_wins) / float(self.num_simulations)

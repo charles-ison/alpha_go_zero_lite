@@ -11,9 +11,19 @@ def get_move(player_num, opponent_start_priority, turn_count, game, last_move, m
         return get_alpha_go_zero_lite_move(player_num, turn_count, game, last_move, mcts_time_limit)
 
 def get_alpha_go_zero_lite_move(player_num, turn_count, game, last_move, mcts_time_limit):
-    print("AlphaGo Zero Lite is running simulations. . .")
+    print("\nAlphaGo Zero Lite is running simulations. . .")
     run_expansions(player_num, turn_count, game, last_move, mcts_time_limit)
-    return 0, 0
+
+    potential_moves = last_move.children
+    if len(potential_moves) == 0:
+        print("Bug encountered, no potential AlphaGo Zero Lite moves found. More simulations need to be run.")
+
+    best_move = potential_moves[0]
+    for move in potential_moves:
+        if move.get_win_rate() > best_move.get_win_rate():
+            best_move = move
+
+    return best_move.row, best_move.column
 
 def get_opponet_move(player_num, game):
     row, column = input("\nPlayer " + str(player_num) + " please enter move coordinates: ").split(",")
@@ -40,17 +50,27 @@ def run_expansions(player_num, turn_count, game, last_move, time_limit):
     while time.time() < stop_time:
         expansion_player_num = get_player_num(expansion_turn_count)
         row, column = get_random_expansion_move(expansion_game)
-        expansion_game.board[row][column] = player_num
-        last_expansion_move = last_expansion_move.play_new_move(player_num, row, column)
+        expansion_game.board[row][column] = expansion_player_num
+        last_expansion_move = last_expansion_move.play_new_move(expansion_player_num, row, column)
         expansion_turn_count += 1
 
-        if expansion_game.detect_winner():
-            # backpropogate results
+        tie_detected = expansion_game.detect_tie()
+        if expansion_game.detect_winner() or tie_detected:
+            win_detected = (expansion_player_num == player_num) and not tie_detected
+            run_backpropagation(last_expansion_move, expansion_root, win_detected)
             expansion_game = copy.deepcopy(game)
             last_expansion_move = expansion_root
             expansion_turn_count = turn_count
             num_simulations += 1
-    print("Alpha Go Zero ran " + str(num_simulations) + " simulations in " + str(time_limit) + " seconds.")
+    print("AlphaGo Zero Lite ran " + str(num_simulations) + " simulations in " + str(time_limit) + " seconds.")
+
+def run_backpropagation(last_expansion_move, expansion_root, win_detected):
+    backpropagation_move = last_expansion_move
+    while backpropagation_move != expansion_root:
+        if win_detected:
+            backpropagation_move.num_wins += 1
+        backpropagation_move.num_simulations += 1
+        backpropagation_move = backpropagation_move.parent
 
 def get_player_num(turn_count):
     return (turn_count % 2) + 1
@@ -60,21 +80,31 @@ def play(game, game_root):
     opponent_start_priority = int(input("\nWould you like to be Player 1 or 2? "))
     last_move = game_root
     turn_count = 0
-    player_num = 1
+    game.print_board()
 
-    while game.detect_winner() is False:
-        game.print_board()
+    while True:
         player_num = get_player_num(turn_count)
         row, column = get_move(player_num, opponent_start_priority, turn_count, game, last_move, mcts_time_limit)
+
         game.board[row][column] = player_num
+        game.print_board()
+
         last_move = last_move.play_new_move(player_num, row, column)
         turn_count += 1
 
-    game.print_board()
-    print("\nPlayer " + str(player_num) + " won!")
+        winner_detected = game.detect_winner()
+        if game.detect_winner():
+            if player_num == opponent_start_priority:
+                print("\nCongratulations you won!")
+            else:
+                print("\nAlphaGo Zero Lite has won!")
+            break
+        elif game.detect_tie():
+            print("\nThe game ended in a tie!")
+            break
 
 
-mcts_time_limit = 5
+mcts_time_limit = 20
 tic_tac_toe = games.TicTacToe()
 game_root = mct.Root("Tic-Tac-Toe")
 play(tic_tac_toe, game_root)

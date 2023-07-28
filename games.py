@@ -37,6 +37,14 @@ class TicTacToe:
             return True
         return False
 
+    def detect_tie(self):
+        remaining_moves = 0
+        for row in self.board:
+            for value in row:
+                if value == 0:
+                    return False
+        return True
+
     def print_board(self):
         print("\n  0 1 2")
         for index, row in enumerate(self.board):

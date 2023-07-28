@@ -26,8 +26,8 @@ class Move(Node):
         self.row = row
         self.column = column
         self.parent = parent
-        self.num_wins = 0
-        self.num_simulations = 0
+        self.num_points = 0.0
+        self.num_simulations = 0.0
 
-    def get_win_rate(self):
-        return float(self.num_wins) / float(self.num_simulations)
+    def get_success_rate(self):
+        return self.num_points / self.num_simulations

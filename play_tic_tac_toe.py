@@ -20,7 +20,7 @@ def get_alpha_go_zero_lite_move(player_num, turn_count, game, last_move, mcts_ti
 
     best_move = potential_moves[0]
     for move in potential_moves:
-        if move.get_win_rate() > best_move.get_win_rate():
+        if move.get_success_rate() > best_move.get_success_rate():
             best_move = move
 
     return best_move.row, best_move.column
@@ -40,6 +40,14 @@ def get_random_expansion_move(expansion_game):
     random_move_tuple = potential_moves[random.randint(0, len(potential_moves)-1)]
     return random_move_tuple[0], random_move_tuple[1]
 
+def get_num_points(win_detected, tie_detected):
+    if win_detected:
+        return 3
+    elif tie_detected:
+        return 1
+    else:
+        return 0
+
 def run_expansions(player_num, turn_count, game, last_move, time_limit):
     expansion_game = copy.deepcopy(game)
     expansion_root = last_move
@@ -55,21 +63,21 @@ def run_expansions(player_num, turn_count, game, last_move, time_limit):
         expansion_turn_count += 1
 
         tie_detected = expansion_game.detect_tie()
-        if expansion_game.detect_winner() or tie_detected:
-            win_detected = (expansion_player_num == player_num) and not tie_detected
-            run_backpropagation(last_expansion_move, expansion_root, win_detected)
+        win_detected = expansion_game.detect_winner()
+        if win_detected or tie_detected:
+            num_points = get_num_points(win_detected, tie_detected)
+            run_backpropagation(last_expansion_move, expansion_root, num_points)
             expansion_game = copy.deepcopy(game)
             last_expansion_move = expansion_root
             expansion_turn_count = turn_count
             num_simulations += 1
     print("AlphaGo Zero Lite ran " + str(num_simulations) + " simulations in " + str(time_limit) + " seconds.")
 
-def run_backpropagation(last_expansion_move, expansion_root, win_detected):
+def run_backpropagation(last_expansion_move, expansion_root, num_points):
     backpropagation_move = last_expansion_move
     while backpropagation_move != expansion_root:
-        if win_detected:
-            backpropagation_move.num_wins += 1
-        backpropagation_move.num_simulations += 1
+        backpropagation_move.num_points += num_points
+        backpropagation_move.num_simulations += 1.0
         backpropagation_move = backpropagation_move.parent
 
 def get_player_num(turn_count):
@@ -104,7 +112,7 @@ def play(game, game_root):
             break
 
 
-mcts_time_limit = 20
+mcts_time_limit = 5
 tic_tac_toe = games.TicTacToe()
 game_root = mct.Root("Tic-Tac-Toe")
 play(tic_tac_toe, game_root)

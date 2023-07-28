@@ -40,8 +40,8 @@ def get_random_expansion_move(expansion_game):
     random_move_tuple = potential_moves[random.randint(0, len(potential_moves)-1)]
     return random_move_tuple[0], random_move_tuple[1]
 
-def get_num_points(win_detected, tie_detected):
-    if win_detected:
+def get_num_points(alpha_go_zero_lite_win_detected, tie_detected):
+    if alpha_go_zero_lite_win_detected:
         return 3
     elif tie_detected:
         return 1
@@ -65,7 +65,8 @@ def run_expansions(player_num, turn_count, game, last_move, time_limit):
         tie_detected = expansion_game.detect_tie()
         win_detected = expansion_game.detect_winner()
         if win_detected or tie_detected:
-            num_points = get_num_points(win_detected, tie_detected)
+            alpha_go_zero_lite_win_detected = win_detected and player_num == expansion_player_num
+            num_points = get_num_points(alpha_go_zero_lite_win_detected, tie_detected)
             run_backpropagation(last_expansion_move, expansion_root, num_points)
             expansion_game = copy.deepcopy(game)
             last_expansion_move = expansion_root

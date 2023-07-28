@@ -7,6 +7,14 @@ class TicTacToe:
     def is_valid_move(self, row, column):
         return row < 3 and column < 3 and self.board[row][column] == 0
 
+    def fetch_potential_moves(self):
+        remaining_moves = []
+        for row_index, row in enumerate(self.board):
+            for column_index, value in enumerate(row):
+                if value == 0:
+                    remaining_moves.append((row_index, column_index))
+        return remaining_moves
+
     def detect_winner(self):
         return self.detect_row_winner() or self.detect_column_winner() or self.detect_diagonal_winner()
 

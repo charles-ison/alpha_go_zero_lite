@@ -19,7 +19,7 @@ def get_alpha_go_zero_lite_move(player_num, turn_count, game, last_move, mcts_ti
         print("Bug encountered, no potential AlphaGo Zero Lite moves found. More simulations need to be run.")
 
     best_move = potential_moves[0]
-    for move in potential_moves:
+    for move in potential_moves[1:]:
         if move.get_success_rate() > best_move.get_success_rate():
             best_move = move
 

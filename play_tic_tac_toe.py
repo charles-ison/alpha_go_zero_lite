@@ -49,11 +49,11 @@ def get_random_expansion_move(expansion_game, last_expansion_move):
 
 def get_num_points(alpha_go_zero_lite_win_detected, tie_detected):
     if alpha_go_zero_lite_win_detected:
-        return 3
-    elif tie_detected:
         return 1
-    else:
+    elif tie_detected:
         return 0
+    else:
+        return -1
 
 def run_expansions(player_num, turn_count, game, last_move, time_threshold):
     expansion_game = copy.deepcopy(game)
@@ -118,7 +118,6 @@ def get_player_num(turn_count):
     return (turn_count % 2) + 1
 
 def play(game, game_root):
-
     opponent_start_priority = int(input("\nWould you like to be Player 1 or 2? "))
     last_move = game_root
     turn_count = 0
@@ -145,7 +144,7 @@ def play(game, game_root):
             print("\nThe game ended in a tie!")
             break
 
-mcts_time_limit = 10000
+mcts_time_limit = 100
 tic_tac_toe = games.TicTacToe()
 game_root = mct.Root("Tic-Tac-Toe")
 play(tic_tac_toe, game_root)

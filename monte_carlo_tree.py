@@ -1,6 +1,7 @@
 class Node:
     def __init__(self):
         self.children = []
+        self.unexplored_subtrees = True
 
     def add_child(self, child):
         self.children.append(child)

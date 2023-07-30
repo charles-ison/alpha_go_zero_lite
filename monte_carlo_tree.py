@@ -1,7 +1,10 @@
+import math
+
 class Node:
     def __init__(self):
         self.children = []
         self.unexplored_subtrees = True
+        self.num_visits = 0.0
 
     def add_child(self, child):
         self.children.append(child)
@@ -28,7 +31,9 @@ class Move(Node):
         self.column = column
         self.parent = parent
         self.num_points = 0.0
-        self.num_simulations = 0.0
+        self.exploration_factor = math.sqrt(2)
 
-    def get_success_rate(self):
-        return self.num_points / self.num_simulations
+    def get_upper_confidence_bound(self):
+        win_ratio = self.num_points / self.num_visits
+        parent_visit_ratio = math.log(self.parent.num_visits) / self.num_visits
+        return win_ratio + self.exploration_factor * math.sqrt(parent_visit_ratio)

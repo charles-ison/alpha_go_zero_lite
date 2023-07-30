@@ -91,13 +91,18 @@ def run_expansions(player_num, turn_count, game, last_move, time_threshold):
 
 def run_backpropagation(last_expansion_move, expansion_root, num_points, num_potential_moves_list):
     backpropagation_move = last_expansion_move
-    backpropagation_root = expansion_root if isinstance(expansion_root, mct.Root) else expansion_root.parent
-    while backpropagation_move != backpropagation_root:
+    while backpropagation_move != expansion_root:
         backpropagation_move.num_points += num_points
         backpropagation_move.num_simulations += 1.0
         num_potential_moves = num_potential_moves_list.pop()
         backpropagation_move.unexplored_subtrees = check_unexplored_subtrees(backpropagation_move, num_potential_moves)
         backpropagation_move = backpropagation_move.parent
+
+    num_potential_moves = num_potential_moves_list.pop()
+    backpropagation_move.unexplored_subtrees = check_unexplored_subtrees(backpropagation_move, num_potential_moves)
+    if isinstance(backpropagation_move, mct.Move):
+        backpropagation_move.num_points += num_points
+        backpropagation_move.num_simulations += 1.0
 
 def check_unexplored_subtrees(backpropagation_move, num_potential_moves):
     if not backpropagation_move.unexplored_subtrees:
@@ -140,8 +145,7 @@ def play(game, game_root):
             print("\nThe game ended in a tie!")
             break
 
-
-mcts_time_limit = 30
+mcts_time_limit = 10000
 tic_tac_toe = games.TicTacToe()
 game_root = mct.Root("Tic-Tac-Toe")
 play(tic_tac_toe, game_root)

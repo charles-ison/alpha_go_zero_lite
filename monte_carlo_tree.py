@@ -4,13 +4,13 @@ class Node:
     def __init__(self):
         self.children = []
         self.num_visits = 0.0
-        self.num_points = 0.0
 
 
 class Move(Node):
     def __init__(self, player_num, row, column, parent):
         super().__init__()
         self.player_num = player_num
+        self.num_points = 0.0
         self.row = row
         self.column = column
         self.parent = parent

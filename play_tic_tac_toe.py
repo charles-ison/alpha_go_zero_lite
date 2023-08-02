@@ -78,13 +78,11 @@ def get_selection_move(last_expansion_move_children):
     return best_move
 
 
-def get_num_points(current_move_player_won, tie_detected):
-    if current_move_player_won:
-        return 3
-    elif tie_detected:
-        return 1
+def get_num_points(win_detected):
+    if win_detected:
+        return 3, -3
     else:
-        return -3
+        return 1, 1
 
 
 def get_next_mcts_move(mcts_game, mcts_player_num, last_mcts_move, expansion_move):
@@ -116,16 +114,18 @@ def run_monte_carlo_tree_search(player_num, turn_count, game, last_move, time_th
     while time.time() < time_limit:
         mcts_player_num = get_player_num(mcts_turn_count)
         mcts_move, expansion_move = get_next_mcts_move(mcts_game, mcts_player_num, mcts_move, expansion_move)
-        mcts_game.board[mcts_move.row][mcts_move.column] = mcts_player_num
+        mcts_game.board[mcts_move.row][mcts_move.column] = mcts_move.player_num
         mcts_turn_count += 1
 
-        tie_detected = mcts_game.detect_tie()
-        win_detected = mcts_game.detect_winner()
+        win_detected, tie_detected = mcts_game.detect_winner(), mcts_game.detect_tie()
         if win_detected or tie_detected:
-            current_move_player_won = win_detected and player_num == mcts_player_num
-            num_points = get_num_points(current_move_player_won, tie_detected)
+            current_player_points, opposing_player_points = get_num_points(win_detected)
+            points_dict = {
+                mcts_player_num: current_player_points,
+                mcts_move.parent.player_num: opposing_player_points
+            }
             backpropagation_leaf = get_backpropagation_leaf(expansion_move, mcts_move)
-            run_backpropagation(backpropagation_leaf, last_move, num_points)
+            run_backpropagation(backpropagation_leaf, last_move, points_dict)
             mcts_game = copy.deepcopy(game)
             expansion_move = None
             mcts_move = last_move
@@ -137,12 +137,11 @@ def run_monte_carlo_tree_search(player_num, turn_count, game, last_move, time_th
     print("AlphaGo Zero Lite ran " + str(num_searches) + " searches in " + str(run_time) + " seconds.")
 
 
-def run_backpropagation(backpropagation_leaf, mcts_root, num_points):
+def run_backpropagation(backpropagation_leaf, mcts_root, points_dict):
     mcts_root.num_visits += 1.0
-    mcts_root.num_points += num_points
     backprop_move = backpropagation_leaf
     while backprop_move != mcts_root:
-        backprop_move.num_points += num_points
+        backprop_move.num_points += points_dict[backprop_move.player_num]
         backprop_move.num_visits += 1.0
         backprop_move = backprop_move.parent
 
@@ -205,7 +204,7 @@ def get_game_mode():
     return GameMode(int(input("Please enter your selection: ")))
 
 
-time_threshold = 10
+time_threshold = 5
 tic_tac_toe = games.TicTacToe()
 game_mode = get_game_mode()
 opponent_start_priority = get_opponent_start_priority(game_mode)

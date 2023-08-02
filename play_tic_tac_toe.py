@@ -85,8 +85,20 @@ def get_num_points(win_detected):
         return 1, 1
 
 
+#TODO: Figure out why this check is needed, suggests there is a bug somewhere
+def all_children_visited(last_mcts_move_children):
+    for child in last_mcts_move_children:
+        if child.num_visits == 0.0:
+            return False
+    return True
+
+
+def should_run_selection_move(potential_moves, last_mcts_move_children):
+    return len(potential_moves) == len(last_mcts_move_children) and all_children_visited(last_mcts_move_children)
+
+
 def get_next_mcts_move(mcts_game, mcts_player_num, last_mcts_move, expansion_move):
-    if len(mcts_game.fetch_potential_moves()) == len(last_mcts_move.children):
+    if should_run_selection_move(mcts_game.fetch_potential_moves(), last_mcts_move.children):
         return get_selection_move(last_mcts_move.children), expansion_move
     else:
         next_mcts_move = get_simulation_move(mcts_player_num, mcts_game.fetch_potential_moves(), last_mcts_move)
@@ -164,15 +176,6 @@ def get_current_player_tree(player_num, player_1_node, player_2_node):
         return player_2_node
 
 
-def print_winner_congratulations(game_mode, player_num, opponent_start_priority):
-    if game_mode == GameMode.Manual and player_num == opponent_start_priority:
-        print("\nCongratulations you won!")
-    elif game_mode == GameMode.Manual:
-        print("\nAlphaGo Zero Lite has won!")
-    else:
-        print("\nAlphaGo Zero Lite Player " + str(player_num) + " has won!")
-
-
 def play(game, game_mode, opponent_start_priority, time_threshold):
     turn_count = 0
     game.print_board()
@@ -190,11 +193,16 @@ def play(game, game_mode, opponent_start_priority, time_threshold):
         turn_count += 1
 
         if game.detect_winner():
-            print_winner_congratulations(game_mode, player_num, opponent_start_priority)
-            break
+            return player_num
         elif game.detect_tie():
-            print("\nThe game ended in a tie!")
-            break
+            return 0
+
+
+def get_num_games(game_mode):
+    if GameMode.Manual == game_mode:
+        return 1
+    else:
+        return int(input("\nHow many simulations would you like to run? "))
 
 
 def get_game_mode():
@@ -204,8 +212,33 @@ def get_game_mode():
     return GameMode(int(input("Please enter your selection: ")))
 
 
-time_threshold = 5
-tic_tac_toe = games.TicTacToe()
+def play_multiple_games(num_games, game_mode, opponent_start_priority, time_threshold):
+    num_ties = 0
+    num_player_1_wins = 0
+    num_player_2_wins = 0
+    for game_num in range(num_games):
+        tic_tac_toe = games.TicTacToe()
+        result_num = play(tic_tac_toe, game_mode, opponent_start_priority, time_threshold)
+        print("\nGame " + str(game_num) + " finished!")
+
+        if result_num == 0:
+            num_ties += 1
+            print("The result was a tie.")
+        elif result_num == 1:
+            num_player_1_wins += 1
+            print("Player 1 won.")
+        elif result_num == 2:
+            print("Player 2 won.")
+
+    print("\nFinal Statistics: ")
+    print("Number of games: ", num_games)
+    print("Number of Player 1 wins: ", num_player_1_wins)
+    print("Number of Player 2 wins: ", num_player_2_wins)
+    print("Number of ties: ", num_ties)
+
+
+time_threshold = 4
 game_mode = get_game_mode()
 opponent_start_priority = get_opponent_start_priority(game_mode)
-play(tic_tac_toe, game_mode, opponent_start_priority, time_threshold)
+num_games = get_num_games(game_mode)
+play_multiple_games(num_games, game_mode, opponent_start_priority, time_threshold)

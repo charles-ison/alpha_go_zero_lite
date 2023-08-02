@@ -2,167 +2,211 @@ import time
 import random
 import copy
 import games
+from game_mode import GameMode
 import monte_carlo_tree as mct
 
-def get_move(player_num, opponent_start_priority, turn_count, game, last_move, mcts_time_limit):
-    if player_num == opponent_start_priority:
-        return get_opponent_move(player_num, game)
+
+def print_alpha_go_zero_lite_status(player_num, game_mode):
+    if game_mode == GameMode.Manual:
+        print("\nAlphaGo Zero Lite is running simulations. . .")
+    elif game_mode == GameMode.Self_Play:
+        print("\nAlphaGo Zero Lite Player " + str(player_num) + " is running simulations. . .")
+
+
+def play_move(game, player_num, game_mode, opponent_start_priority, turn_count, last_move, time_threshold):
+    if game_mode == GameMode.Manual and player_num == opponent_start_priority:
+        return get_manual_move(player_num, game, last_move)
     else:
-        return get_alpha_go_zero_lite_move(player_num, turn_count, game, last_move, mcts_time_limit)
+        print_alpha_go_zero_lite_status(player_num, game_mode)
+        return get_alpha_go_zero_lite_move(player_num, turn_count, game, last_move, time_threshold)
 
-def get_alpha_go_zero_lite_move(player_num, turn_count, game, last_move, mcts_time_limit):
-    print("\nAlphaGo Zero Lite is running simulations. . .")
-    run_expansions(player_num, turn_count, game, last_move, mcts_time_limit)
 
+def get_alpha_go_zero_lite_move(player_num, turn_count, game, last_move, time_threshold):
+    run_monte_carlo_tree_search(player_num, turn_count, game, last_move, time_threshold)
     potential_moves = last_move.children
     if len(potential_moves) == 0:
-        print("Bug encountered, no potential AlphaGo Zero Lite moves found. More simulations need to be run.")
+        print("Bug encountered, no potential AlphaGo Zero Lite moves found. More searches need to be run.")
 
     best_move = potential_moves[0]
     for move in potential_moves[1:]:
         if move.num_visits > best_move.num_visits:
             best_move = move
-    return best_move.row, best_move.column
+    return best_move
 
-def get_opponent_move(player_num, game):
+
+def append_move(player_num, last_move, row, column):
+    for child in last_move.children:
+        if child.row == row and child.column == column and child.player_num == player_num:
+            return child
+
+    manual_move = mct.Move(player_num, row, column, last_move)
+    last_move.children.append(manual_move)
+    return manual_move
+
+
+def get_manual_move(player_num, game, last_move):
     row, column = input("\nPlayer " + str(player_num) + " please enter move coordinates: ").split(",")
     row, column = int(row), int(column)
 
     if game.is_valid_move(row, column):
-        return row, column
+        return append_move(player_num, last_move, row, column)
     else:
         print("\nInvalid move. Please try again.")
-        return get_opponent_move(player_num, game)
+        return get_manual_move(player_num, game, last_move)
 
-def move_unexplored(potential_move_tuple, last_expansion_move):
+
+def move_unexplored(potential_move_tuple, last_mcts_move_children):
     potential_row = potential_move_tuple[0]
     potential_column = potential_move_tuple[1]
-    for child in last_expansion_move.children:
-        if child.row == potential_row and child.column == potential_column and not child.unexplored_subtrees:
+    for child in last_mcts_move_children:
+        if child.row == potential_row and child.column == potential_column:
             return False
     return True
 
-def get_random_move(potential_move_tuples, last_expansion_move):
-    unexplored_potential_tuples = [tuple for tuple in potential_move_tuples if move_unexplored(tuple, last_expansion_move)]
-    random_move_tuple = unexplored_potential_tuples[random.randint(0, len(unexplored_potential_tuples)-1)]
-    return random_move_tuple[0], random_move_tuple[1]
 
-def get_move_with_highest_upper_confidence_bound(last_expansion_move_children):
+def get_simulation_move(mcts_player_num, potential_move_tuples, last_mcts_move):
+    unexplored_potential_tuples = [tuple for tuple in potential_move_tuples if move_unexplored(tuple, last_mcts_move.children)]
+    random_move_tuple = unexplored_potential_tuples[random.randint(0, len(unexplored_potential_tuples)-1)]
+    return mct.Move(mcts_player_num, random_move_tuple[0], random_move_tuple[1], last_mcts_move)
+
+
+def get_selection_move(last_expansion_move_children):
     best_move = last_expansion_move_children[0]
     for move in last_expansion_move_children[1:]:
         if move.get_upper_confidence_bound() > best_move.get_upper_confidence_bound():
             best_move = move
-    return best_move.row, best_move.column
+    return best_move
 
-def get_expansion_move(expansion_game, last_expansion_move):
-    potential_move_tuples = expansion_game.fetch_potential_moves()
-    num_potential_moves = len(potential_move_tuples)
-    last_expansion_move_children = last_expansion_move.children
 
-    if num_potential_moves == len(last_expansion_move_children):
-        row, column = get_move_with_highest_upper_confidence_bound(last_expansion_move_children)
-    else:
-        row, column = get_random_move(potential_move_tuples, last_expansion_move)
-    return row, column, num_potential_moves
-
-def get_num_points(alpha_go_zero_lite_win_detected, tie_detected):
-    if alpha_go_zero_lite_win_detected:
+def get_num_points(current_move_player_won, tie_detected):
+    if current_move_player_won:
         return 3
     elif tie_detected:
         return 1
     else:
         return -3
 
-def run_expansions(player_num, turn_count, game, last_move, time_threshold):
-    expansion_game = copy.deepcopy(game)
-    expansion_root = last_move
-    expansion_turn_count = turn_count
-    last_expansion_move = expansion_root
-    num_potential_moves_list = []
-    num_simulations = 0
+
+def get_next_mcts_move(mcts_game, mcts_player_num, last_mcts_move, expansion_move):
+    if len(mcts_game.fetch_potential_moves()) == len(last_mcts_move.children):
+        return get_selection_move(last_mcts_move.children), expansion_move
+    else:
+        next_mcts_move = get_simulation_move(mcts_player_num, mcts_game.fetch_potential_moves(), last_mcts_move)
+        if expansion_move == None:
+            expansion_move = next_mcts_move
+            last_mcts_move.children.append(expansion_move)
+        return next_mcts_move, expansion_move
+
+
+def get_backpropagation_leaf(expansion_move, mcts_move):
+    if expansion_move is None:
+        return mcts_move
+    else:
+        return expansion_move
+
+
+def run_monte_carlo_tree_search(player_num, turn_count, game, last_move, time_threshold):
+    mcts_game = copy.deepcopy(game)
+    mcts_move = last_move
+    expansion_move = None
+    mcts_turn_count = turn_count
+    num_searches = 0
     time_limit = time.time() + time_threshold
     start_time = time.time()
     while time.time() < time_limit:
-        expansion_player_num = get_player_num(expansion_turn_count)
-        row, column, num_potential_moves = get_expansion_move(expansion_game, last_expansion_move)
-        num_potential_moves_list.append(num_potential_moves)
-        expansion_game.board[row][column] = expansion_player_num
-        last_expansion_move = last_expansion_move.play_new_move(expansion_player_num, row, column)
-        expansion_turn_count += 1
+        mcts_player_num = get_player_num(mcts_turn_count)
+        mcts_move, expansion_move = get_next_mcts_move(mcts_game, mcts_player_num, mcts_move, expansion_move)
+        mcts_game.board[mcts_move.row][mcts_move.column] = mcts_player_num
+        mcts_turn_count += 1
 
-        tie_detected = expansion_game.detect_tie()
-        win_detected = expansion_game.detect_winner()
+        tie_detected = mcts_game.detect_tie()
+        win_detected = mcts_game.detect_winner()
         if win_detected or tie_detected:
-            alpha_go_zero_lite_win_detected = win_detected and player_num == expansion_player_num
-            num_points = get_num_points(alpha_go_zero_lite_win_detected, tie_detected)
-            last_expansion_move.unexplored_subtrees = False
-            num_potential_moves_list.append(0)
-            run_backpropagation(last_expansion_move, expansion_root, num_points, num_potential_moves_list)
-            expansion_game = copy.deepcopy(game)
-            last_expansion_move = expansion_root
-            expansion_turn_count = turn_count
-            num_simulations += 1
+            current_move_player_won = win_detected and player_num == mcts_player_num
+            num_points = get_num_points(current_move_player_won, tie_detected)
+            backpropagation_leaf = get_backpropagation_leaf(expansion_move, mcts_move)
+            run_backpropagation(backpropagation_leaf, last_move, num_points)
+            mcts_game = copy.deepcopy(game)
+            expansion_move = None
+            mcts_move = last_move
+            mcts_turn_count = turn_count
+            num_searches += 1
 
     stop_time = time.time()
     run_time = int(stop_time - start_time)
-    print("AlphaGo Zero Lite ran " + str(num_simulations) + " simulations in " + str(run_time) + " seconds.")
+    print("AlphaGo Zero Lite ran " + str(num_searches) + " searches in " + str(run_time) + " seconds.")
 
-def run_backpropagation(last_expansion_move, expansion_root, num_points, num_potential_moves_list):
-    backprop_move = last_expansion_move
-    while backprop_move != expansion_root:
+
+def run_backpropagation(backpropagation_leaf, mcts_root, num_points):
+    mcts_root.num_visits += 1.0
+    mcts_root.num_points += num_points
+    backprop_move = backpropagation_leaf
+    while backprop_move != mcts_root:
         backprop_move.num_points += num_points
         backprop_move.num_visits += 1.0
-        num_potential_moves = num_potential_moves_list.pop()
-        backprop_move.unexplored_subtrees = check_unexplored_subtrees(backprop_move, num_potential_moves)
         backprop_move = backprop_move.parent
 
-    num_potential_moves = num_potential_moves_list.pop()
-    backprop_move.unexplored_subtrees = check_unexplored_subtrees(backprop_move, num_potential_moves)
-    backprop_move.num_visits += 1.0
-
-    if isinstance(backprop_move, mct.Move):
-        backprop_move.num_points += num_points
-
-def check_unexplored_subtrees(backpropagation_move, num_potential_moves):
-    if not backpropagation_move.unexplored_subtrees:
-        return False
-    if len(backpropagation_move.children) != num_potential_moves:
-        return True
-    for child in backpropagation_move.children:
-        if child.unexplored_subtrees:
-            return True
-    return False
 
 def get_player_num(turn_count):
     return (turn_count % 2) + 1
 
-def play(game, game_root):
-    opponent_start_priority = int(input("\nWould you like to be Player 1 or 2? "))
-    last_move = game_root
+
+def get_opponent_start_priority(game_mode):
+    if game_mode == GameMode.Manual:
+        return int(input("\nWould you like to be Player 1 or 2? "))
+    else:
+        return True
+
+
+def get_current_player_tree(player_num, player_1_node, player_2_node):
+    if player_num == 1:
+        return player_1_node
+    else:
+        return player_2_node
+
+
+def print_winner_congratulations(game_mode, player_num, opponent_start_priority):
+    if game_mode == GameMode.Manual and player_num == opponent_start_priority:
+        print("\nCongratulations you won!")
+    elif game_mode == GameMode.Manual:
+        print("\nAlphaGo Zero Lite has won!")
+    else:
+        print("\nAlphaGo Zero Lite Player " + str(player_num) + " has won!")
+
+
+def play(game, game_mode, opponent_start_priority, time_threshold):
     turn_count = 0
     game.print_board()
+    current_player_node, waiting_player_node = mct.Node(), mct.Node()
 
     while True:
         player_num = get_player_num(turn_count)
-        row, column = get_move(player_num, opponent_start_priority, turn_count, game, last_move, mcts_time_limit)
+        current_player_node = play_move(game, player_num, game_mode, opponent_start_priority, turn_count, current_player_node, time_threshold)
+        waiting_player_node = append_move(player_num, waiting_player_node, current_player_node.row, current_player_node.column)
 
-        game.board[row][column] = player_num
+        game.board[current_player_node.row][current_player_node.column] = player_num
         game.print_board()
 
-        last_move = last_move.play_new_move(player_num, row, column)
+        current_player_node, waiting_player_node = waiting_player_node, current_player_node
         turn_count += 1
 
         if game.detect_winner():
-            if player_num == opponent_start_priority:
-                print("\nCongratulations you won!")
-            else:
-                print("\nAlphaGo Zero Lite has won!")
+            print_winner_congratulations(game_mode, player_num, opponent_start_priority)
             break
         elif game.detect_tie():
             print("\nThe game ended in a tie!")
             break
 
-mcts_time_limit = 60
+
+def get_game_mode():
+    print("Would you like to: ")
+    print("1. Play against AlphaGo Zero Lite")
+    print("2. Run a simulation where AlphaGo Zero Lite plays against itself")
+    return GameMode(int(input("Please enter your selection: ")))
+
+
+time_threshold = 10
 tic_tac_toe = games.TicTacToe()
-game_root = mct.Root("Tic-Tac-Toe")
-play(tic_tac_toe, game_root)
+game_mode = get_game_mode()
+opponent_start_priority = get_opponent_start_priority(game_mode)
+play(tic_tac_toe, game_mode, opponent_start_priority, time_threshold)

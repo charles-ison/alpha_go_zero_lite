@@ -7,4 +7,6 @@ class Loss:
         self.cross_entropy_loss = nn.CrossEntropyLoss()
 
     def calculate(self, predicted_val, actual_val, predicted_prob, actual_prob):
-        return self.mse(predicted_val, actual_val) + self.cross_entropy_loss(predicted_prob, actual_prob)
+        mse = self.mse(predicted_val, actual_val)
+        cross_entropy_loss = self.cross_entropy_loss(predicted_prob, actual_prob)
+        return mse + cross_entropy_loss

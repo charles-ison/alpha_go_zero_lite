@@ -5,6 +5,7 @@ import monte_carlo_tree as mct
 from game_mode import GameMode
 from games.TicTacToe import TicTacToe
 from neural_networks.tic_tac_toe_cnn import TicTacToeCNN
+from alpha_go_zero_lite_configuration import AlphaGoZeroLiteConfiguration
 
 
 def print_alpha_go_zero_lite_status(player_num, game_mode):
@@ -216,6 +217,13 @@ def get_game_mode():
     return GameMode(int(input("Please enter your selection: ")))
 
 
+def get_alpha_go_zero_lite_configuration():
+    print("Which AlphaGo Zero Lite configuration would you like used?: ")
+    print("1. Pure Monte Carlo Tree Search")
+    print("2. Monte Carlo Tree Search With CNN")
+    return GameMode(int(input("Please enter your selection: ")))
+
+
 def play_multiple_games(num_games, game_mode, cnn, opponent_start_priority, time_threshold):
     num_ties = 0
     num_player_1_wins = 0
@@ -245,5 +253,6 @@ time_threshold = 4
 game_mode = get_game_mode()
 opponent_start_priority = get_opponent_start_priority(game_mode)
 num_games = get_num_games(game_mode)
+alpha_go_zero_lite_configuration = get_alpha_go_zero_lite_configuration()
 cnn = TicTacToeCNN()
 play_multiple_games(num_games, game_mode, cnn, opponent_start_priority, time_threshold)

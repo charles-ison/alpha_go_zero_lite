@@ -4,6 +4,7 @@ import copy
 import monte_carlo_tree as mct
 from game_mode import GameMode
 from games.TicTacToe import TicTacToe
+from neural_networks.tic_tac_toe_cnn import TicTacToeCNN
 
 
 def print_alpha_go_zero_lite_status(player_num, game_mode):
@@ -13,16 +14,16 @@ def print_alpha_go_zero_lite_status(player_num, game_mode):
         print("\nAlphaGo Zero Lite Player " + str(player_num) + " is running simulations. . .")
 
 
-def play_move(game, player_num, game_mode, opponent_start_priority, turn_count, last_move, time_threshold):
+def play_move(game, player_num, game_mode, cnn, opponent_start_priority, turn_count, last_move, time_threshold):
     if game_mode == GameMode.Manual and player_num == opponent_start_priority:
         return get_manual_move(player_num, game, last_move)
     else:
         print_alpha_go_zero_lite_status(player_num, game_mode)
-        return get_alpha_go_zero_lite_move(player_num, turn_count, game, last_move, time_threshold)
+        return get_alpha_go_zero_lite_move(turn_count, game, cnn, last_move, time_threshold)
 
 
-def get_alpha_go_zero_lite_move(player_num, turn_count, game, last_move, time_threshold):
-    run_monte_carlo_tree_search(player_num, turn_count, game, last_move, time_threshold)
+def get_alpha_go_zero_lite_move(turn_count, game, cnn, last_move, time_threshold):
+    run_monte_carlo_tree_search(turn_count, game, cnn, last_move, time_threshold)
     potential_moves = last_move.children
     if len(potential_moves) == 0:
         print("Bug encountered, no potential AlphaGo Zero Lite moves found. More searches need to be run.")
@@ -115,7 +116,10 @@ def get_backpropagation_leaf(expansion_move, mcts_move):
         return expansion_move
 
 
-def run_monte_carlo_tree_search(player_num, turn_count, game, last_move, time_threshold):
+def run_monte_carlo_tree_search(turn_count, game, cnn, last_move, time_threshold):
+
+    policy, value = cnn(game.board_history)
+
     mcts_game = copy.deepcopy(game)
     mcts_move = last_move
     expansion_move = None
@@ -126,7 +130,7 @@ def run_monte_carlo_tree_search(player_num, turn_count, game, last_move, time_th
     while time.time() < time_limit:
         mcts_player_num = get_player_num(mcts_turn_count)
         mcts_move, expansion_move = get_next_mcts_move(mcts_game, mcts_player_num, mcts_move, expansion_move)
-        mcts_game.board[mcts_move.row][mcts_move.column] = mcts_move.player_num
+        mcts_game.update_board(mcts_move.row, mcts_move.column, mcts_player_num)
         mcts_turn_count += 1
 
         win_detected, tie_detected = mcts_game.detect_winner(), mcts_game.detect_tie()
@@ -176,17 +180,17 @@ def get_current_player_tree(player_num, player_1_node, player_2_node):
         return player_2_node
 
 
-def play(game, game_mode, opponent_start_priority, time_threshold):
+def play(game, game_mode, cnn, opponent_start_priority, time_threshold):
     turn_count = 0
     game.print_board()
     current_player_node, waiting_player_node = mct.Node(), mct.Node()
 
     while True:
         player_num = get_player_num(turn_count)
-        current_player_node = play_move(game, player_num, game_mode, opponent_start_priority, turn_count, current_player_node, time_threshold)
+        current_player_node = play_move(game, player_num, game_mode, cnn, opponent_start_priority, turn_count, current_player_node, time_threshold)
         waiting_player_node = append_move(player_num, waiting_player_node, current_player_node.row, current_player_node.column)
 
-        game.board[current_player_node.row][current_player_node.column] = player_num
+        game.update_board(current_player_node.row, current_player_node.column, player_num)
         game.print_board()
 
         current_player_node, waiting_player_node = waiting_player_node, current_player_node
@@ -212,13 +216,13 @@ def get_game_mode():
     return GameMode(int(input("Please enter your selection: ")))
 
 
-def play_multiple_games(num_games, game_mode, opponent_start_priority, time_threshold):
+def play_multiple_games(num_games, game_mode, cnn, opponent_start_priority, time_threshold):
     num_ties = 0
     num_player_1_wins = 0
     num_player_2_wins = 0
     for game_num in range(num_games):
         tic_tac_toe = TicTacToe()
-        result_num = play(tic_tac_toe, game_mode, opponent_start_priority, time_threshold)
+        result_num = play(tic_tac_toe, game_mode, cnn, opponent_start_priority, time_threshold)
         print("\nGame " + str(game_num) + " finished!")
 
         if result_num == 0:
@@ -241,4 +245,5 @@ time_threshold = 4
 game_mode = get_game_mode()
 opponent_start_priority = get_opponent_start_priority(game_mode)
 num_games = get_num_games(game_mode)
-play_multiple_games(num_games, game_mode, opponent_start_priority, time_threshold)
+cnn = TicTacToeCNN()
+play_multiple_games(num_games, game_mode, cnn, opponent_start_priority, time_threshold)

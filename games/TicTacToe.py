@@ -1,8 +1,20 @@
 import torch
 
+
 class TicTacToe:
+
     def __init__(self):
         self.board = torch.zeros(3, 3)
+        self.board_history = torch.zeros(3, 3, 3)
+
+    def update_board(self, row, column, player_num):
+        self.board[row][column] = player_num
+        self.update_board_history()
+
+    def update_board_history(self):
+        self.board_history[2] = self.board_history[1]
+        self.board_history[1] = self.board_history[0]
+        self.board_history[0] = self.board
 
     def is_valid_move(self, row, column):
         return row < 3 and column < 3 and self.board[row][column] == 0

@@ -1,9 +1,9 @@
 import time
 import random
 import copy
-import games
-from game_mode import GameMode
 import monte_carlo_tree as mct
+from game_mode import GameMode
+from games.TicTacToe import TicTacToe
 
 
 def print_alpha_go_zero_lite_status(player_num, game_mode):
@@ -217,7 +217,7 @@ def play_multiple_games(num_games, game_mode, opponent_start_priority, time_thre
     num_player_1_wins = 0
     num_player_2_wins = 0
     for game_num in range(num_games):
-        tic_tac_toe = games.TicTacToe()
+        tic_tac_toe = TicTacToe()
         result_num = play(tic_tac_toe, game_mode, opponent_start_priority, time_threshold)
         print("\nGame " + str(game_num) + " finished!")
 

@@ -53,14 +53,7 @@ class AlphaGoZeroLite:
         print("AlphaGo Zero Lite ran " + str(num_searches) + " searches in " + str(run_time) + " seconds.")
 
     def get_next_mcts_move(self, mcts_game, mcts_player_num, last_mcts_move, expansion_move):
-        if self.should_run_selection_move(mcts_game.fetch_potential_moves(), last_mcts_move.children):
-            return self.get_selection_move(last_mcts_move.children), expansion_move
-        else:
-            next_mcts_move = self.get_simulation_move(mcts_player_num, mcts_game.fetch_potential_moves(), last_mcts_move)
-            if expansion_move == None:
-                expansion_move = next_mcts_move
-                last_mcts_move.children.append(expansion_move)
-            return next_mcts_move, expansion_move
+        raise NotImplementedError("Must override get_next_mcts_move().")
 
     def run_backpropagation(self, backpropagation_leaf, mcts_root, points_dict):
         mcts_root.num_visits += 1.0

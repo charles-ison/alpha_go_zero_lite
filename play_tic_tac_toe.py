@@ -94,7 +94,7 @@ def get_game_mode():
 
 
 def get_alpha_go_zero_lite_model(alpha_go_zero_lite_configuration):
-    if alpha_go_zero_lite_configuration.Pure_MCTS:
+    if AlphaGoZeroLiteCNN == alpha_go_zero_lite_configuration.Pure_MCTS:
         return AlphaGoZeroLitePureMTCS()
     else:
         return AlphaGoZeroLiteCNN()

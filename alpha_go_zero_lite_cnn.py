@@ -1,7 +1,7 @@
 from neural_networks.tic_tac_toe_cnn import TicTacToeCNN
-from alpha_go_zero_lite import Alpha_Go_Zero_Lite
+from alpha_go_zero_lite import AlphaGoZeroLite
 
-class Alpha_Go_Zero_Lite_CNN(Alpha_Go_Zero_Lite):
+class AlphaGoZeroLiteCNN(AlphaGoZeroLite):
 
     def __init__(self):
         super().__init__()

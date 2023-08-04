@@ -3,8 +3,8 @@ import utilities
 from game_mode import GameMode
 from games.TicTacToe import TicTacToe
 from alpha_go_zero_lite_configuration import AlphaGoZeroLiteConfiguration
-from alpha_go_zero_lite_pure_mtcs import Alpha_Go_Zero_Lite_Pure_MTCS
-from alpha_go_zero_lite_cnn import Alpha_Go_Zero_Lite_CNN
+from alpha_go_zero_lite_pure_mtcs import AlphaGoZeroLitePureMTCS
+from alpha_go_zero_lite_cnn import AlphaGoZeroLiteCNN
 
 
 def print_alpha_go_zero_lite_status(player_num, game_mode):
@@ -95,9 +95,9 @@ def get_game_mode():
 
 def get_alpha_go_zero_lite_model(alpha_go_zero_lite_configuration):
     if alpha_go_zero_lite_configuration.Pure_MCTS:
-        return Alpha_Go_Zero_Lite_Pure_MTCS()
+        return AlphaGoZeroLitePureMTCS()
     else:
-        return Alpha_Go_Zero_Lite_CNN()
+        return AlphaGoZeroLiteCNN()
 
 
 def get_alpha_go_zero_lite():

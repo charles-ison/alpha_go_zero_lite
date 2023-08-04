@@ -5,7 +5,7 @@ import random
 import monte_carlo_tree as mct
 
 
-class AlphaGoZeroLite:
+class AlphaGoZero:
 
     def get_move(self, turn_count, game, last_move, time_threshold):
         self.run_monte_carlo_tree_search(turn_count, game, last_move, time_threshold)

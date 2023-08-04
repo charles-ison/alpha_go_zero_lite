@@ -5,13 +5,20 @@ class TicTacToe:
 
     def __init__(self):
         self.board = torch.zeros(3, 3)
-        self.board_history = torch.zeros(3, 3, 3)
+        self.board_history = torch.zeros(4, 3, 3)
 
     def update_board(self, row, column, player_num):
         self.board[row][column] = player_num
-        self.update_board_history()
+        self.update_board_history(player_num)
 
-    def update_board_history(self):
+    def get_current_player_board_representation(self, player_num):
+        if player_num == 1:
+            return torch.ones(3, 3)
+        else:
+            return torch.zeros(3, 3)
+
+    def update_board_history(self, player_num):
+        self.board_history[3] = self.get_current_player_board_representation(player_num)
         self.board_history[2] = self.board_history[1]
         self.board_history[1] = self.board_history[0]
         self.board_history[0] = self.board

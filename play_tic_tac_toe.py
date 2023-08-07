@@ -124,6 +124,7 @@ def play_games(num_games, game_mode, alpha_go_zero, opponent_start_priority, tim
             num_player_1_wins += 1
             print("Player 1 won.")
         elif result_num == 2:
+            num_player_2_wins += 1
             print("Player 2 won.")
 
     print("\nFinal Statistics: ")

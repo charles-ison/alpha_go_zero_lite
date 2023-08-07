@@ -35,13 +35,13 @@ class AlphaGoZero:
 
             win_detected, tie_detected = mcts_game.detect_winner(), mcts_game.detect_tie()
             if win_detected or tie_detected:
-                current_player_points, opposing_player_points = self.get_num_points(win_detected)
-                points_dict = {
-                    mcts_player_num: current_player_points,
-                    mcts_move.parent.player_num: opposing_player_points
+                current_player_action_value, opposing_player_action_value = self.get_action_value(win_detected)
+                action_value_dict = {
+                    mcts_player_num: current_player_action_value,
+                    mcts_move.parent.player_num: opposing_player_action_value
                 }
                 backpropagation_leaf = self.get_backpropagation_leaf(expansion_move, mcts_move)
-                self.run_backpropagation(backpropagation_leaf, last_move, points_dict)
+                self.run_backpropagation(backpropagation_leaf, last_move, action_value_dict)
                 mcts_game = copy.deepcopy(game)
                 expansion_move = None
                 mcts_move = last_move
@@ -55,11 +55,11 @@ class AlphaGoZero:
     def get_next_mcts_move(self, mcts_game, mcts_player_num, last_mcts_move, expansion_move):
         raise NotImplementedError("Must override get_next_mcts_move().")
 
-    def run_backpropagation(self, backpropagation_leaf, mcts_root, points_dict):
+    def run_backpropagation(self, backpropagation_leaf, mcts_root, action_value_dict):
         mcts_root.num_visits += 1.0
         backprop_move = backpropagation_leaf
         while backprop_move != mcts_root:
-            backprop_move.num_points += points_dict[backprop_move.player_num]
+            backprop_move.action_value += action_value_dict[backprop_move.player_num]
             backprop_move.num_visits += 1.0
             backprop_move = backprop_move.parent
 
@@ -100,8 +100,8 @@ class AlphaGoZero:
                 return False
         return True
 
-    def get_num_points(self, win_detected):
+    def get_action_value(self, win_detected):
         if win_detected:
-            return 3, -3
+            return 1, -1
         else:
-            return 1, 1
+            return 0, 0

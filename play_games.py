@@ -1,13 +1,10 @@
 import copy
-
 import monte_carlo_tree as mct
 import utilities
-from player_type import PlayerType
-from games.TicTacToe import TicTacToe
-from player import Player
+from players.player_type import PlayerType
 
 
-def play_move(game, player_num, players, turn_count, last_move, time_threshold):
+def play_move(game, player_num, players, turn_count, last_move, time_threshold, print_games):
     player_num_index = player_num - 1
     player = players[player_num_index]
     player_type = player.player_type
@@ -15,8 +12,9 @@ def play_move(game, player_num, players, turn_count, last_move, time_threshold):
         return get_manual_move(player_num, game, last_move)
     else:
         player_type_name = str(player_type.name)
-        print("\nAlphaGo Zero Lite (" + player_type_name + ") is running Monte Carlo Tree Search for " + str(time_threshold) + " seconds. . .")
-        return player.alpha_go_zero_lite.get_move(turn_count, game, last_move, time_threshold)
+        if print_games:
+            print("\nAlphaGo Zero Lite (" + player_type_name + ") is running Monte Carlo Tree Search for " + str(time_threshold) + " seconds. . .")
+        return player.alpha_go_zero_lite.get_move(turn_count, game, last_move, time_threshold, print_games)
 
 
 def append_move(game, player_num, last_move, row, column):
@@ -47,18 +45,20 @@ def get_current_player_tree(player_num, player_1_node, player_2_node):
         return player_2_node
 
 
-def play(game, players, time_threshold):
+def play(game, players, time_threshold, print_games):
     turn_count = 0
-    game.print_board()
+    if print_games:
+        game.print_board()
     current_player_node, waiting_player_node = mct.Node(game.board_size), mct.Node(game.board_size)
 
     while True:
         player_num = utilities.get_player_num(turn_count)
-        current_player_node = play_move(game, player_num, players, turn_count, current_player_node, time_threshold)
+        current_player_node = play_move(game, player_num, players, turn_count, current_player_node, time_threshold, print_games)
         waiting_player_node = append_move(game, player_num, waiting_player_node, current_player_node.row, current_player_node.column)
 
         game.update_board(current_player_node.row, current_player_node.column, player_num)
-        game.print_board()
+        if print_games:
+            game.print_board()
 
         current_player_node, waiting_player_node = waiting_player_node, current_player_node
         turn_count += 1
@@ -69,32 +69,16 @@ def play(game, players, time_threshold):
             return 0
 
 
-def get_num_games():
-    return int(input("\nHow many games would you like to play? "))
-
-
-def get_player(player_num):
-    player_type = get_player_type(player_num)
-    return Player(player_type)
-
-def get_player_type(player_num):
-    print("Please select Player " + str(player_num) + " type.")
-    print("1. AlphaGo Zero Lite with pure Monte Carlo Tree Search")
-    print("2. AlphaGo Zero Lite with CNN")
-    print("3. Manual player")
-    return PlayerType(int(input("Please enter your selection: ")))
-
-
 def play_games(game, num_games, players, time_threshold):
     num_ties = 0
     num_player_1_wins = 0
     num_player_2_wins = 0
     for game_num in range(num_games):
         new_game = copy.deepcopy(game)
-        result_num = play(new_game, players, time_threshold)
+        result_num = play(new_game, players, time_threshold, True)
         player_1_type = str(players[0].player_type.name)
         player_2_type = str(players[1].player_type.name)
-        print("\nGame " + str(game_num) + " finished!")
+        print("\nGame " + str(game_num + 1) + " finished!")
 
         if result_num == 0:
             num_ties += 1
@@ -111,10 +95,3 @@ def play_games(game, num_games, players, time_threshold):
     print("Number of Player 1 (" + player_1_type + ") wins: ", num_player_1_wins)
     print("Number of Player 2 (" + player_2_type + ") wins: ", num_player_2_wins)
     print("Number of ties: ", num_ties)
-
-
-time_threshold = 4
-players = [get_player(1), get_player(2)]
-num_games = get_num_games()
-game = TicTacToe()
-play_games(game, num_games, players, time_threshold)

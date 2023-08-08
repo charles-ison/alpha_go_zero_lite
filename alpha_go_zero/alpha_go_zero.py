@@ -7,8 +7,8 @@ import monte_carlo_tree as mct
 
 class AlphaGoZero:
 
-    def get_move(self, turn_count, game, last_move, time_threshold):
-        self.run_monte_carlo_tree_search(turn_count, game, last_move, time_threshold)
+    def get_move(self, turn_count, game, last_move, time_threshold, print_games):
+        self.run_monte_carlo_tree_search(turn_count, game, last_move, time_threshold, print_games)
         potential_moves = last_move.children
         if len(potential_moves) == 0:
             print("Bug encountered, no potential AlphaGo Zero Lite moves found. More searches need to be run.")
@@ -19,7 +19,7 @@ class AlphaGoZero:
                 best_move = move
         return best_move
 
-    def run_monte_carlo_tree_search(self, turn_count, game, last_move, time_threshold):
+    def run_monte_carlo_tree_search(self, turn_count, game, last_move, time_threshold, print_games):
         mcts_game = copy.deepcopy(game)
         mcts_move = last_move
         expansion_move = None
@@ -55,7 +55,8 @@ class AlphaGoZero:
 
         stop_time = time.time()
         run_time = int(stop_time - start_time)
-        print("AlphaGo Zero Lite ran " + str(num_searches) + " searches in " + str(run_time) + " seconds.")
+        if print_games:
+            print("AlphaGo Zero Lite ran " + str(num_searches) + " searches in " + str(run_time) + " seconds.")
 
     def get_next_mcts_move(self, mcts_game, mcts_player_num, last_mcts_move):
         potential_moves = mcts_game.fetch_potential_moves()

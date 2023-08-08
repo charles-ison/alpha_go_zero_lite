@@ -1,4 +1,4 @@
-from player_type import PlayerType
+from players.player_type import PlayerType
 from alpha_go_zero.alpha_go_zero_pure_mtcs import AlphaGoZeroPureMTCS
 from alpha_go_zero.alpha_go_zero_cnn import AlphaGoZeroCNN
 

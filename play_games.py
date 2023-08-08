@@ -1,3 +1,5 @@
+import copy
+
 import monte_carlo_tree as mct
 import utilities
 from player_type import PlayerType
@@ -83,13 +85,13 @@ def get_player_type(player_num):
     return PlayerType(int(input("Please enter your selection: ")))
 
 
-def play_games(num_games, players, time_threshold):
+def play_games(game, num_games, players, time_threshold):
     num_ties = 0
     num_player_1_wins = 0
     num_player_2_wins = 0
     for game_num in range(num_games):
-        tic_tac_toe = TicTacToe()
-        result_num = play(tic_tac_toe, players, time_threshold)
+        new_game = copy.deepcopy(game)
+        result_num = play(new_game, players, time_threshold)
         player_1_type = str(players[0].player_type.name)
         player_2_type = str(players[1].player_type.name)
         print("\nGame " + str(game_num) + " finished!")
@@ -114,4 +116,5 @@ def play_games(num_games, players, time_threshold):
 time_threshold = 4
 players = [get_player(1), get_player(2)]
 num_games = get_num_games()
-play_games(num_games, players, time_threshold)
+game = TicTacToe()
+play_games(game, num_games, players, time_threshold)

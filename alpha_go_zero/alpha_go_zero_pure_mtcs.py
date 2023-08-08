@@ -12,3 +12,15 @@ class AlphaGoZeroPureMTCS(AlphaGoZero):
             if move.get_upper_confidence_bound() > best_move.get_upper_confidence_bound():
                 best_move = move
         return best_move
+
+    def should_stop_rollout(self, is_simulation):
+        return False
+
+    def save_game_analysis(self, mcts_game, expansion_move):
+        return
+
+    def get_action_values(self, win_detected, tie_detected, mcts_game, expansion_move):
+        if win_detected:
+            return 1, -1
+        else:
+            return 0, 0

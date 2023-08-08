@@ -4,8 +4,9 @@ import torch
 class TicTacToe:
 
     def __init__(self):
-        self.board = torch.zeros(3, 3)
-        self.board_history = torch.zeros(4, 3, 3)
+        self.board_size = 3
+        self.board = torch.zeros(self.board_size, self.board_size)
+        self.board_history = torch.zeros(4, self.board_size, self.board_size)
 
     def update_board(self, row, column, player_num):
         self.board[row][column] = player_num
@@ -13,9 +14,9 @@ class TicTacToe:
 
     def get_current_player_board_representation(self, player_num):
         if player_num == 1:
-            return torch.ones(3, 3)
+            return torch.ones(self.board_size, self.board_size)
         else:
-            return torch.zeros(3, 3)
+            return torch.zeros(self.board_size, self.board_size)
 
     def update_board_history(self, player_num):
         self.board_history[3] = self.get_current_player_board_representation(player_num)
@@ -24,7 +25,7 @@ class TicTacToe:
         self.board_history[0] = self.board
 
     def is_valid_move(self, row, column):
-        return row < 3 and column < 3 and self.board[row][column] == 0
+        return row < self.board_size and column < self.board_size and self.board[row][column] == 0
 
     def fetch_potential_moves(self):
         remaining_moves = []

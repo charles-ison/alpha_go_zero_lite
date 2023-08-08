@@ -39,11 +39,11 @@ class AlphaGoZero:
             mcts_turn_count += 1
 
             win_detected, tie_detected = mcts_game.detect_winner(), mcts_game.detect_tie()
-            if win_detected or tie_detected:
-                current_player_action_value, opposing_player_action_value = self.get_action_value(win_detected)
+            if win_detected or tie_detected or self.should_stop_rollout(is_simulation):
+                current_val, opposing_val = self.get_action_values(win_detected, tie_detected, mcts_game, expansion_move)
                 action_value_dict = {
-                    mcts_player_num: current_player_action_value,
-                    mcts_move.parent.player_num: opposing_player_action_value
+                    mcts_player_num: current_val,
+                    utilities.get_opposing_player_num(mcts_player_num): opposing_val
                 }
                 backpropagation_leaf = self.get_backpropagation_leaf(expansion_move, mcts_move)
                 self.run_backpropagation(backpropagation_leaf, last_move, action_value_dict)
@@ -62,7 +62,7 @@ class AlphaGoZero:
         if self.should_run_selection_move(potential_moves, last_mcts_move.children):
             return self.get_selection_move(last_mcts_move.children), False
         else:
-            return self.get_simulation_move(mcts_player_num, potential_moves, last_mcts_move), True
+            return self.get_simulation_move(mcts_game, mcts_player_num, potential_moves, last_mcts_move), True
 
     def run_backpropagation(self, backpropagation_leaf, mcts_root, action_value_dict):
         mcts_root.num_visits += 1.0
@@ -84,11 +84,17 @@ class AlphaGoZero:
     def get_selection_move(self, last_expansion_move_children):
         raise NotImplementedError("Must override get_selection_move().")
 
-    def get_simulation_move(self, mcts_player_num, potential_move_tuples, last_mcts_move):
+    def should_stop_rollout(self, is_simulation):
+        raise NotImplementedError("Must override should_not_perform_rollout().")
+
+    def save_game_analysis(self, mcts_game, expansion_move):
+        raise NotImplementedError("Must override save_game_analysis().")
+
+    def get_simulation_move(self, mcts_game, mcts_player_num, potential_move_tuples, last_mcts_move):
         unexplored_potential_tuples = [tuple for tuple in potential_move_tuples if
                                        self.move_unexplored(tuple, last_mcts_move.children)]
         random_move_tuple = unexplored_potential_tuples[random.randint(0, len(unexplored_potential_tuples) - 1)]
-        return mct.Move(mcts_player_num, random_move_tuple[0], random_move_tuple[1], last_mcts_move)
+        return mct.Move(mcts_game.board_size, mcts_player_num, random_move_tuple[0], random_move_tuple[1], last_mcts_move)
 
     def move_unexplored(self, potential_move_tuple, last_mcts_move_children):
         potential_row = potential_move_tuple[0]
@@ -105,8 +111,5 @@ class AlphaGoZero:
                 return False
         return True
 
-    def get_action_value(self, win_detected):
-        if win_detected:
-            return 1, -1
-        else:
-            return 0, 0
+    def get_action_values(self, win_detected, tie_detected, mcts_game, expansion_move):
+        raise NotImplementedError("Must override get_action_value().")

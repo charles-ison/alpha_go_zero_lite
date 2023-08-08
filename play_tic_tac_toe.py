@@ -22,12 +22,12 @@ def play_move(game, player_num, game_mode, alpha_go_zero, opponent_start_priorit
         return alpha_go_zero.get_move(turn_count, game, last_move, time_threshold)
 
 
-def append_move(player_num, last_move, row, column):
+def append_move(game, player_num, last_move, row, column):
     for child in last_move.children:
         if child.row == row and child.column == column and child.player_num == player_num:
             return child
 
-    manual_move = mct.Move(player_num, row, column, last_move)
+    manual_move = mct.Move(game.board_size, player_num, row, column, last_move)
     last_move.children.append(manual_move)
     return manual_move
 
@@ -37,7 +37,7 @@ def get_manual_move(player_num, game, last_move):
     row, column = int(row), int(column)
 
     if game.is_valid_move(row, column):
-        return append_move(player_num, last_move, row, column)
+        return append_move(game, player_num, last_move, row, column)
     else:
         print("\nInvalid move. Please try again.")
         return get_manual_move(player_num, game, last_move)
@@ -60,12 +60,12 @@ def get_current_player_tree(player_num, player_1_node, player_2_node):
 def play(game, game_mode, alpha_go_zero, opponent_start_priority, time_threshold):
     turn_count = 0
     game.print_board()
-    current_player_node, waiting_player_node = mct.Node(), mct.Node()
+    current_player_node, waiting_player_node = mct.Node(game.board_size), mct.Node(game.board_size)
 
     while True:
         player_num = utilities.get_player_num(turn_count)
         current_player_node = play_move(game, player_num, game_mode, alpha_go_zero, opponent_start_priority, turn_count, current_player_node, time_threshold)
-        waiting_player_node = append_move(player_num, waiting_player_node, current_player_node.row, current_player_node.column)
+        waiting_player_node = append_move(game, player_num, waiting_player_node, current_player_node.row, current_player_node.column)
 
         game.update_board(current_player_node.row, current_player_node.column, player_num)
         game.print_board()

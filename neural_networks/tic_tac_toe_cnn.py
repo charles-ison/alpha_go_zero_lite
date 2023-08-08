@@ -28,7 +28,8 @@ class PolicyHead(nn.Module):
         x = self.conv0(x)
         x = self.relu(x)
         x = x.flatten()
-        return self.fc(x)
+        x = self.fc(x)
+        return x.reshape(3, 3)
 
 class ValueHead(nn.Module):
     def __init__(self):

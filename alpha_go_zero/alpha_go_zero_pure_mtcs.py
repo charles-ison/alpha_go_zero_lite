@@ -20,7 +20,4 @@ class AlphaGoZeroPureMTCS(AlphaGoZero):
         return
 
     def get_action_values(self, win_detected, tie_detected, mcts_game, expansion_move):
-        if win_detected:
-            return 1, -1
-        else:
-            return 0, 0
+        return self.get_finished_game_values(win_detected)

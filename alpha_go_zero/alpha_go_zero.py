@@ -113,3 +113,9 @@ class AlphaGoZero:
 
     def get_action_values(self, win_detected, tie_detected, mcts_game, expansion_move):
         raise NotImplementedError("Must override get_action_value().")
+
+    def get_finished_game_values(self, win_detected):
+        if win_detected:
+            return 1, -1
+        else:
+            return 0, 0

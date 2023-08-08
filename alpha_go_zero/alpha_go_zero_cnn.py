@@ -18,10 +18,8 @@ class AlphaGoZeroCNN(AlphaGoZero):
         return is_simulation
 
     def get_action_values(self, win_detected, tie_detected, mcts_game, expansion_move):
-        if win_detected:
-            return 1, -1
-        elif tie_detected:
-            return 0, 0
+        if win_detected or tie_detected:
+            return self.get_finished_game_values(win_detected)
         else:
             child_probabilities, action_value = self.cnn(mcts_game.board_history)
             expansion_move.child_probabilities = child_probabilities

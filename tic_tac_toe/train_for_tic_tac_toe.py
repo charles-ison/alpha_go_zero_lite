@@ -73,10 +73,10 @@ def build_data_loader(results, player_1_roots, player_2_roots, batch_size, games
 
 def get_best_player(trained_player, old_player, trained_player_win_count, old_player_win_count):
     if trained_player_win_count > old_player_win_count:
-        print("The trained player had the best performance.")
+        print("Using the trained player.")
         return trained_player
     else:
-        print("The old player had the best performance.")
+        print("Using the old player.")
         return old_player
 
 
@@ -142,10 +142,11 @@ def train(model, optimizer, data_loader, device):
         optimizer.step()
 
 
-batch_size = 2
+learning_rate = 0.0001
+batch_size = 4
 time_threshold = 4
 num_training_steps = 2
-num_games = 10
+num_games_per_step = 4
 game = TicTacToe()
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
@@ -154,11 +155,11 @@ old_player = Player(PlayerType.MCTS_CNN)
 
 for step in range(num_training_steps):
     print("\nTraining step: ", step)
-    best_player, results, player_1_roots, player_2_roots, games = run_simulations(game, num_games, trained_player, old_player, time_threshold)
+    best_player, results, player_1_roots, player_2_roots, games = run_simulations(game, num_games_per_step, trained_player, old_player, time_threshold)
     trained_player, old_player = copy.deepcopy(best_player), best_player
 
     model = trained_player.alpha_go_zero_lite.cnn
-    optimizer = optim.Adam(model.parameters(), lr=0.01)
+    optimizer = optim.Adam(model.parameters(), lr=0.001)
     alpha_go_zero_lite = trained_player.alpha_go_zero_lite
 
     data_loader = build_data_loader(results, player_1_roots, player_2_roots, batch_size, games, alpha_go_zero_lite)

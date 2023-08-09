@@ -7,6 +7,7 @@ from players.player import Player
 from players.player_type import PlayerType
 from utilities import get_player_num
 from torch.utils.data import DataLoader
+from neural_networks.loss import Loss
 
 
 class MoveDataSet(torch.utils.data.Dataset):
@@ -122,15 +123,26 @@ def run_simulations(game, num_games, trained_player, old_player, time_threshold)
 def train(model, optimizer, training_loader, device):
     print("\nTraining. . .")
     model.train()
+    criterion = Loss()
     for batch in training_loader:
-        data, labels = batch['data'].to(device), batch['label'].to(device)
+        data, prob, value = batch['data'].to(device), batch['label'][0].to(device), batch['label'][1].to(device)
         optimizer.zero_grad()
-        policy, value = model(data)
+        predicted_prob, predicted_value = model(data)
+
+        prob = prob.flatten(start_dim=1)
+        value = value.float()
+        predicted_prob = predicted_prob.flatten(start_dim=1)
+        predicted_value = predicted_value.flatten()
+
+        loss = criterion.calculate(predicted_prob, prob, predicted_value, value)
+        print("Loss: ", loss.item())
+        loss.backward()
+        optimizer.step()
 
 
-batch_size = 10
+batch_size = 5
 time_threshold = 4
-num_games = 2
+num_games = 4
 game = TicTacToe()
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 

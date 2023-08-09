@@ -28,9 +28,9 @@ class PolicyHead(nn.Module):
     def forward(self, x):
         x = self.conv0(x)
         x = self.relu(x)
-        x = x.flatten()
+        x = x.flatten(start_dim=1)
         x = self.fc(x)
-        return x.reshape(3, 3)
+        return x.view(-1, 3, 3)
 
 
 class ValueHead(nn.Module):
@@ -43,5 +43,5 @@ class ValueHead(nn.Module):
     def forward(self, x):
         x = self.conv0(x)
         x = self.relu(x)
-        x = x.flatten()
+        x = x.flatten(start_dim=1)
         return self.fc(x)

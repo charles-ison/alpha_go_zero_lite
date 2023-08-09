@@ -33,7 +33,7 @@ def get_next_move(node):
     for child in node.children:
         if child.was_played:
             return child
-    print("Bug encountered, no played move in MCST")
+    print("Bug encountered, no next move found in the MCST")
 
 def build_data_loader(results, player_1_roots, player_2_roots, batch_size, games, alpha_go_zero_lite):
     print("\nBuilding data loader. . .")

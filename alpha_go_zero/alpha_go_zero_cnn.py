@@ -17,11 +17,12 @@ class AlphaGoZeroCNN(AlphaGoZero):
     def should_stop_rollout(self, is_simulation):
         return is_simulation
 
-    def get_action_values(self, win_detected, tie_detected, mcts_game, expansion_move):
+    def get_action_values(self, win_detected, tie_detected, mcts_game, expansion_move, turn_count, player_num):
         if win_detected or tie_detected:
             return self.get_finished_game_values(win_detected)
         else:
-            child_probabilities, action_value = self.cnn(mcts_game.get_most_recent_board_history())
+            board_history = mcts_game.get_board_history(turn_count, player_num)
+            child_probabilities, action_value = self.cnn(board_history)
             expansion_move.child_probabilities = child_probabilities
             return action_value, -action_value
 

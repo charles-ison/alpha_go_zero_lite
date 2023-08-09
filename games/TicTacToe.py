@@ -6,29 +6,28 @@ class TicTacToe:
     def __init__(self):
         self.board_size = 3
         self.board = torch.zeros(self.board_size, self.board_size)
-        self.board_histories = [torch.zeros(4, self.board_size, self.board_size)]
+        self.board_histories = []
+        self.board_histories.append(torch.zeros(self.board_size, self.board_size))
+        self.board_histories.append(torch.zeros(self.board_size, self.board_size))
+        self.board_histories.append(torch.zeros(self.board_size, self.board_size))
 
     def update_board(self, row, column, player_num):
         self.board[row][column] = player_num
-        self.update_board_history(player_num)
+        self.board_histories.append(self.board)
 
     def get_current_player_board_representation(self, player_num):
-        if player_num == 1:
+        if player_num == 2:
             return torch.ones(self.board_size, self.board_size)
         else:
             return torch.zeros(self.board_size, self.board_size)
 
-    #TODO: This could be done to use memory more efficiently
-    def update_board_history(self, player_num):
-        new_board_history = torch.zeros(4, self.board_size, self.board_size)
-        new_board_history[3] = self.get_current_player_board_representation(player_num)
-        new_board_history[2] = self.board_histories[-1][1]
-        new_board_history[1] = self.board_histories[-1][0]
-        new_board_history[0] = self.board
-        self.board_histories.append(new_board_history)
-
-    def get_most_recent_board_history(self):
-        return self.board_histories[-1]
+    def get_board_history(self, turn_count, player_num):
+        return torch.stack((
+            self.board_histories[turn_count + 2],
+            self.board_histories[turn_count + 1],
+            self.board_histories[turn_count],
+            self.get_current_player_board_representation(player_num)
+        ))
 
     def is_valid_move(self, row, column):
         return row < self.board_size and column < self.board_size and self.board[row][column] == 0

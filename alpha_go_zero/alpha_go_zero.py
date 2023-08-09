@@ -46,7 +46,7 @@ class AlphaGoZero:
 
             win_detected, tie_detected = mcts_game.detect_winner(), mcts_game.detect_tie()
             if win_detected or tie_detected or self.should_stop_rollout(is_simulation):
-                current_val, opposing_val = self.get_action_values(win_detected, tie_detected, mcts_game, expansion_move)
+                current_val, opposing_val = self.get_action_values(win_detected, tie_detected, mcts_game, expansion_move, mcts_turn_count, mcts_player_num)
                 action_value_dict = {
                     mcts_player_num: current_val,
                     utilities.get_opposing_player_num(mcts_player_num): opposing_val
@@ -118,7 +118,7 @@ class AlphaGoZero:
                 return False
         return True
 
-    def get_action_values(self, win_detected, tie_detected, mcts_game, expansion_move):
+    def get_action_values(self, win_detected, tie_detected, mcts_game, expansion_move, turn_count, player_num):
         raise NotImplementedError("Must override get_action_value().")
 
     def get_finished_game_values(self, win_detected):

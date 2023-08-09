@@ -6,7 +6,7 @@ class TicTacToe:
     def __init__(self):
         self.board_size = 3
         self.board = torch.zeros(self.board_size, self.board_size)
-        self.board_history = torch.zeros(4, self.board_size, self.board_size)
+        self.board_histories = [torch.zeros(4, self.board_size, self.board_size)]
 
     def update_board(self, row, column, player_num):
         self.board[row][column] = player_num
@@ -18,11 +18,17 @@ class TicTacToe:
         else:
             return torch.zeros(self.board_size, self.board_size)
 
+    #TODO: This could be done to use memory more efficiently
     def update_board_history(self, player_num):
-        self.board_history[3] = self.get_current_player_board_representation(player_num)
-        self.board_history[2] = self.board_history[1]
-        self.board_history[1] = self.board_history[0]
-        self.board_history[0] = self.board
+        new_board_history = torch.zeros(4, self.board_size, self.board_size)
+        new_board_history[3] = self.get_current_player_board_representation(player_num)
+        new_board_history[2] = self.board_histories[-1][1]
+        new_board_history[1] = self.board_histories[-1][0]
+        new_board_history[0] = self.board
+        self.board_histories.append(new_board_history)
+
+    def get_most_recent_board_history(self):
+        return self.board_histories[-1]
 
     def is_valid_move(self, row, column):
         return row < self.board_size and column < self.board_size and self.board[row][column] == 0

@@ -10,13 +10,14 @@ class Node:
 
 
 class Move(Node):
-    def __init__(self, board_size, player_num, row, column, parent):
+    def __init__(self, board_size, player_num, row, column, parent, was_played=False):
         super().__init__(board_size)
         self.player_num = player_num
         self.action_value = 0.0
         self.row = row
         self.column = column
         self.parent = parent
+        self.was_played = was_played
 
     def get_mean_action_value(self):
         return self.action_value / self.num_visits

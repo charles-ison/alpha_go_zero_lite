@@ -17,6 +17,7 @@ class TicTacToeCNN(nn.Module):
         x = self.relu(x)
         return self.policy_head(x), self.value_head(x)
 
+
 class PolicyHead(nn.Module):
     def __init__(self):
         super(PolicyHead, self).__init__()
@@ -30,6 +31,7 @@ class PolicyHead(nn.Module):
         x = x.flatten()
         x = self.fc(x)
         return x.reshape(3, 3)
+
 
 class ValueHead(nn.Module):
     def __init__(self):

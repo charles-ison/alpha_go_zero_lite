@@ -22,7 +22,7 @@ def append_move(game, player_num, last_move, row, column):
         if child.row == row and child.column == column and child.player_num == player_num:
             return child
 
-    manual_move = mct.Move(game.board_size, player_num, row, column, last_move)
+    manual_move = mct.Move(game.board_size, player_num, row, column, last_move, True)
     last_move.children.append(manual_move)
     return manual_move
 
@@ -49,7 +49,8 @@ def play(game, players, time_threshold, print_games):
     turn_count = 0
     if print_games:
         game.print_board()
-    current_player_node, waiting_player_node = mct.Node(game.board_size), mct.Node(game.board_size)
+    player_1_root, player_2_root = mct.Node(game.board_size), mct.Node(game.board_size)
+    current_player_node, waiting_player_node = player_1_root, player_2_root
 
     while True:
         player_num = utilities.get_player_num(turn_count)
@@ -64,9 +65,9 @@ def play(game, players, time_threshold, print_games):
         turn_count += 1
 
         if game.detect_winner():
-            return player_num
+            return player_num, player_1_root, player_2_root
         elif game.detect_tie():
-            return 0
+            return 0, player_1_root, player_2_root
 
 
 def play_games(game, num_games, players, time_threshold):
@@ -75,7 +76,7 @@ def play_games(game, num_games, players, time_threshold):
     num_player_2_wins = 0
     for game_num in range(num_games):
         new_game = copy.deepcopy(game)
-        result_num = play(new_game, players, time_threshold, True)
+        result_num, _, _ = play(new_game, players, time_threshold, True)
         player_1_type = str(players[0].player_type.name)
         player_2_type = str(players[1].player_type.name)
         print("\nGame " + str(game_num + 1) + " finished!")

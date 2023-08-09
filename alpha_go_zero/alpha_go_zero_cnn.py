@@ -21,7 +21,7 @@ class AlphaGoZeroCNN(AlphaGoZero):
         if win_detected or tie_detected:
             return self.get_finished_game_values(win_detected)
         else:
-            child_probabilities, action_value = self.cnn(mcts_game.board_history)
+            child_probabilities, action_value = self.cnn(mcts_game.get_most_recent_board_history())
             expansion_move.child_probabilities = child_probabilities
             return action_value, -action_value
 

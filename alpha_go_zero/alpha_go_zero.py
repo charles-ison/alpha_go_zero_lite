@@ -7,6 +7,12 @@ import monte_carlo_tree as mct
 
 class AlphaGoZero:
 
+    def __init__(self):
+        super().__init__()
+        self.win_value = 1
+        self.lose_value = -1
+        self.tie_value = 0
+
     def get_move(self, turn_count, game, last_move, time_threshold, print_games):
         self.run_monte_carlo_tree_search(turn_count, game, last_move, time_threshold, print_games)
         potential_moves = last_move.children
@@ -117,6 +123,6 @@ class AlphaGoZero:
 
     def get_finished_game_values(self, win_detected):
         if win_detected:
-            return 1, -1
+            return self.win_value, self.lose_value
         else:
-            return 0, 0
+            return self.tie_value, self.tie_value

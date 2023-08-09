@@ -73,8 +73,10 @@ def build_data_loader(results, player_1_roots, player_2_roots, batch_size, games
 
 def get_best_player(trained_player, old_player, trained_player_win_count, old_player_win_count):
     if trained_player_win_count > old_player_win_count:
+        print("The trained player had the best performance.")
         return trained_player
     else:
+        print("The old player had the best performance.")
         return old_player
 
 
@@ -120,11 +122,11 @@ def run_simulations(game, num_games, trained_player, old_player, time_threshold)
     return best_player, results, player_1_roots, player_2_roots, games
 
 
-def train(model, optimizer, training_loader, device):
+def train(model, optimizer, data_loader, device):
     print("\nTraining. . .")
     model.train()
     criterion = Loss()
-    for batch in training_loader:
+    for batch in data_loader:
         data, prob, value = batch['data'].to(device), batch['label'][0].to(device), batch['label'][1].to(device)
         optimizer.zero_grad()
         predicted_prob, predicted_value = model(data)
@@ -140,19 +142,27 @@ def train(model, optimizer, training_loader, device):
         optimizer.step()
 
 
-batch_size = 5
+batch_size = 2
 time_threshold = 4
-num_games = 4
+num_training_steps = 2
+num_games = 10
 game = TicTacToe()
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 trained_player = Player(PlayerType.MCTS_CNN)
 old_player = Player(PlayerType.MCTS_CNN)
-best_player, results, player_1_roots, player_2_roots, games = run_simulations(game, num_games, trained_player, old_player, time_threshold)
 
-model = best_player.alpha_go_zero_lite.cnn
-optimizer = optim.Adam(model.parameters(), lr=0.01)
-alpha_go_zero_lite = trained_player.alpha_go_zero_lite
-training_loader = build_data_loader(results, player_1_roots, player_2_roots, batch_size, games, alpha_go_zero_lite)
-train(model, optimizer, training_loader, device)
+for step in range(num_training_steps):
+    print("\nTraining step: ", step)
+    best_player, results, player_1_roots, player_2_roots, games = run_simulations(game, num_games, trained_player, old_player, time_threshold)
+    trained_player, old_player = copy.deepcopy(best_player), best_player
+
+    model = trained_player.alpha_go_zero_lite.cnn
+    optimizer = optim.Adam(model.parameters(), lr=0.01)
+    alpha_go_zero_lite = trained_player.alpha_go_zero_lite
+
+    data_loader = build_data_loader(results, player_1_roots, player_2_roots, batch_size, games, alpha_go_zero_lite)
+    train(model, optimizer, data_loader, device)
+
+best_player, results, player_1_roots, player_2_roots, games = run_simulations(game, num_games, trained_player, old_player, time_threshold)
 

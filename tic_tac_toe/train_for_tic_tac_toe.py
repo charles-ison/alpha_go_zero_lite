@@ -29,11 +29,23 @@ def get_game_value(result, player_num, alpha_go_zero_lite):
     else:
         return alpha_go_zero_lite.lose_value
 
+
 def get_next_move(node):
     for child in node.children:
         if child.was_played:
             return child
     print("Bug encountered, no next move found in the MCST")
+
+
+def get_probabilities(player_1_node, player_2_node, player_num, game):
+    player_node = [player_1_node, player_2_node][player_num - 1]
+    sum_num_visits = 0.0
+    probabilities = torch.zeros(game.board_size, game.board_size)
+    for child in player_node.children:
+        sum_num_visits += child.num_visits
+    for child in player_node.children:
+        probabilities[child.row][child.column] = child.num_visits/sum_num_visits
+    return probabilities
 
 def build_data_loader(results, player_1_roots, player_2_roots, batch_size, games, alpha_go_zero_lite):
     print("\nBuilding data loader. . .")
@@ -41,17 +53,19 @@ def build_data_loader(results, player_1_roots, player_2_roots, batch_size, games
     for (result, player_1_node, player_2_node, game) in zip(results, player_1_roots, player_2_roots, games):
         turn_count = 0
         while len(player_1_node.children) != 0 and len(player_2_node.children) != 0:
-            print("hi")
             player_num = get_player_num(turn_count)
-            game_value = get_game_value(result, player_num, alpha_go_zero_lite)
-            board_history = game.board_histories[turn_count]
+            board_history = game.get_board_history(turn_count, player_num)
             data.append(board_history)
 
-            #TODO: Add probabilities here
-            labels.append((game_value, []))
+            probabilities = get_probabilities(player_1_node, player_2_node, player_num, game)
+            game_value = get_game_value(result, player_num, alpha_go_zero_lite)
+            labels.append((probabilities, game_value))
+
             player_1_node = get_next_move(player_1_node)
             player_2_node = get_next_move(player_2_node)
             turn_count += 1
+
+    print("Number of moves available for training: ", len(labels))
     training_data_set = MoveDataSet(data, labels)
     return DataLoader(dataset=training_data_set, batch_size=batch_size, shuffle=True)
 
@@ -111,20 +125,22 @@ def train(model, optimizer, training_loader, device):
     for batch in training_loader:
         data, labels = batch['data'].to(device), batch['label'].to(device)
         optimizer.zero_grad()
-        output = model(data)
+        policy, value = model(data)
 
 
 batch_size = 10
 time_threshold = 4
 num_games = 2
 game = TicTacToe()
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 trained_player = Player(PlayerType.MCTS_CNN)
 old_player = Player(PlayerType.MCTS_CNN)
 best_player, results, player_1_roots, player_2_roots, games = run_simulations(game, num_games, trained_player, old_player, time_threshold)
+
 model = best_player.alpha_go_zero_lite.cnn
 optimizer = optim.Adam(model.parameters(), lr=0.01)
 alpha_go_zero_lite = trained_player.alpha_go_zero_lite
 training_loader = build_data_loader(results, player_1_roots, player_2_roots, batch_size, games, alpha_go_zero_lite)
-train(model, optimizer, training_loader)
+train(model, optimizer, training_loader, device)
 

@@ -22,7 +22,7 @@ def append_move(game, player_num, last_move, row, column):
         if child.row == row and child.column == column and child.player_num == player_num:
             return child
 
-    manual_move = mct.Move(game.board_size, player_num, row, column, last_move, True)
+    manual_move = mct.Move(game.board_size, player_num, row, column, last_move)
     last_move.children.append(manual_move)
     return manual_move
 
@@ -61,6 +61,7 @@ def play(game, players, time_threshold, print_games):
         if print_games:
             game.print_board()
 
+        current_player_node.was_played, waiting_player_node.was_played = True, True
         current_player_node, waiting_player_node = waiting_player_node, current_player_node
         turn_count += 1
 

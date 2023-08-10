@@ -2,7 +2,7 @@ import copy
 import torch
 import torch.optim as optim
 from play_games import play
-from games.TicTacToe import TicTacToe
+from games.tic_tac_toe import TicTacToe
 from players.player import Player
 from players.player_type import PlayerType
 from utilities import get_player_num

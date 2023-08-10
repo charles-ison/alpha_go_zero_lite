@@ -1,6 +1,6 @@
 from players.player_type import PlayerType
 from players.player import Player
-from games.TicTacToe import TicTacToe
+from games.tic_tac_toe import TicTacToe
 from play_games import play_games
 
 

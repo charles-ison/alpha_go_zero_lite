@@ -1,26 +1,11 @@
 import torch
-import copy
+from games.game import Game
 
 
-class TicTacToe:
+class TicTacToe(Game):
 
     def __init__(self):
-        self.board_size = 3
-        self.board = torch.zeros(self.board_size, self.board_size)
-        self.board_history = []
-        self.board_history.append(torch.zeros(self.board_size, self.board_size))
-        self.board_history.append(torch.zeros(self.board_size, self.board_size))
-        self.board_history.append(torch.zeros(self.board_size, self.board_size))
-
-    def update_board(self, row, column, player_num):
-        self.board[row][column] = player_num
-        self.board_history.append(copy.deepcopy(self.board))
-
-    def get_current_player_board_representation(self, player_num):
-        if player_num == 2:
-            return torch.ones(self.board_size, self.board_size)
-        else:
-            return torch.zeros(self.board_size, self.board_size)
+        super().__init__(3)
 
     def get_board_history(self, turn_count, player_num):
         return torch.stack((
@@ -29,17 +14,6 @@ class TicTacToe:
             self.board_history[turn_count],
             self.get_current_player_board_representation(player_num)
         ))
-
-    def is_valid_move(self, row, column):
-        return row < self.board_size and column < self.board_size and self.board[row][column] == 0
-
-    def fetch_potential_moves(self):
-        remaining_moves = []
-        for row_index, row in enumerate(self.board):
-            for column_index, value in enumerate(row):
-                if value == 0:
-                    remaining_moves.append((row_index, column_index))
-        return remaining_moves
 
     def detect_winner(self):
         return self.detect_row_winner() or self.detect_column_winner() or self.detect_diagonal_winner()

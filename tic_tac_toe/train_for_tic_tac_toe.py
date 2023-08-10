@@ -57,7 +57,6 @@ def build_data_loader(results, player_1_roots, player_2_roots, batch_size, games
 
         while len(player_1_node.children) != 0 and len(player_2_node.children) != 0:
             player_num = get_player_num(turn_count)
-            turn_count += 1
             board_history = game.get_board_history(turn_count, player_num)
             data.append(board_history)
 
@@ -67,12 +66,12 @@ def build_data_loader(results, player_1_roots, player_2_roots, batch_size, games
 
             player_1_node = get_next_move(player_1_node)
             player_2_node = get_next_move(player_2_node)
+            turn_count += 1
 
     print("Number of moves available for training: ", len(labels))
     training_data_set = MoveDataSet(data, labels)
 
-    #TODO: reshuffle
-    return DataLoader(dataset=training_data_set, batch_size=batch_size, shuffle=False)
+    return DataLoader(dataset=training_data_set, batch_size=batch_size, shuffle=True)
 
 
 def get_best_player(trained_player, old_player, trained_player_win_count, old_player_win_count):
@@ -101,8 +100,7 @@ def run_simulations(game, num_games, trained_player, old_player, time_threshold)
     for game_num in range(num_games):
         new_game = copy.deepcopy(game)
 
-        #TODO:
-        result_num, player_1_root, player_2_root = play(new_game, players, time_threshold, True)
+        result_num, player_1_root, player_2_root = play(new_game, players, time_threshold, False)
         results.append(result_num)
         player_1_roots.append(player_1_root)
         player_2_roots.append(player_2_root)
@@ -137,10 +135,6 @@ def train(model, optimizer, data_loader, device):
         optimizer.zero_grad()
         predicted_prob, predicted_value = model(data)
 
-        #TODO:
-        print("data: ", data)
-        print("value: ", value)
-
         prob = prob.flatten(start_dim=1)
         value = value.float()
         predicted_prob = predicted_prob.flatten(start_dim=1)
@@ -152,32 +146,34 @@ def train(model, optimizer, data_loader, device):
         optimizer.step()
 
 
+def run_training_steps(num_training_steps, game, num_games_per_step, trained_player, old_player, time_threshold):
+    for step in range(num_training_steps):
+        print("\nTraining step: ", step)
+        best_player, results, player_1_roots, player_2_roots, games = run_simulations(game, num_games_per_step, trained_player, old_player, time_threshold)
+        trained_player, old_player = copy.deepcopy(best_player), best_player
+
+        model = trained_player.alpha_go_zero_lite.cnn
+        optimizer = optim.Adam(model.parameters(), lr=0.001)
+        alpha_go_zero_lite = trained_player.alpha_go_zero_lite
+
+        data_loader = build_data_loader(results, player_1_roots, player_2_roots, batch_size, games, alpha_go_zero_lite)
+        train(model, optimizer, data_loader, device)
+
+    best_player, _, _, _, _ = run_simulations(game, num_games_per_step, trained_player, old_player, time_threshold)
+    return best_player.alpha_go_zero_lite.cnn
+
+
 learning_rate = 0.0001
 batch_size = 4
 time_threshold = 4
 num_training_steps = 2
-num_games_per_step = 2
+num_games_per_step = 4
 game = TicTacToe()
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 trained_player = Player(PlayerType.MCTS_CNN, TicTacToeCNN())
 old_player = Player(PlayerType.MCTS_CNN, TicTacToeCNN())
-
-for step in range(num_training_steps):
-    print("\nTraining step: ", step)
-    best_player, results, player_1_roots, player_2_roots, games = run_simulations(game, num_games_per_step, trained_player, old_player, time_threshold)
-    trained_player, old_player = copy.deepcopy(best_player), best_player
-
-    model = trained_player.alpha_go_zero_lite.cnn
-    optimizer = optim.Adam(model.parameters(), lr=0.001)
-    alpha_go_zero_lite = trained_player.alpha_go_zero_lite
-
-    data_loader = build_data_loader(results, player_1_roots, player_2_roots, batch_size, games, alpha_go_zero_lite)
-    train(model, optimizer, data_loader, device)
-
-best_player, results, player_1_roots, player_2_roots, games = run_simulations(game, num_games_per_step, trained_player, old_player, time_threshold)
-model = trained_player.alpha_go_zero_lite.cnn
-
-torch.save(model.state_dict(), "tic_tac_toe_cnn.pt")
+best_model = run_training_steps(num_training_steps, game, num_games_per_step, trained_player, old_player, time_threshold)
+torch.save(best_model.state_dict(), "tic_tac_toe_cnn.pt")
 
 

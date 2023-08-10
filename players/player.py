@@ -13,5 +13,5 @@ class Player:
         elif player_type == PlayerType.MCTS_CNN:
             if cnn is None:
                 cnn = TicTacToeCNN()
-                cnn.load_state_dict(torch.load("tic_tac_toe_cnn.pt"))
+                cnn.load_state_dict(torch.load("../tic_tac_toe/tic_tac_toe_cnn.pt"))
             self.alpha_go_zero_lite = AlphaGoZeroCNN(cnn)

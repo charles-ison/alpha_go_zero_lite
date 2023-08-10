@@ -1,4 +1,5 @@
 import torch
+import copy
 
 
 class TicTacToe:
@@ -6,14 +7,14 @@ class TicTacToe:
     def __init__(self):
         self.board_size = 3
         self.board = torch.zeros(self.board_size, self.board_size)
-        self.board_histories = []
-        self.board_histories.append(torch.zeros(self.board_size, self.board_size))
-        self.board_histories.append(torch.zeros(self.board_size, self.board_size))
-        self.board_histories.append(torch.zeros(self.board_size, self.board_size))
+        self.board_history = []
+        self.board_history.append(torch.zeros(self.board_size, self.board_size))
+        self.board_history.append(torch.zeros(self.board_size, self.board_size))
+        self.board_history.append(torch.zeros(self.board_size, self.board_size))
 
     def update_board(self, row, column, player_num):
         self.board[row][column] = player_num
-        self.board_histories.append(self.board)
+        self.board_history.append(copy.deepcopy(self.board))
 
     def get_current_player_board_representation(self, player_num):
         if player_num == 2:
@@ -23,9 +24,9 @@ class TicTacToe:
 
     def get_board_history(self, turn_count, player_num):
         return torch.stack((
-            self.board_histories[turn_count + 2],
-            self.board_histories[turn_count + 1],
-            self.board_histories[turn_count],
+            self.board_history[turn_count + 2],
+            self.board_history[turn_count + 1],
+            self.board_history[turn_count],
             self.get_current_player_board_representation(player_num)
         ))
 

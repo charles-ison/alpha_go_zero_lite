@@ -1,11 +1,11 @@
-from neural_networks.tic_tac_toe_cnn import TicTacToeCNN
 from alpha_go_zero.alpha_go_zero import AlphaGoZero
+
 
 class AlphaGoZeroCNN(AlphaGoZero):
 
-    def __init__(self):
+    def __init__(self, cnn):
         super().__init__()
-        self.cnn = TicTacToeCNN()
+        self.cnn = cnn
 
     def get_selection_move(self, last_expansion_move_children):
         best_move = last_expansion_move_children[0]

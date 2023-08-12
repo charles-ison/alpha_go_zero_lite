@@ -6,13 +6,14 @@ class TicTacToe(Game):
 
     def __init__(self):
         super().__init__(3)
+        self.board_history.append(torch.zeros(self.board_size, self.board_size))
+        self.board_history.append(torch.zeros(self.board_size, self.board_size))
 
     def get_board_history(self, turn_count, player_num):
         return torch.stack((
-            self.board_history[turn_count + 2],
             self.board_history[turn_count + 1],
             self.board_history[turn_count],
-            self.get_current_player_board_representation(player_num)
+            torch.full((self.board_size, self.board_size), player_num)
         ))
 
     def detect_winner(self):

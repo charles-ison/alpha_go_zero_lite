@@ -7,19 +7,10 @@ class Game:
         self.board_size = board_size
         self.board = torch.zeros(board_size, board_size)
         self.board_history = []
-        self.board_history.append(torch.zeros(self.board_size, self.board_size))
-        self.board_history.append(torch.zeros(self.board_size, self.board_size))
-        self.board_history.append(torch.zeros(self.board_size, self.board_size))
 
     def update_board(self, row, column, player_num):
         self.board[row][column] = player_num
         self.board_history.append(copy.deepcopy(self.board))
-
-    def get_current_player_board_representation(self, player_num):
-        if player_num == 2:
-            return torch.ones(self.board_size, self.board_size)
-        else:
-            return torch.zeros(self.board_size, self.board_size)
 
     def fetch_potential_moves(self):
         remaining_moves = []

@@ -18,7 +18,8 @@ def get_player_type(player_num):
 def get_num_games():
     return int(input("\nHow many games would you like to play? "))
 
-time_threshold = 4
+#About 4 seconds is required for the pure MCTS to achieve perfect play on a personal laptop
+time_threshold = 1
 players = [get_player(1), get_player(2)]
 num_games = get_num_games()
 game = TicTacToe()

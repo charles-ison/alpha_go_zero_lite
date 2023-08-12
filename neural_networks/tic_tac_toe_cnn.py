@@ -4,8 +4,8 @@ import torch.nn as nn
 class TicTacToeCNN(nn.Module):
     def __init__(self):
         super(TicTacToeCNN, self).__init__()
-        self.conv0 = nn.Conv2d(in_channels=4, out_channels=4, kernel_size=3, stride=1, padding=1)
-        self.conv1 = nn.Conv2d(in_channels=4, out_channels=4, kernel_size=3, stride=1, padding=1)
+        self.conv0 = nn.Conv2d(in_channels=3, out_channels=9, kernel_size=3, stride=1, padding=1)
+        self.conv1 = nn.Conv2d(in_channels=9, out_channels=9, kernel_size=3, stride=1, padding=1)
         self.relu = nn.ReLU()
         self.policy_head = PolicyHead()
         self.value_head = ValueHead()
@@ -21,9 +21,9 @@ class TicTacToeCNN(nn.Module):
 class PolicyHead(nn.Module):
     def __init__(self):
         super(PolicyHead, self).__init__()
-        self.conv0 = nn.Conv2d(in_channels=4, out_channels=4, kernel_size=2, stride=1, padding=0)
+        self.conv0 = nn.Conv2d(in_channels=9, out_channels=18, kernel_size=1, stride=1, padding=0)
         self.relu = nn.ReLU()
-        self.fc = nn.Linear(4 * 2 * 2, 3 * 3)
+        self.fc = nn.Linear(18 * 3 * 3, 3 * 3)
 
     def forward(self, x):
         x = self.conv0(x)
@@ -36,12 +36,14 @@ class PolicyHead(nn.Module):
 class ValueHead(nn.Module):
     def __init__(self):
         super(ValueHead, self).__init__()
-        self.conv0 = nn.Conv2d(in_channels=4, out_channels=4, kernel_size=1, stride=1, padding=0)
+        self.conv0 = nn.Conv2d(in_channels=9, out_channels=18, kernel_size=1, stride=1, padding=0)
         self.relu = nn.ReLU()
-        self.fc = nn.Linear(4 * 3 * 3, 1)
+        self.fc = nn.Linear(18 * 3 * 3, 1)
+        self.tanh = nn.Tanh()
 
     def forward(self, x):
         x = self.conv0(x)
         x = self.relu(x)
         x = x.flatten(start_dim=1)
-        return self.fc(x)
+        x = self.fc(x)
+        return self.tanh(x)

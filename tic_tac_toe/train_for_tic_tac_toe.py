@@ -52,12 +52,17 @@ def get_probabilities(player_1_node, player_2_node, player_num, game):
 def build_data_loader(results, player_1_roots, player_2_roots, batch_size, games, alpha_go_zero_lite):
     print("\nBuilding data loader. . .")
     data, labels = [], []
+
     for (result, player_1_node, player_2_node, game) in zip(results, player_1_roots, player_2_roots, games):
         turn_count = 0
 
+        # Skipping roots
+        player_1_node = get_next_move(player_1_node)
+        player_2_node = get_next_move(player_2_node)
+
         while len(player_1_node.children) != 0 and len(player_2_node.children) != 0:
             player_num = get_player_num(turn_count)
-            board_history = game.get_board_history(turn_count, player_num)
+            board_history = game.get_board_history(turn_count + 1, player_num)
             data.append(board_history)
 
             probabilities = get_probabilities(player_1_node, player_2_node, player_num, game)
@@ -75,7 +80,7 @@ def build_data_loader(results, player_1_roots, player_2_roots, batch_size, games
 
 
 def get_best_player(trained_player, old_player, trained_player_win_count, old_player_win_count):
-    if trained_player_win_count > old_player_win_count:
+    if trained_player_win_count >= old_player_win_count:
         print("Using the trained player.")
         return trained_player
     else:
@@ -126,10 +131,12 @@ def run_simulations(game, num_games, trained_player, old_player, time_threshold)
     return best_player, results, player_1_roots, player_2_roots, games
 
 
-def train(model, optimizer, data_loader, device):
+def train(model, optimizer, data_loader, device, criterion):
     print("\nTraining. . .")
     model.train()
-    criterion = Loss()
+
+    total_loss = 0.0
+
     for batch in data_loader:
         data, prob, value = batch['data'].to(device), batch['label'][0].to(device), batch['label'][1].to(device)
         optimizer.zero_grad()
@@ -141,39 +148,42 @@ def train(model, optimizer, data_loader, device):
         predicted_value = predicted_value.flatten()
 
         loss = criterion.calculate(predicted_prob, prob, predicted_value, value)
-        print("Loss: ", loss.item())
+        total_loss += loss.item()
         loss.backward()
         optimizer.step()
 
+    print("Total loss: ", total_loss)
 
-def run_training_steps(num_training_steps, game, num_games_per_step, trained_player, old_player, time_threshold):
+def run_training_steps(num_training_steps, game, device, criterion, num_games_per_step, time_threshold, learning_rate):
+    trained_player = Player(PlayerType.MCTS_CNN, TicTacToeCNN())
+    old_player = Player(PlayerType.MCTS_CNN, TicTacToeCNN())
+
     for step in range(num_training_steps):
         print("\nTraining step: ", step)
         best_player, results, player_1_roots, player_2_roots, games = run_simulations(game, num_games_per_step, trained_player, old_player, time_threshold)
-        trained_player, old_player = copy.deepcopy(best_player), best_player
+        trained_player, old_player = best_player, copy.deepcopy(best_player)
 
         model = trained_player.alpha_go_zero_lite.cnn
-        optimizer = optim.Adam(model.parameters(), lr=0.001)
+        optimizer = optim.Adam(model.parameters(), lr=learning_rate)
         alpha_go_zero_lite = trained_player.alpha_go_zero_lite
 
         data_loader = build_data_loader(results, player_1_roots, player_2_roots, batch_size, games, alpha_go_zero_lite)
-        train(model, optimizer, data_loader, device)
+        train(model, optimizer, data_loader, device, criterion)
 
     best_player, _, _, _, _ = run_simulations(game, num_games_per_step, trained_player, old_player, time_threshold)
     return best_player.alpha_go_zero_lite.cnn
 
 
-learning_rate = 0.0001
-batch_size = 4
-time_threshold = 4
-num_training_steps = 2
-num_games_per_step = 4
+learning_rate = 0.01
+batch_size = 10
+time_threshold = 1
+num_training_steps = 10
+num_games_per_step = 10
 game = TicTacToe()
+criterion = Loss()
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
-trained_player = Player(PlayerType.MCTS_CNN, TicTacToeCNN())
-old_player = Player(PlayerType.MCTS_CNN, TicTacToeCNN())
-best_model = run_training_steps(num_training_steps, game, num_games_per_step, trained_player, old_player, time_threshold)
+best_model = run_training_steps(num_training_steps, game, device, criterion, num_games_per_step, time_threshold, learning_rate)
 torch.save(best_model.state_dict(), "tic_tac_toe_cnn.pt")
 
 

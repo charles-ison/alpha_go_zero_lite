@@ -111,17 +111,13 @@ def run_simulations(game, num_games, trained_player, old_player, time_threshold)
         player_2_roots.append(player_2_root)
         swap_players(players)
         games.append(new_game)
-        print("\nGame " + str(game_num + 1) + " finished!")
 
         if result_num == get_player_num(game_num):
             trained_player_win_count += 1
-            print("Trained player won.")
         elif result_num == get_player_num(game_num + 1):
             old_player_win_count += 1
-            print("Old player won.")
         elif result_num == 0:
             tie_count += 1
-            print("The result was a tie.")
 
     print("\nNumber of trained player wins: " + str(trained_player_win_count))
     print("Number of old player wins: " + str(old_player_win_count))

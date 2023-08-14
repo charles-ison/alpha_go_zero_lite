@@ -72,7 +72,6 @@ class AlphaGoZero:
             return self.get_simulation_move(mcts_game, mcts_player_num, potential_moves, last_mcts_move), True
 
     def run_backpropagation(self, backpropagation_leaf, mcts_root, action_value_dict):
-        mcts_root.num_visits += 1.0
         backprop_move = backpropagation_leaf
         while backprop_move != mcts_root:
             backprop_move.action_value += action_value_dict[backprop_move.player_num]
@@ -86,7 +85,7 @@ class AlphaGoZero:
             return expansion_move
 
     def should_run_selection_move(self, potential_moves, last_mcts_move_children):
-        return len(potential_moves) == len(last_mcts_move_children) and self.all_children_visited(last_mcts_move_children)
+        return len(potential_moves) == len(last_mcts_move_children)
 
     def get_selection_move(self, last_expansion_move_children):
         raise NotImplementedError("Must override get_selection_move().")
@@ -108,13 +107,6 @@ class AlphaGoZero:
         potential_column = potential_move_tuple[1]
         for child in last_mcts_move_children:
             if child.row == potential_row and child.column == potential_column:
-                return False
-        return True
-
-    # TODO: Figure out why this check is needed, suggests there is a bug somewhere
-    def all_children_visited(self, last_mcts_move_children):
-        for child in last_mcts_move_children:
-            if child.num_visits == 0.0:
                 return False
         return True
 

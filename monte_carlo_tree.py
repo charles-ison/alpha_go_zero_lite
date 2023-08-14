@@ -6,7 +6,7 @@ class Node:
     def __init__(self, board_size):
         self.children = []
         self.child_probabilities = torch.zeros(board_size, board_size)
-        self.num_visits = 0.0
+        self.num_visits = 1.0
 
 
 class Move(Node):

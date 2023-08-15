@@ -24,9 +24,8 @@ class Move(Node):
 
     def get_upper_confidence_bound(self):
         exploration_factor = math.sqrt(2)
-        action_value_ratio = self.get_mean_action_value()
         parent_visit_ratio = math.log(self.parent.num_visits) / self.num_visits
-        return action_value_ratio + exploration_factor * math.sqrt(parent_visit_ratio)
+        return self.get_mean_action_value() + exploration_factor * math.sqrt(parent_visit_ratio)
 
     def get_predictor_upper_confidence_bound_applied_to_trees(self):
         exploration_factor = math.sqrt(2)

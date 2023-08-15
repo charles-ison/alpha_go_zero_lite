@@ -24,12 +24,14 @@ class PolicyHead(nn.Module):
         self.conv0 = nn.Conv2d(in_channels=9, out_channels=18, kernel_size=1, stride=1, padding=0)
         self.relu = nn.ReLU()
         self.fc = nn.Linear(18 * 3 * 3, 3 * 3)
+        self.softmax = nn.Softmax(dim=1)
 
     def forward(self, x):
         x = self.conv0(x)
         x = self.relu(x)
         x = x.flatten(start_dim=1)
         x = self.fc(x)
+        x = self.softmax(x)
         return x.view(-1, 3, 3)
 
 

@@ -169,7 +169,7 @@ def run_training_steps(num_training_steps, game, device, criterion, num_games_pe
         print("\nTraining step: ", step)
         best_player, results, player_1_roots, player_2_roots, games = run_simulations(game, num_games_per_step, trained_player, old_player, time_threshold)
         save_best_player(best_player)
-        #trained_player, old_player = best_player, copy.deepcopy(best_player)
+        trained_player, old_player = best_player, copy.deepcopy(best_player)
 
         model = trained_player.alpha_go_zero_lite.cnn
         optimizer = optim.Adam(model.parameters(), lr=learning_rate)
@@ -186,7 +186,7 @@ learning_rate = 0.01
 batch_size = 20
 time_threshold = 0.2
 num_training_steps = 10
-num_games_per_step = 100
+num_games_per_step = 10
 game = TicTacToe()
 criterion = Loss()
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")

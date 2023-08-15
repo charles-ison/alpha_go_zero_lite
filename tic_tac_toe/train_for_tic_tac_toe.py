@@ -38,8 +38,15 @@ def get_next_move(node):
     print("Bug encountered, no next move found in the MCST")
 
 
+def get_player_node(player_1_node, player_2_node, player_num):
+    if player_num == 1:
+        return player_2_node
+    else:
+        return player_1_node
+
+
 def get_probabilities(player_1_node, player_2_node, player_num, game):
-    player_node = [player_1_node, player_2_node][player_num - 1]
+    player_node = get_player_node(player_1_node, player_2_node, player_num)
     sum_num_visits = 0.0
     probabilities = torch.zeros(game.board_size, game.board_size)
     for child in player_node.children:
@@ -130,7 +137,6 @@ def run_simulations(game, num_games, trained_player, old_player, time_threshold)
 def train(model, optimizer, data_loader, device, criterion):
     print("\nTraining. . .")
     model.train()
-
     total_loss = 0.0
 
     for batch in data_loader:
@@ -163,7 +169,7 @@ def run_training_steps(num_training_steps, game, device, criterion, num_games_pe
         print("\nTraining step: ", step)
         best_player, results, player_1_roots, player_2_roots, games = run_simulations(game, num_games_per_step, trained_player, old_player, time_threshold)
         save_best_player(best_player)
-        trained_player, old_player = best_player, copy.deepcopy(best_player)
+        #trained_player, old_player = best_player, copy.deepcopy(best_player)
 
         model = trained_player.alpha_go_zero_lite.cnn
         optimizer = optim.Adam(model.parameters(), lr=learning_rate)
@@ -176,11 +182,11 @@ def run_training_steps(num_training_steps, game, device, criterion, num_games_pe
     save_best_player(best_player)
 
 
-learning_rate = 0.1
+learning_rate = 0.01
 batch_size = 20
-time_threshold = 0.1
+time_threshold = 0.2
 num_training_steps = 10
-num_games_per_step = 500
+num_games_per_step = 100
 game = TicTacToe()
 criterion = Loss()
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")

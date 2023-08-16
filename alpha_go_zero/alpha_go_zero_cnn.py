@@ -22,6 +22,7 @@ class AlphaGoZeroCNN(AlphaGoZero):
             return self.get_finished_game_values(win_detected)
         else:
             board_history = mcts_game.get_board_history(turn_count, player_num)
+            self.cnn.eval()
             child_probabilities, action_value = self.cnn(board_history.unsqueeze(dim=0))
             expansion_move.child_probabilities = child_probabilities.squeeze()
             return action_value, -action_value

@@ -8,6 +8,7 @@ def get_player(player_num):
     player_type = get_player_type(player_num)
     return Player(player_type)
 
+
 def get_player_type(player_num):
     print("Please select Player " + str(player_num) + " type.")
     print("1. AlphaGo Zero Lite with pure Monte Carlo Tree Search")
@@ -16,12 +17,15 @@ def get_player_type(player_num):
     print("4. Manual player")
     return PlayerType(int(input("Please enter your selection: ")))
 
+
 def get_num_games():
     return int(input("\nHow many games would you like to play? "))
 
-#About 4 seconds is required for the pure MCTS to achieve perfect play on a personal laptop
-time_threshold = 0.2
+
+# About 4 seconds is required for the pure MCTS to achieve perfect play on a personal laptop
+time_threshold = 4
 players = [get_player(1), get_player(2)]
 num_games = get_num_games()
 game = TicTacToe()
 play_games(game, num_games, players, time_threshold)
+

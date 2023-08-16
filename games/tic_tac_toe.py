@@ -9,6 +9,8 @@ class TicTacToe(Game):
         self.board_history.append(torch.zeros(self.board_size, self.board_size))
         self.board_history.append(torch.zeros(self.board_size, self.board_size))
 
+    # Not the board history is not required for tic-tac-toe, but leaving one move history here to be faithful
+    # to the original Alpha Zero paper design
     def get_board_history(self, turn_count, player_num):
         return torch.stack((
             self.board_history[turn_count + 1],

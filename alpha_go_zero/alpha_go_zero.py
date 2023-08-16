@@ -18,6 +18,11 @@ class AlphaGoZero:
         potential_moves = last_move.children
         if len(potential_moves) == 0:
             print("Bug encountered, no potential AlphaGo Zero Lite moves found. More searches need to be run.")
+            game.print_board()
+            print(last_move.row)
+            print(last_move.column)
+            print(last_move.player_num)
+            print(turn_count)
 
         best_move = potential_moves[0]
         for move in potential_moves[1:]:
@@ -33,7 +38,7 @@ class AlphaGoZero:
         num_searches = 0
         time_limit = time.time() + time_threshold
         start_time = time.time()
-        while time.time() < time_limit:
+        while time.time() < time_limit or len(last_move.children) == 0:
             mcts_player_num = utilities.get_player_num(mcts_turn_count)
             next_mcts_move, is_simulation = self.get_next_mcts_move(mcts_game, mcts_player_num, mcts_move)
             if is_simulation and expansion_move is None:

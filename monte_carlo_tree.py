@@ -29,10 +29,7 @@ class Move(Node):
 
     def get_predictor_upper_confidence_bound_applied_to_trees(self):
         exploration_factor = math.sqrt(2)
-        alternative_move_visits_sum = 0
-        for child in self.parent.children:
-            alternative_move_visits_sum += child.num_visits
-        alternative_move_visits_numerator = math.sqrt(alternative_move_visits_sum)
+        alternative_move_visits_numerator = math.sqrt(self.parent.num_visits)
         self_visit_denominator = 1 + self.num_visits
         probability = self.parent.child_probabilities[self.row][self.column]
         return exploration_factor * probability * (alternative_move_visits_numerator/self_visit_denominator)

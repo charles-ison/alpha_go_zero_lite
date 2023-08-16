@@ -4,6 +4,7 @@ import utilities
 from players.player_type import PlayerType
 
 
+#TODO: This should be refactored as a function that exists on a player class
 def play_move(game, player_num, players, turn_count, last_move, time_threshold, print_games):
     player_num_index = player_num - 1
     player = players[player_num_index]

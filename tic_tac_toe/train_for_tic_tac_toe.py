@@ -8,6 +8,7 @@ from players.player_type import PlayerType
 from utilities import get_player_num
 from torch.utils.data import DataLoader
 from neural_networks.loss import Loss
+from sklearn.model_selection import train_test_split
 
 
 class MoveDataSet(torch.utils.data.Dataset):
@@ -53,7 +54,7 @@ def get_probabilities(player_1_node, player_2_node, player_num, game):
     return probabilities
 
 
-def build_data_loader(results, player_1_roots, player_2_roots, batch_size, games, alpha_go_zero_lite):
+def build_data_loaders(results, player_1_roots, player_2_roots, batch_size, games, alpha_go_zero_lite):
     print("\nBuilding data loader. . .")
     data, labels = [], []
 
@@ -77,10 +78,17 @@ def build_data_loader(results, player_1_roots, player_2_roots, batch_size, games
             player_2_node = get_next_move(player_2_node)
             turn_count += 1
 
-    print("Number of moves available for training: ", len(labels))
-    training_data_set = MoveDataSet(data, labels)
+    training_data, testing_data, training_labels, testing_labels = train_test_split(data, labels, test_size=0.20)
+    print("Number of moves available for training: ", len(training_labels))
+    print("Number of moves available for testing: ", len(testing_labels))
 
-    return DataLoader(dataset=training_data_set, batch_size=batch_size, shuffle=True)
+    training_data_set = MoveDataSet(training_data, training_labels)
+    testing_data_set = MoveDataSet(testing_data, testing_labels)
+
+    training_loader = DataLoader(dataset=training_data_set, batch_size=batch_size, shuffle=True)
+    testing_loader = DataLoader(dataset=testing_data_set, batch_size=batch_size, shuffle=True)
+
+    return training_loader, testing_loader
 
 
 def get_best_player(trained_player, alt_player, trained_player_win_count, alt_player_win_count, log_best_player):
@@ -134,14 +142,29 @@ def run_simulations(game, num_simulations, trained_player, alt_player, time_thre
     best_player = get_best_player(trained_player, alt_player, trained_player_win_count, alt_player_win_count, log_best_player)
     return best_player, results, player_1_roots, player_2_roots, games
 
+def test(model, testing_loader, device, criterion):
+    model.eval()
+    total_loss = 0.0
+    for batch in testing_loader:
+        data, prob, value = batch['data'].to(device), batch['label'][0].to(device), batch['label'][1].to(device)
+        predicted_prob, predicted_value = model(data)
+        prob = prob.flatten(start_dim=1)
+        value = value.float()
+        predicted_prob = predicted_prob.flatten(start_dim=1)
+        predicted_value = predicted_value.flatten()
+        loss = criterion.calculate(predicted_prob, prob, predicted_value, value)
+        total_loss += loss.item()
+    return total_loss
 
-def train(model, optimizer, data_loader, device, criterion, epochs):
+
+def train(model, optimizer, training_loader, testing_loader, device, criterion, epochs):
     print("\nTraining. . .")
     model.train()
-
+    old_testing_loss = None
     for epoch in range(epochs):
+        print("Epoch: ", epoch)
         total_loss = 0.0
-        for batch in data_loader:
+        for batch in training_loader:
             data, prob, value = batch['data'].to(device), batch['label'][0].to(device), batch['label'][1].to(device)
             optimizer.zero_grad()
             predicted_prob, predicted_value = model(data)
@@ -156,7 +179,12 @@ def train(model, optimizer, data_loader, device, criterion, epochs):
             loss.backward()
             optimizer.step()
 
-        print("Loss: " + str(total_loss) + " at Epoch: " + str(epoch))
+        testing_loss = test(model, testing_loader, device, criterion)
+        print("Training Loss: " + str(total_loss) + " and Testing Loss: " + str(testing_loss))
+        if old_testing_loss is not None and testing_loss >= old_testing_loss:
+            print("Old testing loss less than current loss, stopping training.")
+            break
+        old_testing_loss = testing_loss
 
 
 def save_best_player(best_player):
@@ -169,25 +197,22 @@ def run_reinforcement(num_checkpoints, game, device, criterion, num_simulations,
     alt_player = Player(PlayerType.Untrained_MCTS_CNN)
 
     for step in range(num_checkpoints):
-        print("\nTraining step: ", step)
+        print("\nCheckpoint number: ", step)
         best_player, results, player_1_roots, player_2_roots, games = run_simulations(game, num_simulations, trained_player, alt_player, time_threshold, True)
+        save_best_player(best_player)
 
-        if step % 20 == 0 and step != 0:
+        if step % 10 == 0 and step != 0:
             print("\nComparing performance to untrained CNN")
             run_simulations(game, num_simulations, best_player, Player(PlayerType.Untrained_MCTS_CNN), time_threshold, False)
-
             print("\nComparing performance to Pure MCTS")
             run_simulations(game, num_simulations, best_player, Player(PlayerType.Pure_MCTS), time_threshold, False)
 
-        save_best_player(best_player)
         trained_player, alt_player = best_player, copy.deepcopy(best_player)
-
-        model = trained_player.alpha_go_zero_lite.cnn
-        optimizer = optim.Adam(model.parameters(), lr=lr)
+        optimizer = optim.Adam(trained_player.alpha_go_zero_lite.cnn.parameters(), lr=lr)
         alpha_go_zero_lite = trained_player.alpha_go_zero_lite
 
-        data_loader = build_data_loader(results, player_1_roots, player_2_roots, batch_size, games, alpha_go_zero_lite)
-        train(model, optimizer, data_loader, device, criterion, epochs)
+        training_loader, testing_loader = build_data_loaders(results, player_1_roots, player_2_roots, batch_size, games, alpha_go_zero_lite)
+        train(trained_player.alpha_go_zero_lite.cnn, optimizer, training_loader, testing_loader, device, criterion, epochs)
 
     best_player, _, _, _, _ = run_simulations(game, num_simulations, trained_player, alt_player, time_threshold)
     save_best_player(best_player)
@@ -195,8 +220,8 @@ def run_reinforcement(num_checkpoints, game, device, criterion, num_simulations,
 
 lr = 0.0001
 batch_size = 64
-time_threshold = 0.01
-num_checkpoints = 1000
+time_threshold = 0.05
+num_checkpoints = 100
 num_simulations = 100
 epochs = 5
 game = TicTacToe()

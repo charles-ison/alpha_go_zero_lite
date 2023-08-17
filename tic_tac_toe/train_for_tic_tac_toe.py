@@ -101,6 +101,7 @@ def get_best_player(trained_player, best_player, trained_player_win_count, best_
     if trained_win_percentage >= 0.55:
         if log_player_selection:
             print("Using the trained player.")
+        save_best_player(trained_player)
         return trained_player
     else:
         if log_player_selection:
@@ -207,9 +208,7 @@ def save_best_player(best_player):
     torch.save(best_player.alpha_go_zero_lite.cnn.state_dict(), "tic_tac_toe_cnn.pt")
 
 
-def join_data(all_data, all_labels, data, labels):
-    max_data_size = 3000
-
+def join_data(all_data, all_labels, data, labels, max_data_size):
     all_data.extend(data)
     all_labels.extend(labels)
 
@@ -219,7 +218,7 @@ def join_data(all_data, all_labels, data, labels):
         return all_data, all_labels
 
 
-def run_reinforcement(num_checkpoints, game, device, criterion, num_simulations, num_eval_games, epochs, time_threshold, lr):
+def run_reinforcement(num_checkpoints, game, device, criterion, num_simulations, num_eval_games, epochs, time_threshold, lr, max_data_size):
     print("Running Reinforcement Learning")
     best_player = Player(PlayerType.Untrained_MCTS_CNN)
     untrained_player = Player(PlayerType.Untrained_MCTS_CNN)
@@ -229,14 +228,13 @@ def run_reinforcement(num_checkpoints, game, device, criterion, num_simulations,
     for step in range(num_checkpoints):
         results, player_1_roots, player_2_roots, games = run_simulations(game, num_simulations, best_player, time_threshold)
         data, labels = preprocess_data(results, player_1_roots, player_2_roots, games, best_player.alpha_go_zero_lite)
-        all_data, all_labels = join_data(all_data, all_labels, data, labels)
+        all_data, all_labels = join_data(all_data, all_labels, data, labels, max_data_size)
         training_loader, testing_loader = get_data_loaders(all_data, all_labels)
         trained_player = copy.deepcopy(best_player)
         model = trained_player.alpha_go_zero_lite.cnn
         trained_model = train_model(model, training_loader, testing_loader, device, criterion, epochs, lr)
         trained_player.alpha_go_zero_lite.cnn = trained_model
         best_player = evaluate_players(game, num_eval_games, trained_player, best_player, time_threshold, True)
-        save_best_player(best_player)
 
         print("\nCheckpoint number: ", step)
         if step % 10 == 0:
@@ -247,14 +245,15 @@ def run_reinforcement(num_checkpoints, game, device, criterion, num_simulations,
 
 
 lr = 0.0001
-batch_size = 64
-time_threshold = 0.05
+batch_size = 32
+time_threshold = 0.1
 num_checkpoints = 100
-num_simulations = 100
+num_simulations = 50
 num_eval_games = 50
 epochs = 10
+max_data_size = 1000
 game = TicTacToe()
 criterion = Loss()
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
-run_reinforcement(num_checkpoints, game, device, criterion, num_simulations, num_eval_games, epochs, time_threshold, lr)
+run_reinforcement(num_checkpoints, game, device, criterion, num_simulations, num_eval_games, epochs, time_threshold, lr, max_data_size)

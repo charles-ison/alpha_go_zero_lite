@@ -1,7 +1,6 @@
 import copy
 import time
 import utilities
-import random
 import monte_carlo_tree as mct
 
 
@@ -40,17 +39,16 @@ class AlphaGoZero:
         start_time = time.time()
         while time.time() < time_limit or len(last_move.children) == 0:
             mcts_player_num = utilities.get_player_num(mcts_turn_count)
-            next_mcts_move, is_simulation = self.get_next_mcts_move(mcts_game, mcts_player_num, mcts_move)
-            if is_simulation and expansion_move is None:
+            next_mcts_move, tree_expanded = self.get_next_mcts_move(mcts_game, mcts_player_num, mcts_move)
+            if tree_expanded and expansion_move is None:
                 expansion_move = next_mcts_move
-                mcts_move.children.append(expansion_move)
 
             mcts_move = next_mcts_move
             mcts_game.update_board(mcts_move.row, mcts_move.column, mcts_player_num)
             mcts_turn_count += 1
 
             win_detected, tie_detected = mcts_game.detect_winner(), mcts_game.detect_tie()
-            if win_detected or tie_detected or self.should_stop_rollout(is_simulation):
+            if win_detected or tie_detected or self.should_stop_rollout(tree_expanded):
                 current_val, opposing_val = self.get_action_values(win_detected, tie_detected, mcts_game, expansion_move, mcts_turn_count, mcts_player_num)
                 action_value_dict = {
                     mcts_player_num: current_val,
@@ -71,16 +69,17 @@ class AlphaGoZero:
 
     def get_next_mcts_move(self, mcts_game, mcts_player_num, last_mcts_move):
         potential_moves = mcts_game.fetch_potential_moves()
-        if self.should_run_selection_move(potential_moves, last_mcts_move.children):
-            return self.get_selection_move(last_mcts_move.children), False
-        else:
-            return self.get_simulation_move(mcts_game, mcts_player_num, potential_moves, last_mcts_move), True
+        should_expand_tree = self.should_expand_tree(potential_moves, last_mcts_move.children)
+        if should_expand_tree:
+            self.expand_tree(potential_moves, last_mcts_move, mcts_game, mcts_player_num)
+        return self.get_selection_move(last_mcts_move.children), should_expand_tree
 
     def run_backpropagation(self, backpropagation_leaf, mcts_root, action_value_dict):
         backprop_move = backpropagation_leaf
         while backprop_move != mcts_root:
             backprop_move.action_value += action_value_dict[backprop_move.player_num]
             backprop_move.num_visits += 1.0
+            backprop_move.mean_action_value = backprop_move.action_value / backprop_move.num_visits
             backprop_move = backprop_move.parent
 
     def get_backpropagation_leaf(self, expansion_move, mcts_move):
@@ -89,8 +88,22 @@ class AlphaGoZero:
         else:
             return expansion_move
 
-    def should_run_selection_move(self, potential_moves, last_mcts_move_children):
-        return len(potential_moves) == len(last_mcts_move_children)
+    def should_expand_tree(self, potential_moves, last_mcts_move_children):
+        return len(potential_moves) != len(last_mcts_move_children)
+
+    def expand_tree(self, potential_moves, last_mcts_move, mcts_game, mcts_player_num):
+        last_mcts_move_children = last_mcts_move.children
+        for potential_move_tuple in potential_moves:
+            if self.move_unexplored(potential_move_tuple, last_mcts_move_children):
+                board_size = mcts_game.board_size
+                row = potential_move_tuple[0]
+                column = potential_move_tuple[1]
+                num_visits = self.get_expanded_node_number_of_visits()
+                potential_move = mct.Move(board_size, mcts_player_num,  row, column, last_mcts_move, num_visits)
+                last_mcts_move_children.append(potential_move)
+
+    def get_expanded_node_number_of_visits(self):
+        raise NotImplementedError("Must override get_expanded_node_number_of_visits().")
 
     def get_selection_move(self, last_expansion_move_children):
         raise NotImplementedError("Must override get_selection_move().")
@@ -100,14 +113,6 @@ class AlphaGoZero:
 
     def save_game_analysis(self, mcts_game, expansion_move):
         raise NotImplementedError("Must override save_game_analysis().")
-
-    def get_simulation_move(self, mcts_game, mcts_player_num, potential_move_tuples, last_mcts_move):
-        unexplored_potential_tuples = [tuple for tuple in potential_move_tuples if
-                                       self.move_unexplored(tuple, last_mcts_move.children)]
-        random_move_tuple = unexplored_potential_tuples[random.randint(0, len(unexplored_potential_tuples) - 1)]
-        row = random_move_tuple[0]
-        column = random_move_tuple[1]
-        return mct.Move(mcts_game.board_size, mcts_player_num, row, column, last_mcts_move, 1)
 
     def move_unexplored(self, potential_move_tuple, last_mcts_move_children):
         potential_row = potential_move_tuple[0]

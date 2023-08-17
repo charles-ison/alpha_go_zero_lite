@@ -17,6 +17,9 @@ class AlphaGoZeroCNN(AlphaGoZero):
     def should_stop_rollout(self, is_simulation):
         return is_simulation
 
+    def get_expanded_node_number_of_visits(self):
+        return 0
+
     def get_action_values(self, win_detected, tie_detected, mcts_game, expansion_move, turn_count, player_num):
         if win_detected or tie_detected:
             return self.get_finished_game_values(win_detected)

@@ -67,7 +67,7 @@ def get_data_loaders(data, labels):
 
     return training_loader, testing_loader
 
-def preprocess_data(results, player_1_roots, player_2_roots, batch_size, games, alpha_go_zero_lite):
+def preprocess_data(results, player_1_roots, player_2_roots, games, alpha_go_zero_lite):
     print("\nBuilding data loader. . .")
     data, labels = [], []
 
@@ -228,7 +228,7 @@ def run_reinforcement(num_checkpoints, game, device, criterion, num_simulations,
 
     for step in range(num_checkpoints):
         results, player_1_roots, player_2_roots, games = run_simulations(game, num_simulations, best_player, time_threshold)
-        data, labels = preprocess_data(results, player_1_roots, player_2_roots, batch_size, games, best_player.alpha_go_zero_lite)
+        data, labels = preprocess_data(results, player_1_roots, player_2_roots, games, best_player.alpha_go_zero_lite)
         all_data, all_labels = join_data(all_data, all_labels, data, labels)
         training_loader, testing_loader = get_data_loaders(all_data, all_labels)
         trained_player = copy.deepcopy(best_player)
@@ -252,7 +252,7 @@ time_threshold = 0.05
 num_checkpoints = 100
 num_simulations = 100
 num_eval_games = 50
-epochs = 5
+epochs = 1
 game = TicTacToe()
 criterion = Loss()
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")

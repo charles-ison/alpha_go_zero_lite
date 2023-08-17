@@ -14,18 +14,16 @@ class Move(Node):
         super().__init__(board_size, num_visits)
         self.player_num = player_num
         self.action_value = 0.0
+        self.mean_action_value = 0.0
         self.row = row
         self.column = column
         self.parent = parent
         self.was_played = False
 
-    def get_mean_action_value(self):
-        return self.action_value / self.num_visits
-
     def get_upper_confidence_bound(self):
         exploration_factor = math.sqrt(2)
         parent_visit_ratio = math.log(self.parent.num_visits) / (self.num_visits)
-        return self.get_mean_action_value() + exploration_factor * math.sqrt(parent_visit_ratio)
+        return self.mean_action_value + exploration_factor * math.sqrt(parent_visit_ratio)
 
     def get_predictor_upper_confidence_bound_applied_to_trees(self):
         exploration_factor = math.sqrt(2)
@@ -35,4 +33,4 @@ class Move(Node):
         return exploration_factor * probability * (alternative_move_visits_numerator/self_visit_denominator)
 
     def get_mean_action_value_plus_puct(self):
-        return self.get_mean_action_value() + self.get_predictor_upper_confidence_bound_applied_to_trees()
+        return self.mean_action_value + self.get_predictor_upper_confidence_bound_applied_to_trees()

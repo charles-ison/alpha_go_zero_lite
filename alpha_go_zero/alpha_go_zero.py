@@ -2,6 +2,7 @@ import copy
 import time
 import utilities
 import monte_carlo_tree as mct
+import random
 
 
 class AlphaGoZero:
@@ -105,9 +106,6 @@ class AlphaGoZero:
     def get_expanded_node_number_of_visits(self):
         raise NotImplementedError("Must override get_expanded_node_number_of_visits().")
 
-    def get_selection_move(self, last_expansion_move_children):
-        raise NotImplementedError("Must override get_selection_move().")
-
     def should_stop_rollout(self, is_simulation):
         raise NotImplementedError("Must override should_not_perform_rollout().")
 
@@ -130,3 +128,19 @@ class AlphaGoZero:
             return self.win_value, self.lose_value
         else:
             return self.tie_value, self.tie_value
+
+    def get_selection_value(self, move):
+        raise NotImplementedError("Must override get_selection_value().")
+
+    def get_selection_move(self, last_expansion_move_children):
+        best_move = last_expansion_move_children[0]
+        tie_moves = [best_move]
+        for move in last_expansion_move_children[1:]:
+            if self.get_selection_value(move) > self.get_selection_value(best_move):
+                best_move = move
+            elif self.get_selection_value(move) == self.get_selection_value(best_move):
+                tie_moves.append(move)
+
+        if len(tie_moves) > 1:
+            return tie_moves[random.randint(0, len(tie_moves) - 1)]
+        return best_move

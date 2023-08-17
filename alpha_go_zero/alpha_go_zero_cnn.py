@@ -7,12 +7,8 @@ class AlphaGoZeroCNN(AlphaGoZero):
         super().__init__()
         self.cnn = cnn
 
-    def get_selection_move(self, last_expansion_move_children):
-        best_move = last_expansion_move_children[0]
-        for move in last_expansion_move_children[1:]:
-            if move.get_mean_action_value_plus_puct() > best_move.get_mean_action_value_plus_puct():
-                best_move = move
-        return best_move
+    def get_selection_value(self, move):
+        return move.get_mean_action_value_plus_puct()
 
     def should_stop_rollout(self, is_simulation):
         return is_simulation

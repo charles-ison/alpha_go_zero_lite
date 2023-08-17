@@ -91,16 +91,16 @@ def build_data_loaders(results, player_1_roots, player_2_roots, batch_size, game
     return training_loader, testing_loader
 
 
-def get_best_player(trained_player, best_player, trained_player_win_count, best_player_win_count, log_best_player):
+def get_best_player(trained_player, best_player, trained_player_win_count, best_player_win_count, log_player_selection):
     total_num_wins = trained_player_win_count + best_player_win_count
     trained_win_percentage = float(trained_player_win_count) / float(total_num_wins)
     print("Trained player win percentage: ", trained_win_percentage)
     if trained_win_percentage >= 0.55:
-        if log_best_player:
+        if log_player_selection:
             print("Using the trained player.")
         return trained_player
     else:
-        if log_best_player:
+        if log_player_selection:
             print("Using the previous best player.")
         return best_player
 
@@ -111,22 +111,31 @@ def swap_players(players):
     players[1] = temp
 
 
-def run_simulations(game, num_simulations, trained_player, best_player, time_threshold, log_best_player):
-    trained_player_win_count, best_player_win_count, tie_count = 0, 0, 0
+def run_simulations(game, num_simulations, player, time_threshold):
+    print("\nRunning simulations. . .")
     results = []
     player_1_roots = []
     player_2_roots = []
     games = []
-    players = [trained_player, best_player]
-    print("\nRunning simulations. . .")
+    players = [player, copy.deepcopy(player)]
     for game_num in range(num_simulations):
         new_game = copy.deepcopy(game)
         result_num, player_1_root, player_2_root = play(new_game, players, time_threshold, False)
         results.append(result_num)
         player_1_roots.append(player_1_root)
         player_2_roots.append(player_2_root)
-        swap_players(players)
         games.append(new_game)
+    return results, player_1_roots, player_2_roots, games
+
+
+def evaluate_players(game, num_eval_games, trained_player, best_player, time_threshold, log_player_selection):
+    print("\nEvaluating players. . .")
+    trained_player_win_count, best_player_win_count, tie_count = 0, 0, 0
+    players = [trained_player, best_player]
+    for game_num in range(num_eval_games):
+        new_game = copy.deepcopy(game)
+        result_num, _, _ = play(new_game, players, time_threshold, False)
+        swap_players(players)
 
         if result_num == get_player_num(game_num):
             trained_player_win_count += 1
@@ -139,8 +148,9 @@ def run_simulations(game, num_simulations, trained_player, best_player, time_thr
     print("Number of previous best player wins: " + str(best_player_win_count))
     print("Number of ties: " + str(tie_count))
 
-    best_player = get_best_player(trained_player, best_player, trained_player_win_count, best_player_win_count, log_best_player)
-    return best_player, results, player_1_roots, player_2_roots, games
+    best_player = get_best_player(trained_player, best_player, trained_player_win_count, best_player_win_count, log_player_selection)
+    return best_player
+
 
 def test(model, testing_loader, device, criterion):
     model.eval()
@@ -194,37 +204,37 @@ def save_best_player(best_player):
     torch.save(best_player.alpha_go_zero_lite.cnn.state_dict(), "tic_tac_toe_cnn.pt")
 
 
-def run_reinforcement(num_checkpoints, game, device, criterion, num_simulations, epochs, time_threshold, lr):
+def run_reinforcement(num_checkpoints, game, device, criterion, num_simulations, num_eval_games, epochs, time_threshold, lr):
     print("Running Reinforcement Learning")
-    player_1, player_2 = Player(PlayerType.Untrained_MCTS_CNN), Player(PlayerType.Untrained_MCTS_CNN)
-    best_player, results, player_1_roots, player_2_roots, games = run_simulations(game, num_simulations, player_1, player_2, time_threshold, True)
+    best_player = Player(PlayerType.Untrained_MCTS_CNN)
 
     for step in range(num_checkpoints):
-        print("\nCheckpoint number: ", step)
-        if step % 10 == 0:
-            print("\nComparing performance to untrained CNN")
-            run_simulations(game, num_simulations, best_player, Player(PlayerType.Untrained_MCTS_CNN), time_threshold, False)
-            print("\nComparing performance to Pure MCTS")
-            run_simulations(game, num_simulations, best_player, Player(PlayerType.Pure_MCTS), time_threshold, False)
-
+        results, player_1_roots, player_2_roots, games = run_simulations(game, num_simulations, best_player, time_threshold)
         training_loader, testing_loader = build_data_loaders(results, player_1_roots, player_2_roots, batch_size, games, best_player.alpha_go_zero_lite)
         trained_player = copy.deepcopy(best_player)
         model = trained_player.alpha_go_zero_lite.cnn
         trained_model = train_model(model, training_loader, testing_loader, device, criterion, epochs, lr)
         trained_player.alpha_go_zero_lite.cnn = trained_model
-
-        best_player, results, player_1_roots, player_2_roots, games = run_simulations(game, num_simulations, trained_player, best_player, time_threshold, True)
+        best_player = evaluate_players(game, num_eval_games, trained_player, best_player, time_threshold, True)
         save_best_player(best_player)
+
+        print("\nCheckpoint number: ", step)
+        if step % 10 == 0:
+            print("\nComparing performance to untrained CNN")
+            evaluate_players(game, num_eval_games, best_player, Player(PlayerType.Untrained_MCTS_CNN), time_threshold, False)
+            print("\nComparing performance to Pure MCTS")
+            evaluate_players(game, num_eval_games, best_player, Player(PlayerType.Pure_MCTS), time_threshold, False)
 
 
 lr = 0.0001
 batch_size = 64
 time_threshold = 0.05
 num_checkpoints = 100
-num_simulations = 100
+num_simulations = 200
+num_eval_games = 50
 epochs = 5
 game = TicTacToe()
 criterion = Loss()
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
-run_reinforcement(num_checkpoints, game, device, criterion, num_simulations, epochs, time_threshold, lr)
+run_reinforcement(num_checkpoints, game, device, criterion, num_simulations, num_eval_games, epochs, time_threshold, lr)

@@ -222,6 +222,8 @@ def join_data(all_data, all_labels, data, labels):
 def run_reinforcement(num_checkpoints, game, device, criterion, num_simulations, num_eval_games, epochs, time_threshold, lr):
     print("Running Reinforcement Learning")
     best_player = Player(PlayerType.Untrained_MCTS_CNN)
+    untrained_player = Player(PlayerType.Untrained_MCTS_CNN)
+    pure_mcts_player = Player(PlayerType.Pure_MCTS)
     all_data, all_labels = [], []
 
     for step in range(num_checkpoints):
@@ -239,16 +241,16 @@ def run_reinforcement(num_checkpoints, game, device, criterion, num_simulations,
         print("\nCheckpoint number: ", step)
         if step % 10 == 0:
             print("\nComparing performance to untrained CNN")
-            evaluate_players(game, num_eval_games, best_player, Player(PlayerType.Untrained_MCTS_CNN), time_threshold, False)
+            evaluate_players(game, num_eval_games, best_player, untrained_player, time_threshold, False)
             print("\nComparing performance to Pure MCTS")
-            evaluate_players(game, num_eval_games, best_player, Player(PlayerType.Pure_MCTS), time_threshold, False)
+            evaluate_players(game, num_eval_games, best_player, pure_mcts_player, time_threshold, False)
 
 
 lr = 0.0001
 batch_size = 64
 time_threshold = 0.05
 num_checkpoints = 100
-num_simulations = 200
+num_simulations = 100
 num_eval_games = 50
 epochs = 5
 game = TicTacToe()

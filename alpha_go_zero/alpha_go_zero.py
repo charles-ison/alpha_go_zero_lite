@@ -107,7 +107,7 @@ class AlphaGoZero:
         random_move_tuple = unexplored_potential_tuples[random.randint(0, len(unexplored_potential_tuples) - 1)]
         row = random_move_tuple[0]
         column = random_move_tuple[1]
-        return mct.Move(mcts_game.board_size, mcts_player_num, row, column, last_mcts_move)
+        return mct.Move(mcts_game.board_size, mcts_player_num, row, column, last_mcts_move, 1)
 
     def move_unexplored(self, potential_move_tuple, last_mcts_move_children):
         potential_row = potential_move_tuple[0]

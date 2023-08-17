@@ -54,7 +54,20 @@ def get_probabilities(player_1_node, player_2_node, player_num, game):
     return probabilities
 
 
-def build_data_loaders(results, player_1_roots, player_2_roots, batch_size, games, alpha_go_zero_lite):
+def get_data_loaders(data, labels):
+    training_data, testing_data, training_labels, testing_labels = train_test_split(data, labels, test_size=0.20)
+    print("Number of moves available for training: ", len(training_labels))
+    print("Number of moves available for testing: ", len(testing_labels))
+
+    training_data_set = MoveDataSet(training_data, training_labels)
+    testing_data_set = MoveDataSet(testing_data, testing_labels)
+
+    training_loader = DataLoader(dataset=training_data_set, batch_size=batch_size, shuffle=True)
+    testing_loader = DataLoader(dataset=testing_data_set, batch_size=batch_size, shuffle=True)
+
+    return training_loader, testing_loader
+
+def preprocess_data(results, player_1_roots, player_2_roots, batch_size, games, alpha_go_zero_lite):
     print("\nBuilding data loader. . .")
     data, labels = [], []
 
@@ -78,17 +91,7 @@ def build_data_loaders(results, player_1_roots, player_2_roots, batch_size, game
             player_2_node = get_next_move(player_2_node)
             turn_count += 1
 
-    training_data, testing_data, training_labels, testing_labels = train_test_split(data, labels, test_size=0.20)
-    print("Number of moves available for training: ", len(training_labels))
-    print("Number of moves available for testing: ", len(testing_labels))
-
-    training_data_set = MoveDataSet(training_data, training_labels)
-    testing_data_set = MoveDataSet(testing_data, testing_labels)
-
-    training_loader = DataLoader(dataset=training_data_set, batch_size=batch_size, shuffle=True)
-    testing_loader = DataLoader(dataset=testing_data_set, batch_size=batch_size, shuffle=True)
-
-    return training_loader, testing_loader
+    return data, labels
 
 
 def get_best_player(trained_player, best_player, trained_player_win_count, best_player_win_count, log_player_selection):
@@ -204,13 +207,28 @@ def save_best_player(best_player):
     torch.save(best_player.alpha_go_zero_lite.cnn.state_dict(), "tic_tac_toe_cnn.pt")
 
 
+def join_data(all_data, all_labels, data, labels):
+    max_data_size = 3000
+
+    all_data.extend(data)
+    all_labels.extend(labels)
+
+    if len(all_data) > max_data_size:
+        return all_data[-max_data_size:], all_labels[-max_data_size:]
+    else:
+        return all_data, all_labels
+
+
 def run_reinforcement(num_checkpoints, game, device, criterion, num_simulations, num_eval_games, epochs, time_threshold, lr):
     print("Running Reinforcement Learning")
     best_player = Player(PlayerType.Untrained_MCTS_CNN)
+    all_data, all_labels = [], []
 
     for step in range(num_checkpoints):
         results, player_1_roots, player_2_roots, games = run_simulations(game, num_simulations, best_player, time_threshold)
-        training_loader, testing_loader = build_data_loaders(results, player_1_roots, player_2_roots, batch_size, games, best_player.alpha_go_zero_lite)
+        data, labels = preprocess_data(results, player_1_roots, player_2_roots, batch_size, games, best_player.alpha_go_zero_lite)
+        all_data, all_labels = join_data(all_data, all_labels, data, labels)
+        training_loader, testing_loader = get_data_loaders(all_data, all_labels)
         trained_player = copy.deepcopy(best_player)
         model = trained_player.alpha_go_zero_lite.cnn
         trained_model = train_model(model, training_loader, testing_loader, device, criterion, epochs, lr)

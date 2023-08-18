@@ -10,8 +10,8 @@ class AlphaGoZeroCNN(AlphaGoZero):
     def get_selection_value(self, move):
         return move.get_mean_action_value_plus_puct()
 
-    def should_stop_rollout(self, is_simulation):
-        return is_simulation
+    def should_stop_rollout(self, next_mcts_is_unexpanded):
+        return next_mcts_is_unexpanded
 
     def get_action_values(self, win_detected, tie_detected, mcts_game, expansion_move, turn_count, player_num):
         if win_detected or tie_detected:

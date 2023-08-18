@@ -40,8 +40,9 @@ class AlphaGoZero:
         start_time = time.time()
         while time.time() < time_limit or len(last_move.children) == 0:
             mcts_player_num = utilities.get_player_num(mcts_turn_count)
-            next_mcts_move, tree_expanded = self.get_next_mcts_move(mcts_game, mcts_player_num, mcts_move)
-            if tree_expanded and expansion_move is None:
+            next_mcts_move = self.get_next_mcts_move(mcts_game, mcts_player_num, mcts_move)
+            next_mcts_is_unexpanded = next_mcts_move.num_visits == 1
+            if expansion_move is None and next_mcts_is_unexpanded:
                 expansion_move = next_mcts_move
 
             mcts_move = next_mcts_move
@@ -49,7 +50,7 @@ class AlphaGoZero:
             mcts_turn_count += 1
 
             win_detected, tie_detected = mcts_game.detect_winner(), mcts_game.detect_tie()
-            if win_detected or tie_detected or self.should_stop_rollout(tree_expanded):
+            if win_detected or tie_detected or self.should_stop_rollout(next_mcts_is_unexpanded):
                 current_val, opposing_val = self.get_action_values(win_detected, tie_detected, mcts_game, expansion_move, mcts_turn_count, mcts_player_num)
                 action_value_dict = {
                     mcts_player_num: current_val,
@@ -70,10 +71,9 @@ class AlphaGoZero:
 
     def get_next_mcts_move(self, mcts_game, mcts_player_num, last_mcts_move):
         potential_moves = mcts_game.fetch_potential_moves()
-        should_expand_tree = self.should_expand_tree(potential_moves, last_mcts_move.children)
-        if should_expand_tree:
-            self.expand_tree(potential_moves, last_mcts_move, mcts_game, mcts_player_num)
-        return self.get_selection_move(last_mcts_move.children), should_expand_tree
+        if self.should_add_new_tree_layer(potential_moves, last_mcts_move.children):
+            self.add_new_tree_layer(potential_moves, last_mcts_move, mcts_game, mcts_player_num)
+        return self.get_selection_move(last_mcts_move.children)
 
     def run_backpropagation(self, backpropagation_leaf, mcts_root, action_value_dict):
         backprop_move = backpropagation_leaf
@@ -89,10 +89,10 @@ class AlphaGoZero:
         else:
             return expansion_move
 
-    def should_expand_tree(self, potential_moves, last_mcts_move_children):
+    def should_add_new_tree_layer(self, potential_moves, last_mcts_move_children):
         return len(potential_moves) != len(last_mcts_move_children)
 
-    def expand_tree(self, potential_moves, last_mcts_move, mcts_game, mcts_player_num):
+    def add_new_tree_layer(self, potential_moves, last_mcts_move, mcts_game, mcts_player_num):
         last_mcts_move_children = last_mcts_move.children
         for potential_move_tuple in potential_moves:
             if self.move_unexplored(potential_move_tuple, last_mcts_move_children):

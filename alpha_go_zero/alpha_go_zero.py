@@ -105,9 +105,6 @@ class AlphaGoZero:
     def should_stop_rollout(self, is_simulation):
         raise NotImplementedError("Must override should_not_perform_rollout().")
 
-    def save_game_analysis(self, mcts_game, expansion_move):
-        raise NotImplementedError("Must override save_game_analysis().")
-
     def move_unexplored(self, potential_move_tuple, last_mcts_move_children):
         potential_row = potential_move_tuple[0]
         potential_column = potential_move_tuple[1]
@@ -131,12 +128,18 @@ class AlphaGoZero:
     def get_selection_move(self, last_expansion_move_children):
         best_move = last_expansion_move_children[0]
         tie_moves = [best_move]
+        is_tie = False
         for move in last_expansion_move_children[1:]:
-            if self.get_selection_value(move) > self.get_selection_value(best_move):
+            move_selection_value = self.get_selection_value(move)
+            best_move_selection_value = self.get_selection_value(best_move)
+            if move_selection_value > best_move_selection_value:
                 best_move = move
-            elif self.get_selection_value(move) == self.get_selection_value(best_move):
+                tie_moves = [best_move]
+                is_tie = False
+            elif move_selection_value == best_move_selection_value:
                 tie_moves.append(move)
+                is_tie = True
 
-        if len(tie_moves) > 1:
+        if is_tie:
             return tie_moves[random.randint(0, len(tie_moves) - 1)]
         return best_move

@@ -12,8 +12,5 @@ class AlphaGoZeroPureMTCS(AlphaGoZero):
     def should_stop_rollout(self, is_simulation):
         return False
 
-    def save_game_analysis(self, mcts_game, expansion_move):
-        return
-
     def get_action_values(self, win_detected, tie_detected, mcts_game, expansion_move, turn_count, player_num):
         return self.get_finished_game_values(win_detected)

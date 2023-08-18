@@ -4,7 +4,7 @@ import torch.nn as nn
 class TicTacToeCNN(nn.Module):
     def __init__(self):
         super(TicTacToeCNN, self).__init__()
-        num_channels = 64
+        num_channels = 128
         self.conv0 = nn.Conv2d(in_channels=3, out_channels=num_channels, kernel_size=3, stride=1, padding=1)
         self.conv1 = nn.Conv2d(in_channels=num_channels, out_channels=num_channels, kernel_size=3, stride=1, padding=1)
         self.conv2 = nn.Conv2d(in_channels=num_channels, out_channels=num_channels, kernel_size=3, stride=1, padding=1)

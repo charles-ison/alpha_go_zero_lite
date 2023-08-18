@@ -33,7 +33,6 @@ class AlphaGoZero:
     def run_monte_carlo_tree_search(self, turn_count, game, last_move, time_threshold, print_games):
         mcts_game = copy.deepcopy(game)
         mcts_move = last_move
-        expansion_move = None
         mcts_turn_count = turn_count
         num_searches = 0
         time_limit = time.time() + time_threshold
@@ -41,25 +40,21 @@ class AlphaGoZero:
         while time.time() < time_limit or len(last_move.children) == 0:
             mcts_player_num = utilities.get_player_num(mcts_turn_count)
             next_mcts_move = self.get_next_mcts_move(mcts_game, mcts_player_num, mcts_move)
-            next_mcts_is_unexpanded = next_mcts_move.num_visits == 1
-            if expansion_move is None and next_mcts_is_unexpanded:
-                expansion_move = next_mcts_move
-
             mcts_move = next_mcts_move
             mcts_game.update_board(mcts_move.row, mcts_move.column, mcts_player_num)
             mcts_turn_count += 1
 
-            win_detected, tie_detected = mcts_game.detect_winner(), mcts_game.detect_tie()
-            if win_detected or tie_detected or self.should_stop_rollout(next_mcts_is_unexpanded):
-                current_val, opposing_val = self.get_action_values(win_detected, tie_detected, mcts_game, expansion_move, mcts_turn_count, mcts_player_num)
+            win_detected = mcts_game.detect_winner()
+            tie_detected = mcts_game.detect_tie()
+            is_expansion_move = mcts_move.num_visits == 1
+            if win_detected or tie_detected or is_expansion_move:
+                current_val, opposing_val = self.get_action_values(win_detected, tie_detected, mcts_game, mcts_move, mcts_turn_count, mcts_player_num)
                 action_value_dict = {
                     mcts_player_num: current_val,
                     utilities.get_opposing_player_num(mcts_player_num): opposing_val
                 }
-                backpropagation_leaf = self.get_backpropagation_leaf(expansion_move, mcts_move)
-                self.run_backpropagation(backpropagation_leaf, last_move, action_value_dict)
+                self.run_backpropagation(mcts_move, last_move, action_value_dict)
                 mcts_game = copy.deepcopy(game)
-                expansion_move = None
                 mcts_move = last_move
                 mcts_turn_count = turn_count
                 num_searches += 1
@@ -83,12 +78,6 @@ class AlphaGoZero:
             backprop_move.mean_action_value = backprop_move.action_value / backprop_move.num_visits
             backprop_move = backprop_move.parent
 
-    def get_backpropagation_leaf(self, expansion_move, mcts_move):
-        if expansion_move is None:
-            return mcts_move
-        else:
-            return expansion_move
-
     def should_add_new_tree_layer(self, potential_moves, last_mcts_move_children):
         return len(potential_moves) != len(last_mcts_move_children)
 
@@ -102,9 +91,6 @@ class AlphaGoZero:
                 potential_move = mct.Move(board_size, mcts_player_num,  row, column, last_mcts_move)
                 last_mcts_move_children.append(potential_move)
 
-    def should_stop_rollout(self, is_simulation):
-        raise NotImplementedError("Must override should_not_perform_rollout().")
-
     def move_unexplored(self, potential_move_tuple, last_mcts_move_children):
         potential_row = potential_move_tuple[0]
         potential_column = potential_move_tuple[1]
@@ -113,7 +99,7 @@ class AlphaGoZero:
                 return False
         return True
 
-    def get_action_values(self, win_detected, tie_detected, mcts_game, expansion_move, turn_count, player_num):
+    def get_action_values(self, win_detected, tie_detected, mcts_game, mcts_move, turn_count, player_num):
         raise NotImplementedError("Must override get_action_value().")
 
     def get_finished_game_values(self, win_detected):
@@ -124,6 +110,9 @@ class AlphaGoZero:
 
     def get_selection_value(self, move):
         raise NotImplementedError("Must override get_selection_value().")
+
+    def get_random_move(self, potential_moves):
+        return potential_moves[random.randint(0, len(potential_moves) - 1)]
 
     def get_selection_move(self, last_expansion_move_children):
         best_move = last_expansion_move_children[0]
@@ -141,5 +130,5 @@ class AlphaGoZero:
                 is_tie = True
 
         if is_tie:
-            return tie_moves[random.randint(0, len(tie_moves) - 1)]
+            return self.get_random_move(tie_moves)
         return best_move

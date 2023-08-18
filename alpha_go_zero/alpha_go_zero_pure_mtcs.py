@@ -12,9 +12,6 @@ class AlphaGoZeroPureMTCS(AlphaGoZero):
     def should_stop_rollout(self, is_simulation):
         return False
 
-    def get_expanded_node_number_of_visits(self):
-        return 1
-
     def save_game_analysis(self, mcts_game, expansion_move):
         return
 

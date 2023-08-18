@@ -99,12 +99,8 @@ class AlphaGoZero:
                 board_size = mcts_game.board_size
                 row = potential_move_tuple[0]
                 column = potential_move_tuple[1]
-                num_visits = self.get_expanded_node_number_of_visits()
-                potential_move = mct.Move(board_size, mcts_player_num,  row, column, last_mcts_move, num_visits)
+                potential_move = mct.Move(board_size, mcts_player_num,  row, column, last_mcts_move)
                 last_mcts_move_children.append(potential_move)
-
-    def get_expanded_node_number_of_visits(self):
-        raise NotImplementedError("Must override get_expanded_node_number_of_visits().")
 
     def should_stop_rollout(self, is_simulation):
         raise NotImplementedError("Must override should_not_perform_rollout().")

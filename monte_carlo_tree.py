@@ -3,15 +3,15 @@ import torch
 
 
 class Node:
-    def __init__(self, board_size, num_visits = 0):
+    def __init__(self, board_size):
         self.children = []
         self.child_probabilities = torch.zeros(board_size, board_size)
-        self.num_visits = num_visits
+        self.num_visits = 1
 
 
 class Move(Node):
-    def __init__(self, board_size, player_num, row, column, parent, num_visits):
-        super().__init__(board_size, num_visits)
+    def __init__(self, board_size, player_num, row, column, parent):
+        super().__init__(board_size)
         self.player_num = player_num
         self.action_value = 0.0
         self.mean_action_value = 0.0

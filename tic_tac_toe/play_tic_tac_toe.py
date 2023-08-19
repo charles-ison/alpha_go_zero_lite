@@ -23,7 +23,7 @@ def get_num_games():
 
 
 # About 10 seconds is required for the pure MCTS to achieve perfect play on my personal laptop
-time_threshold = 10
+time_threshold = 5
 players = [get_player(1), get_player(2)]
 num_games = get_num_games()
 game = TicTacToe()

@@ -96,6 +96,11 @@ def preprocess_data(results, player_1_roots, player_2_roots, games, alpha_go_zer
 
 def get_best_player(trained_player, best_player, trained_player_win_count, best_player_win_count, log_player_selection):
     total_num_wins = trained_player_win_count + best_player_win_count
+
+    if total_num_wins == 0:
+        print("All ties, using the previous best player.")
+        return best_player, False
+
     trained_win_percentage = float(trained_player_win_count) / float(total_num_wins)
     print("Trained player win percentage: ", trained_win_percentage)
     if trained_win_percentage >= 0.55:
@@ -252,12 +257,12 @@ def run_reinforcement(num_checkpoints, game, device, criterion, num_simulations,
 
 lr = 0.0001
 batch_size = 32
-time_threshold = 0.05
+time_threshold = 0.5
 num_checkpoints = 100
 num_simulations = 50
 num_eval_games = 50
 num_steps_before_comparison = 10
-epochs = 10
+epochs = 5
 max_data_size = 1000
 game = TicTacToe()
 criterion = Loss()

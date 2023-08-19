@@ -19,3 +19,6 @@ class AlphaGoZeroCNN(AlphaGoZero):
             child_probabilities, action_value = self.cnn(board_history.unsqueeze(dim=0))
             mcts_move.child_probabilities = child_probabilities.squeeze()
             return action_value, -action_value
+
+    def should_stop_rollout(self, is_expansion_move):
+        return is_expansion_move

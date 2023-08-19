@@ -47,7 +47,7 @@ class AlphaGoZero:
             win_detected = mcts_game.detect_winner()
             tie_detected = mcts_game.detect_tie()
             is_expansion_move = mcts_move.num_visits == 1
-            if win_detected or tie_detected or is_expansion_move:
+            if win_detected or tie_detected or self.should_stop_rollout(is_expansion_move):
                 current_val, opposing_val = self.get_action_values(win_detected, tie_detected, mcts_game, mcts_move, mcts_turn_count, mcts_player_num)
                 action_value_dict = {
                     mcts_player_num: current_val,
@@ -80,6 +80,9 @@ class AlphaGoZero:
 
     def should_add_new_tree_layer(self, potential_moves, last_mcts_move_children):
         return len(potential_moves) != len(last_mcts_move_children)
+
+    def should_stop_rollout(self, is_expansion_move):
+        raise NotImplementedError("Must override should_stop_rollout().")
 
     def add_new_tree_layer(self, potential_moves, last_mcts_move, mcts_game, mcts_player_num):
         last_mcts_move_children = last_mcts_move.children

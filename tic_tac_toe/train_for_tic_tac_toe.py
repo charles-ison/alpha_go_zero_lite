@@ -208,7 +208,7 @@ def train_model(model, training_loader, testing_loader, device, criterion, epoch
 
 
 def save_best_player(best_player):
-    torch.save(best_player.alpha_go_zero_lite.cnn.state_dict(), "tic_tac_toe_cnn.pt")
+    torch.save(best_player.alpha_go_zero_lite.cnn.state_dict(), "neural_networks/saved_models/tic_tac_toe_cnn.pt")
 
 
 def join_data(all_data, all_labels, data, labels, max_data_size):
@@ -223,15 +223,15 @@ def join_data(all_data, all_labels, data, labels, max_data_size):
 
 def run_reinforcement(num_checkpoints, game, device, criterion, num_simulations, num_eval_games, epochs, input_time_threshold, lr, max_data_size, num_steps_before_comparison):
     print("Running Reinforcement Learning")
-    best_player = Player(PlayerType.Untrained_MCTS_CNN)
-    pure_mcts_player = Player(PlayerType.Pure_MCTS)
+    best_player = Player(PlayerType.Untrained_MCTS_CNN, device)
+    pure_mcts_player = Player(PlayerType.Pure_MCTS, device)
     all_data, all_labels = [], []
     old_players = [best_player]
     best_player_improved = False
     time_threshold = input_time_threshold
     time_threshold_delta = (num_steps_before_comparison * input_time_threshold / num_checkpoints)
 
-    for step in range(num_checkpoints):
+    for step in range(num_checkpoints + 1):
         results, player_1_roots, player_2_roots, games = run_simulations(game, num_simulations, best_player, time_threshold)
         data, labels = preprocess_data(results, player_1_roots, player_2_roots, games, best_player.alpha_go_zero_lite)
         all_data, all_labels = join_data(all_data, all_labels, data, labels, max_data_size)
@@ -267,8 +267,8 @@ num_eval_games = 50
 num_steps_before_comparison = 10
 epochs = 5
 max_data_size = 1000
-game = TicTacToe()
 criterion = Loss()
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+game = TicTacToe(device)
 
 run_reinforcement(num_checkpoints, game, device, criterion, num_simulations, num_eval_games, epochs, time_threshold, lr, max_data_size, num_steps_before_comparison)

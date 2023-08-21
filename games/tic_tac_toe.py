@@ -4,19 +4,21 @@ from games.game import Game
 
 class TicTacToe(Game):
 
-    def __init__(self):
+    def __init__(self, device):
         super().__init__(3)
+        self.device = device
         self.board_history.append(torch.zeros(self.board_size, self.board_size))
         self.board_history.append(torch.zeros(self.board_size, self.board_size))
 
     # Not the board history is not required for tic-tac-toe, but leaving one move history here to be faithful
     # to the original Alpha Zero paper design
     def get_board_history(self, turn_count, player_num):
-        return torch.stack((
+        board_history = torch.stack((
             self.board_history[turn_count + 1],
             self.board_history[turn_count],
             torch.full((self.board_size, self.board_size), player_num)
         ))
+        return board_history.to(self.device)
 
     def detect_winner(self):
         return self.detect_row_winner() or self.detect_column_winner() or self.detect_diagonal_winner()

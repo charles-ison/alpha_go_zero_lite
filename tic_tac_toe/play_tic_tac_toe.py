@@ -1,12 +1,13 @@
+import torch
 from players.player_type import PlayerType
 from players.player import Player
 from games.tic_tac_toe import TicTacToe
 from play_games import play_games
 
 
-def get_player(player_num):
+def get_player(player_num, device):
     player_type = get_player_type(player_num)
-    return Player(player_type)
+    return Player(player_type, device)
 
 
 def get_player_type(player_num):
@@ -24,8 +25,9 @@ def get_num_games():
 
 # About 10 seconds is required for the pure MCTS to achieve perfect play on my personal laptop
 time_threshold = 0.5
-players = [get_player(1), get_player(2)]
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+players = [get_player(1, device), get_player(2, device)]
 num_games = get_num_games()
-game = TicTacToe()
+game = TicTacToe(device)
 play_games(game, num_games, players, time_threshold)
 

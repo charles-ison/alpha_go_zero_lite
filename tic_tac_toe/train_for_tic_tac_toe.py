@@ -221,13 +221,15 @@ def join_data(all_data, all_labels, data, labels, max_data_size):
         return all_data, all_labels
 
 
-def run_reinforcement(num_checkpoints, game, device, criterion, num_simulations, num_eval_games, epochs, time_threshold, lr, max_data_size, num_steps_before_comparison):
+def run_reinforcement(num_checkpoints, game, device, criterion, num_simulations, num_eval_games, epochs, input_time_threshold, lr, max_data_size, num_steps_before_comparison):
     print("Running Reinforcement Learning")
     best_player = Player(PlayerType.Untrained_MCTS_CNN)
     pure_mcts_player = Player(PlayerType.Pure_MCTS)
     all_data, all_labels = [], []
     old_players = [best_player]
     best_player_improved = False
+    time_threshold = input_time_threshold
+    time_threshold_delta = (num_steps_before_comparison * input_time_threshold / num_checkpoints)
 
     for step in range(num_checkpoints):
         results, player_1_roots, player_2_roots, games = run_simulations(game, num_simulations, best_player, time_threshold)
@@ -239,7 +241,7 @@ def run_reinforcement(num_checkpoints, game, device, criterion, num_simulations,
         trained_model = train_model(model, training_loader, testing_loader, device, criterion, epochs, lr)
         trained_player.alpha_go_zero_lite.cnn = trained_model
 
-        print("\nEvaluating players at checkpoint: ", step)
+        print("\nEvaluating players at checkpoint: " + str(step) + " with time threshold: " + str(time_threshold))
         best_player, new_best_player = evaluate_players(game, num_eval_games, trained_player, best_player, time_threshold, True)
         if new_best_player:
             best_player_improved = True
@@ -253,9 +255,10 @@ def run_reinforcement(num_checkpoints, game, device, criterion, num_simulations,
             if best_player_improved:
                 old_players.append(copy.deepcopy(best_player))
                 best_player_improved = False
+            time_threshold -= time_threshold_delta
 
 
-lr = 0.0001
+lr = 0.00001
 batch_size = 32
 time_threshold = 0.5
 num_checkpoints = 100

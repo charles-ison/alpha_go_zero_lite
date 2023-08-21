@@ -1,4 +1,4 @@
-# alpha_zero_lite
+# AlphaGo Zero Lite
 
 ## Enviroment
 To avoid version control issues, use the following commands to load the python enviroment for this project:
@@ -32,10 +32,11 @@ How to start virtual environment and load required modules:
 
 ```module load python/3.10 cuda/11.7```
 
-Model weights and confusion matrices will be saved here: 
+## Running Code
 
-```/nfs/stak/users/isonc/hpc-share/saved_models/```
+To train for Tic-Tac-Toe, please using the follwing command:
 
-and run logs will be saved here when using sbatch:
+```python3 -m tic_tac_toe.train_for_tic_tac_toe.py```
 
- ```model_benchmarking/run_logs```
+
+

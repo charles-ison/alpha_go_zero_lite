@@ -50,7 +50,7 @@ def get_probabilities(player_1_node, player_2_node, player_num, game):
     player_node = get_player_node(player_1_node, player_2_node, player_num)
     probabilities = torch.zeros(game.board_size, game.board_size)
     for child in player_node.children:
-        probabilities[child.row][child.column] = child.num_visits/player_node.parent.num_visits
+        probabilities[child.row][child.column] = child.num_visits/ player_node.parent.num_visits
     return probabilities
 
 
@@ -114,12 +114,6 @@ def get_best_player(trained_player, best_player, trained_player_win_count, best_
         return best_player, False
 
 
-def swap_players(players):
-    temp = players[0]
-    players[0] = players[1]
-    players[1] = temp
-
-
 def run_simulations(game, num_simulations, player, time_threshold):
     print("\nRunning simulations. . .")
     results = []
@@ -143,7 +137,7 @@ def evaluate_players(game, num_eval_games, trained_player, best_player, time_thr
     for game_num in range(num_eval_games):
         new_game = copy.deepcopy(game)
         result_num, _, _ = play(new_game, players, time_threshold, False)
-        swap_players(players)
+        players[0], players[1] = players[1], players[0]
 
         if result_num == get_player_num(game_num):
             trained_player_win_count += 1
@@ -221,15 +215,13 @@ def join_data(all_data, all_labels, data, labels, max_data_size):
         return all_data, all_labels
 
 
-def run_reinforcement(num_checkpoints, game, device, criterion, num_simulations, num_eval_games, epochs, input_time_threshold, lr, max_data_size, num_steps_before_comparison):
+def run_reinforcement(num_checkpoints, game, device, criterion, num_simulations, num_eval_games, epochs, time_threshold, lr, max_data_size, num_steps_before_comparison):
     print("Running Reinforcement Learning")
     best_player = Player(PlayerType.Untrained_MCTS_CNN, device)
     pure_mcts_player = Player(PlayerType.Pure_MCTS, device)
     all_data, all_labels = [], []
     old_players = [best_player]
     best_player_improved = False
-    time_threshold = input_time_threshold
-    time_threshold_delta = (num_steps_before_comparison * input_time_threshold / num_checkpoints)
 
     for step in range(num_checkpoints + 1):
         results, player_1_roots, player_2_roots, games = run_simulations(game, num_simulations, best_player, time_threshold)
@@ -255,18 +247,17 @@ def run_reinforcement(num_checkpoints, game, device, criterion, num_simulations,
             if best_player_improved:
                 old_players.append(copy.deepcopy(best_player))
                 best_player_improved = False
-            time_threshold -= time_threshold_delta
 
 
 lr = 0.00001
 batch_size = 32
 time_threshold = 0.5
-num_checkpoints = 100
-num_simulations = 100
-num_eval_games = 100
+num_checkpoints = 500
+num_simulations = 50
+num_eval_games = 50
 num_steps_before_comparison = 10
 epochs = 5
-max_data_size = 2000
+max_data_size = 5000
 criterion = Loss()
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 game = TicTacToe(device)

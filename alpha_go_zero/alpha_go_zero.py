@@ -13,8 +13,8 @@ class AlphaGoZero:
         self.lose_value = -1
         self.tie_value = 0
 
-    def get_move(self, turn_count, game, last_move, time_threshold, print_games):
-        self.run_monte_carlo_tree_search(turn_count, game, last_move, time_threshold, print_games)
+    def get_move(self, turn_count, game, last_move, num_searches, print_games):
+        self.run_monte_carlo_tree_search(turn_count, game, last_move, num_searches, print_games)
         potential_moves = last_move.children
         if len(potential_moves) == 0:
             print("Bug encountered, no potential AlphaGo Zero Lite moves found. More searches need to be run.")
@@ -35,14 +35,13 @@ class AlphaGoZero:
             return self.get_random_move(tie_moves)
         return best_move
 
-    def run_monte_carlo_tree_search(self, turn_count, game, last_move, time_threshold, print_games):
+    def run_monte_carlo_tree_search(self, turn_count, game, last_move, num_searches, print_games):
         mcts_game = copy.deepcopy(game)
         mcts_move = last_move
         mcts_turn_count = turn_count
-        num_searches = 0
-        time_limit = time.time() + time_threshold
+        searches_count = 0
         start_time = time.time()
-        while time.time() < time_limit or len(last_move.children) == 0:
+        while searches_count < num_searches:
             mcts_player_num = utilities.get_player_num(mcts_turn_count)
             mcts_move = self.get_next_mcts_move(mcts_game, mcts_player_num, mcts_move)
             mcts_game.update_board(mcts_move.row, mcts_move.column, mcts_player_num)
@@ -61,7 +60,7 @@ class AlphaGoZero:
                 mcts_game = copy.deepcopy(game)
                 mcts_move = last_move
                 mcts_turn_count = turn_count
-                num_searches += 1
+                searches_count += 1
 
         stop_time = time.time()
         run_time = int(stop_time - start_time)

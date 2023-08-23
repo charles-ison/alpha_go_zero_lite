@@ -24,10 +24,10 @@ def get_num_games():
 
 
 # About 10 seconds is required for the pure MCTS to achieve perfect play on my personal laptop
-time_threshold = 0.5
+num_searches = 200
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 players = [get_player(1, device), get_player(2, device)]
 num_games = get_num_games()
 game = TicTacToe(device)
-play_games(game, num_games, players, time_threshold)
+play_games(game, num_games, players, num_searches)
 

@@ -5,7 +5,7 @@ from players.player_type import PlayerType
 
 
 #TODO: This should be refactored as a function that exists on a player class
-def play_move(game, player_num, players, turn_count, last_move, time_threshold, print_games):
+def play_move(game, player_num, players, turn_count, last_move, num_searches, print_games):
     player_num_index = player_num - 1
     player = players[player_num_index]
     player_type = player.player_type
@@ -14,8 +14,8 @@ def play_move(game, player_num, players, turn_count, last_move, time_threshold, 
     else:
         player_type_name = str(player_type.name)
         if print_games:
-            print("\nAlphaGo Zero Lite (" + player_type_name + ") is running Monte Carlo Tree Search for " + str(time_threshold) + " seconds. . .")
-        return player.alpha_go_zero_lite.get_move(turn_count, game, last_move, time_threshold, print_games)
+            print("\nAlphaGo Zero Lite (" + player_type_name + ") is running " + str(num_searches) + "  Monte Carlo Tree Searches. . .")
+        return player.alpha_go_zero_lite.get_move(turn_count, game, last_move, num_searches, print_games)
 
 
 def append_move(game, player_num, last_move, row, column):
@@ -46,7 +46,7 @@ def get_current_player_tree(player_num, player_1_node, player_2_node):
         return player_2_node
 
 
-def play(game, players, time_threshold, print_games):
+def play(game, players, num_searches, print_games):
     turn_count = 0
     if print_games:
         game.print_board()
@@ -55,7 +55,7 @@ def play(game, players, time_threshold, print_games):
 
     while True:
         player_num = utilities.get_player_num(turn_count)
-        current_player_node = play_move(game, player_num, players, turn_count, current_player_node, time_threshold, print_games)
+        current_player_node = play_move(game, player_num, players, turn_count, current_player_node, num_searches, print_games)
         waiting_player_node = append_move(game, player_num, waiting_player_node, current_player_node.row, current_player_node.column)
 
         game.update_board(current_player_node.row, current_player_node.column, player_num)
@@ -72,13 +72,13 @@ def play(game, players, time_threshold, print_games):
             return 0, player_1_root, player_2_root
 
 
-def play_games(game, num_games, players, time_threshold):
+def play_games(game, num_games, players, num_searches):
     num_ties = 0
     num_player_1_wins = 0
     num_player_2_wins = 0
     for game_num in range(num_games):
         new_game = copy.deepcopy(game)
-        result_num, _, _ = play(new_game, players, time_threshold, True)
+        result_num, _, _ = play(new_game, players, num_searches, True)
         player_1_type = str(players[0].player_type.name)
         player_2_type = str(players[1].player_type.name)
         print("\nGame " + str(game_num + 1) + " finished!")

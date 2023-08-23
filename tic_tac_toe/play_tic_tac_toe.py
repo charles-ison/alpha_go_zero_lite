@@ -1,13 +1,13 @@
 import torch
+from players.player_factory import PlayerFactory
 from players.player_type import PlayerType
-from players.player import Player
 from games.tic_tac_toe import TicTacToe
 from play_games import play_games
 
 
-def get_player(player_num, device):
+def get_player(player_factory, player_num, device):
     player_type = get_player_type(player_num)
-    return Player(player_type, device)
+    return player_factory.get_player(player_type, device)
 
 
 def get_player_type(player_num):
@@ -26,7 +26,8 @@ def get_num_games():
 # About 500 searches is required for the pure MCTS to achieve perfect play
 num_searches = 500
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-players = [get_player(1, device), get_player(2, device)]
+player_factory = PlayerFactory()
+players = [get_player(player_factory, 1, device), get_player(player_factory, 2, device)]
 num_games = get_num_games()
 game = TicTacToe(device)
 play_games(game, num_games, players, num_searches)

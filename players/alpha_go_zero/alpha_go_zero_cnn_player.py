@@ -1,7 +1,7 @@
-from alpha_go_zero.alpha_go_zero import AlphaGoZero
+from players.alpha_go_zero.alpha_go_zero_player import AlphaGoZeroPlayer
 
 
-class AlphaGoZeroCNN(AlphaGoZero):
+class AlphaGoZeroCNNPlayer(AlphaGoZeroPlayer):
 
     def __init__(self, cnn):
         super().__init__()

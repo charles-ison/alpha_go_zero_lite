@@ -3,7 +3,7 @@ import torch
 import torch.optim as optim
 from play_games import play
 from games.tic_tac_toe import TicTacToe
-from players.player import Player
+from players.player_factory import PlayerFactory
 from players.player_type import PlayerType
 from utilities import get_player_num
 from torch.utils.data import DataLoader
@@ -23,13 +23,13 @@ class MoveDataSet(torch.utils.data.Dataset):
         return {'data': self.data[index], 'label': self.labels[index]}
 
 
-def get_game_value(result, player_num, alpha_go_zero_lite):
+def get_game_value(result, player_num, best_player):
     if result == player_num:
-        return alpha_go_zero_lite.win_value
+        return best_player.win_value
     elif result == 0:
-        return alpha_go_zero_lite.tie_value
+        return best_player.tie_value
     else:
-        return alpha_go_zero_lite.lose_value
+        return best_player.lose_value
 
 
 def get_next_move(node):
@@ -67,7 +67,7 @@ def get_data_loaders(data, labels):
     return training_loader, testing_loader
 
 
-def preprocess_data(results, player_1_roots, player_2_roots, games, alpha_go_zero_lite):
+def preprocess_data(results, player_1_roots, player_2_roots, games, best_player):
     data, labels = [], []
 
     for (result, player_1_node, player_2_node, game) in zip(results, player_1_roots, player_2_roots, games):
@@ -83,7 +83,7 @@ def preprocess_data(results, player_1_roots, player_2_roots, games, alpha_go_zer
             data.append(board_history)
 
             probabilities = get_probabilities(player_1_node, player_2_node, player_num, game)
-            game_value = get_game_value(result, player_num, alpha_go_zero_lite)
+            game_value = get_game_value(result, player_num, best_player)
             labels.append((probabilities, game_value))
 
             player_1_node = get_next_move(player_1_node)
@@ -201,7 +201,7 @@ def train(model, training_loader, testing_loader, device, criterion, epochs, lr)
 
 
 def save_best_player(best_player):
-    torch.save(best_player.alpha_go_zero_lite.cnn.state_dict(), "neural_networks/saved_models/tic_tac_toe_cnn.pt")
+    torch.save(best_player.cnn.state_dict(), "neural_networks/saved_models/tic_tac_toe_cnn.pt")
 
 
 def join_data(all_data, all_labels, data, labels, max_data_size):
@@ -216,21 +216,22 @@ def join_data(all_data, all_labels, data, labels, max_data_size):
 
 def run_reinforcement(num_checkpoints, game, device, criterion, num_simulations, num_eval_games, epochs, num_searches, lr, max_data_size, num_checkpoints_before_comparison):
     print("Running Reinforcement Learning")
-    best_player = Player(PlayerType.Untrained_MCTS_CNN, device)
-    pure_mcts_player = Player(PlayerType.Pure_MCTS, device)
+    player_factory = PlayerFactory()
+    best_player = player_factory.get_player(PlayerType.Untrained_MCTS_CNN, device)
+    pure_mcts_player = player_factory.get_player(PlayerType.Raw_MCTS, device)
     all_data, all_labels = [], []
     old_players = [best_player]
     best_player_improved = False
 
     for checkpoint in range(num_checkpoints + 1):
         results, player_1_roots, player_2_roots, games = run_simulations(game, num_simulations, best_player, num_searches)
-        data, labels = preprocess_data(results, player_1_roots, player_2_roots, games, best_player.alpha_go_zero_lite)
+        data, labels = preprocess_data(results, player_1_roots, player_2_roots, games, best_player)
         all_data, all_labels = join_data(all_data, all_labels, data, labels, max_data_size)
         training_loader, testing_loader = get_data_loaders(all_data, all_labels)
         trained_player = copy.deepcopy(best_player)
-        model = trained_player.alpha_go_zero_lite.cnn
+        model = trained_player.cnn
         trained_model = train(model, training_loader, testing_loader, device, criterion, epochs, lr)
-        trained_player.alpha_go_zero_lite.cnn = trained_model
+        trained_player.cnn = trained_model
 
         print("\nEvaluating players at checkpoint: ", checkpoint)
         best_player, new_best_player = evaluate_players(game, num_eval_games, trained_player, best_player, num_searches, True)
@@ -250,7 +251,7 @@ def run_reinforcement(num_checkpoints, game, device, criterion, num_simulations,
 
 lr = 0.00001
 batch_size = 16
-num_searches = 200
+num_searches = 100
 num_checkpoints = 100
 num_simulations = 50
 num_eval_games = 50

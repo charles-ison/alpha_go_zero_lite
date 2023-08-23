@@ -1,3 +1,4 @@
+from players.player import Player
 import copy
 import time
 import utilities
@@ -5,7 +6,7 @@ import monte_carlo_tree as mct
 import random
 
 
-class AlphaGoZero:
+class AlphaGoZeroPlayer(Player):
 
     def __init__(self):
         super().__init__()
@@ -13,7 +14,7 @@ class AlphaGoZero:
         self.lose_value = -1
         self.tie_value = 0
 
-    def get_move(self, turn_count, game, last_move, num_searches, print_games):
+    def play_move(self, game, player_num, turn_count, last_move, num_searches, print_games):
         self.run_monte_carlo_tree_search(turn_count, game, last_move, num_searches, print_games)
         potential_moves = last_move.children
         if len(potential_moves) == 0:

@@ -1,7 +1,7 @@
-from alpha_go_zero.alpha_go_zero import AlphaGoZero
+from players.alpha_go_zero.alpha_go_zero_player import AlphaGoZeroPlayer
 
 
-class AlphaGoZeroPureMTCS(AlphaGoZero):
+class AlphaGoZeroRawMTCSPlayer(AlphaGoZeroPlayer):
 
     def __init__(self):
         super().__init__()

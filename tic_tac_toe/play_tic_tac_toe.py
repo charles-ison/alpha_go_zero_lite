@@ -23,8 +23,8 @@ def get_num_games():
     return int(input("\nHow many games would you like to play? "))
 
 
-# About 10 seconds is required for the pure MCTS to achieve perfect play on my personal laptop
-num_searches = 200
+# About 6000 searches is required for the pure MCTS to achieve perfect play
+num_searches = 6000
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 players = [get_player(1, device), get_player(2, device)]
 num_games = get_num_games()

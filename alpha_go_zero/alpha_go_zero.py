@@ -18,7 +18,9 @@ class AlphaGoZero:
         potential_moves = last_move.children
         if len(potential_moves) == 0:
             print("Bug encountered, no potential AlphaGo Zero Lite moves found. More searches need to be run.")
+        return self.get_most_visited_potential_move(potential_moves)
 
+    def get_most_visited_potential_move(self, potential_moves):
         best_move = potential_moves[0]
         tie_moves = [best_move]
         is_tie = False
@@ -30,10 +32,11 @@ class AlphaGoZero:
             elif move.num_visits == best_move.num_visits:
                 tie_moves.append(move)
                 is_tie = True
-                
+
         if is_tie:
             return self.get_random_move(tie_moves)
         return best_move
+
 
     def run_monte_carlo_tree_search(self, turn_count, game, last_move, num_searches, print_games):
         mcts_game = copy.deepcopy(game)

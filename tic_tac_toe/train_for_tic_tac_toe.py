@@ -50,7 +50,7 @@ def get_probabilities(player_1_node, player_2_node, player_num, game):
     player_node = get_player_node(player_1_node, player_2_node, player_num)
     probabilities = torch.zeros(game.board_size, game.board_size)
     for child in player_node.children:
-        probabilities[child.row][child.column] = child.num_visits/ player_node.parent.num_visits
+        probabilities[child.row][child.column] = child.num_visits/ player_node.num_visits
     return probabilities
 
 

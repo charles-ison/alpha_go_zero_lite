@@ -12,9 +12,6 @@ def play_move(game, player_num, players, turn_count, last_move, num_searches, pr
     if player_type == PlayerType.Manual:
         return get_manual_move(player_num, game, last_move)
     else:
-        player_type_name = str(player_type.name)
-        if print_games:
-            print("\nAlphaGo Zero Lite (" + player_type_name + ") is running " + str(num_searches) + "  Monte Carlo Tree Searches. . .")
         return player.alpha_go_zero_lite.get_move(turn_count, game, last_move, num_searches, print_games)
 
 

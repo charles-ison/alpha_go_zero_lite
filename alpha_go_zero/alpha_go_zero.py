@@ -68,7 +68,7 @@ class AlphaGoZero:
         stop_time = time.time()
         run_time = int(stop_time - start_time)
         if print_games:
-            print("AlphaGo Zero Lite ran " + str(num_searches) + " searches in " + str(run_time) + " seconds.")
+            print("\nAlphaGo Zero Lite ran " + str(num_searches) + " searches in " + str(run_time) + " seconds.")
 
     def get_next_mcts_move(self, mcts_game, mcts_player_num, last_mcts_move):
         potential_moves = mcts_game.fetch_potential_moves()

@@ -22,10 +22,3 @@ class AlphaGoZeroCNN(AlphaGoZero):
 
     def should_stop_rollout(self, is_expansion_move):
         return is_expansion_move
-
-    def initialize_monte_carlo_tree_search(self, mcts_turn_count, player_num, mcts_game, last_move):
-        if mcts_turn_count == 0:
-            board_history = mcts_game.get_board_history(mcts_turn_count, player_num)
-            self.cnn.eval()
-            child_probabilities, _ = self.cnn(board_history.unsqueeze(dim=0))
-            last_move.child_probabilities = child_probabilities.squeeze()

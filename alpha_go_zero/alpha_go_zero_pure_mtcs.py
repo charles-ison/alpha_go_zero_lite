@@ -16,6 +16,3 @@ class AlphaGoZeroPureMTCS(AlphaGoZero):
 
     def should_stop_rollout(self, is_expansion_move):
         return False
-
-    def initialize_monte_carlo_tree_search(self, mcts_turn_count, player_num, mcts_game, last_move):
-        return

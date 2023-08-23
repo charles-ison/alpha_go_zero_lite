@@ -13,14 +13,12 @@ class AlphaGoZero:
         self.lose_value = -1
         self.tie_value = 0
 
-    def get_move(self, turn_count, player_num, game, last_move, num_searches, print_games):
-        self.run_monte_carlo_tree_search(turn_count, player_num, game, last_move, num_searches, print_games)
+    def get_move(self, turn_count, game, last_move, num_searches, print_games):
+        self.run_monte_carlo_tree_search(turn_count, game, last_move, num_searches, print_games)
         potential_moves = last_move.children
         if len(potential_moves) == 0:
             print("Bug encountered, no potential AlphaGo Zero Lite moves found. More searches need to be run.")
-        return self.get_most_visited_move(potential_moves)
 
-    def get_most_visited_move(self, potential_moves):
         best_move = potential_moves[0]
         tie_moves = [best_move]
         is_tie = False
@@ -32,18 +30,17 @@ class AlphaGoZero:
             elif move.num_visits == best_move.num_visits:
                 tie_moves.append(move)
                 is_tie = True
-
+                
         if is_tie:
             return self.get_random_move(tie_moves)
         return best_move
 
-    def run_monte_carlo_tree_search(self, turn_count, player_num, game, last_move, num_searches, print_games):
+    def run_monte_carlo_tree_search(self, turn_count, game, last_move, num_searches, print_games):
         mcts_game = copy.deepcopy(game)
         mcts_move = last_move
         mcts_turn_count = turn_count
         searches_count = 0
         start_time = time.time()
-        self.initialize_monte_carlo_tree_search(mcts_turn_count, player_num, mcts_game, mcts_move)
         while searches_count < num_searches:
             mcts_player_num = utilities.get_player_num(mcts_turn_count)
             mcts_move = self.get_next_mcts_move(mcts_game, mcts_player_num, mcts_move)
@@ -86,9 +83,6 @@ class AlphaGoZero:
 
     def should_add_new_tree_layer(self, potential_moves, last_mcts_move_children):
         return len(potential_moves) != len(last_mcts_move_children)
-
-    def initialize_monte_carlo_tree_search(self, mcts_turn_count, player_num, mcts_game, last_move):
-        raise NotImplementedError("Must override initialize_monte_carlo_tree_search().")
 
     def should_stop_rollout(self, is_expansion_move):
         raise NotImplementedError("Must override should_stop_rollout().")

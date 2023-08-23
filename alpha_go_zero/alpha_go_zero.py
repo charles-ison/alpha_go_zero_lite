@@ -66,7 +66,7 @@ class AlphaGoZero:
                 searches_count += 1
 
         stop_time = time.time()
-        run_time = int(stop_time - start_time)
+        run_time = float(stop_time - start_time)
         if print_games:
             print("\nAlphaGo Zero Lite ran " + str(num_searches) + " searches in " + str(run_time) + " seconds.")
 

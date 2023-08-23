@@ -50,12 +50,12 @@ def get_probabilities(player_1_node, player_2_node, player_num, game):
     player_node = get_player_node(player_1_node, player_2_node, player_num)
     probabilities = torch.zeros(game.board_size, game.board_size)
     for child in player_node.children:
-        probabilities[child.row][child.column] = child.num_visits/ player_node.num_visits
+        probabilities[child.row][child.column] = child.num_visits / player_node.num_visits
     return probabilities
 
 
 def get_data_loaders(data, labels):
-    training_data, testing_data, training_labels, testing_labels = train_test_split(data, labels, test_size=0.20)
+    training_data, testing_data, training_labels, testing_labels = train_test_split(data, labels, test_size=0.20, shuffle=True)
     print("Number of moves available for training: ", len(training_labels))
     print("Number of moves available for testing: ", len(testing_labels))
 
@@ -64,7 +64,6 @@ def get_data_loaders(data, labels):
 
     training_loader = DataLoader(dataset=training_data_set, batch_size=batch_size, shuffle=True)
     testing_loader = DataLoader(dataset=testing_data_set, batch_size=batch_size, shuffle=True)
-
     return training_loader, testing_loader
 
 
@@ -168,7 +167,7 @@ def test(model, testing_loader, device, criterion):
     return total_loss
 
 
-def train_model(model, training_loader, testing_loader, device, criterion, epochs, lr):
+def train(model, training_loader, testing_loader, device, criterion, epochs, lr):
     print("\nTraining. . .")
     optimizer = optim.Adam(model.parameters(), lr=lr)
     model.train()
@@ -230,7 +229,7 @@ def run_reinforcement(num_checkpoints, game, device, criterion, num_simulations,
         training_loader, testing_loader = get_data_loaders(all_data, all_labels)
         trained_player = copy.deepcopy(best_player)
         model = trained_player.alpha_go_zero_lite.cnn
-        trained_model = train_model(model, training_loader, testing_loader, device, criterion, epochs, lr)
+        trained_model = train(model, training_loader, testing_loader, device, criterion, epochs, lr)
         trained_player.alpha_go_zero_lite.cnn = trained_model
 
         print("\nEvaluating players at checkpoint: ", checkpoint)
@@ -250,7 +249,7 @@ def run_reinforcement(num_checkpoints, game, device, criterion, num_simulations,
 
 
 lr = 0.00001
-batch_size = 32
+batch_size = 16
 num_searches = 200
 num_checkpoints = 100
 num_simulations = 50

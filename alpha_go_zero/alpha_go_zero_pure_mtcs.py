@@ -1,5 +1,3 @@
-import copy
-import utilities
 from alpha_go_zero.alpha_go_zero import AlphaGoZero
 
 

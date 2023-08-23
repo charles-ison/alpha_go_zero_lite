@@ -78,6 +78,7 @@ class AlphaGoZero:
 
     def run_backpropagation(self, backpropagation_leaf, mcts_root, action_value_dict):
         backprop_move = backpropagation_leaf
+        mcts_root.num_visits += 1.0
         while backprop_move != mcts_root:
             backprop_move.action_value += action_value_dict[backprop_move.player_num]
             backprop_move.num_visits += 1.0

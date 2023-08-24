@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH -J run_on_HPC
 #SBATCH -A eecs 
-#SBATCH -p eecs
+#SBATCH -p dgx
 #SBATCH -t 7-00:00:00   
 #SBATCH -c 4
 #SBATCH --gres=gpu:1       

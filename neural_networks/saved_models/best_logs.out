@@ -1,344 +1,45 @@
 Running Reinforcement Learning
 
 Running simulations. . .
-Number of moves available for training:  241
-Number of moves available for testing:  61
+Number of moves available for training:  303
+Number of moves available for testing:  76
 
 Training. . .
 Epoch:  0
-Training Loss: 330.9508819580078 and Testing Loss: 75.69075202941895
+Training Loss: 45.17858338356018 and Testing Loss: 12.504858493804932
 Epoch:  1
-Training Loss: 324.3616714477539 and Testing Loss: 75.88115692138672
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 0 with time threshold: 0.5
-
-Number of trained player wins: 25
-Number of previous best player wins: 1
-Number of ties: 24
-Trained player win percentage:  0.9615384615384616
-Using the trained player.
-
-Running simulations. . .
-Number of moves available for training:  561
-Number of moves available for testing:  141
-
-Training. . .
-Epoch:  0
-Training Loss: 557.8560981750488 and Testing Loss: 165.85107231140137
-Epoch:  1
-Training Loss: 581.9899768829346 and Testing Loss: 147.72824811935425
+Training Loss: 45.168346643447876 and Testing Loss: 12.017842292785645
 Epoch:  2
-Training Loss: 555.5826463699341 and Testing Loss: 166.04105186462402
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 1 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 25
-Number of ties: 25
-Trained player win percentage:  0.0
-Using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  881
-Number of moves available for testing:  221
-
-Training. . .
-Epoch:  0
-Training Loss: 760.5143070220947 and Testing Loss: 244.75021362304688
-Epoch:  1
-Training Loss: 774.8718023300171 and Testing Loss: 227.6629867553711
-Epoch:  2
-Training Loss: 716.0205402374268 and Testing Loss: 223.90450143814087
+Training Loss: 43.849316358566284 and Testing Loss: 11.77104115486145
 Epoch:  3
-Training Loss: 693.2124433517456 and Testing Loss: 215.67019653320312
+Training Loss: 43.281057596206665 and Testing Loss: 11.74852991104126
 Epoch:  4
-Training Loss: 682.8755130767822 and Testing Loss: 212.69060134887695
+Training Loss: 42.8976845741272 and Testing Loss: 11.582624197006226
 
-Evaluating players at checkpoint: 2 with time threshold: 0.5
-
-Number of trained player wins: 15
-Number of previous best player wins: 25
-Number of ties: 10
-Trained player win percentage:  0.375
-Using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  1201
-Number of moves available for testing:  301
-
-Training. . .
-Epoch:  0
-Training Loss: 971.256649017334 and Testing Loss: 332.7425193786621
-Epoch:  1
-Training Loss: 991.5124621391296 and Testing Loss: 290.73533821105957
-Epoch:  2
-Training Loss: 910.6184139251709 and Testing Loss: 281.44924449920654
-Epoch:  3
-Training Loss: 879.6768102645874 and Testing Loss: 284.4147615432739
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 3 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 29
-Number of ties: 21
-Trained player win percentage:  0.0
-Using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  1521
-Number of moves available for testing:  381
-
-Training. . .
-Epoch:  0
-Training Loss: 1204.329601764679 and Testing Loss: 361.9366626739502
-Epoch:  1
-Training Loss: 1240.1800546646118 and Testing Loss: 296.78089809417725
-Epoch:  2
-Training Loss: 1133.3691778182983 and Testing Loss: 289.8650369644165
-Epoch:  3
-Training Loss: 1098.2003383636475 and Testing Loss: 286.4382333755493
-Epoch:  4
-Training Loss: 1099.478669166565 and Testing Loss: 286.0103302001953
-
-Evaluating players at checkpoint: 4 with time threshold: 0.5
-
-Number of trained player wins: 11
-Number of previous best player wins: 25
-Number of ties: 14
-Trained player win percentage:  0.3055555555555556
-Using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  1841
-Number of moves available for testing:  461
-
-Training. . .
-Epoch:  0
-Training Loss: 1432.8291454315186 and Testing Loss: 428.961709022522
-Epoch:  1
-Training Loss: 1430.2637152671814 and Testing Loss: 339.06165885925293
-Epoch:  2
-Training Loss: 1325.8655953407288 and Testing Loss: 331.5044174194336
-Epoch:  3
-Training Loss: 1312.2236862182617 and Testing Loss: 328.1884536743164
-Epoch:  4
-Training Loss: 1299.9602313041687 and Testing Loss: 327.0099124908447
-
-Evaluating players at checkpoint: 5 with time threshold: 0.5
-
-Number of trained player wins: 21
-Number of previous best player wins: 0
-Number of ties: 29
-Trained player win percentage:  1.0
-Using the trained player.
-
-Running simulations. . .
-Number of moves available for training:  2123
-Number of moves available for testing:  531
-
-Training. . .
-Epoch:  0
-Training Loss: 1590.967583656311 and Testing Loss: 410.90208625793457
-Epoch:  1
-Training Loss: 1562.4788889884949 and Testing Loss: 393.8990397453308
-Epoch:  2
-Training Loss: 1527.8650126457214 and Testing Loss: 392.9465093612671
-Epoch:  3
-Training Loss: 1537.1335792541504 and Testing Loss: 394.0124683380127
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 6 with time threshold: 0.5
-
-Number of trained player wins: 11
-Number of previous best player wins: 9
-Number of ties: 30
-Trained player win percentage:  0.55
-Using the trained player.
-
-Running simulations. . .
-Number of moves available for training:  2425
-Number of moves available for testing:  607
-
-Training. . .
-Epoch:  0
-Training Loss: 1778.7460460662842 and Testing Loss: 422.9266963005066
-Epoch:  1
-Training Loss: 1763.7075817584991 and Testing Loss: 415.9554705619812
-Epoch:  2
-Training Loss: 1755.9402310848236 and Testing Loss: 414.2912516593933
-Epoch:  3
-Training Loss: 1754.39089012146 and Testing Loss: 413.5306396484375
-Epoch:  4
-Training Loss: 1742.8160977363586 and Testing Loss: 412.6276264190674
-
-Evaluating players at checkpoint: 7 with time threshold: 0.5
-
-Number of trained player wins: 6
-Number of previous best player wins: 9
-Number of ties: 35
-Trained player win percentage:  0.4
-Using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  2724
-Number of moves available for testing:  682
-
-Training. . .
-Epoch:  0
-Training Loss: 2006.2273626327515 and Testing Loss: 513.611273765564
-Epoch:  1
-Training Loss: 2025.938772201538 and Testing Loss: 492.11521577835083
-Epoch:  2
-Training Loss: 1977.2219858169556 and Testing Loss: 502.50484013557434
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 8 with time threshold: 0.5
-
-Number of trained player wins: 13
-Number of previous best player wins: 10
-Number of ties: 27
-Trained player win percentage:  0.5652173913043478
-Using the trained player.
-
-Running simulations. . .
-Number of moves available for training:  2977
-Number of moves available for testing:  745
-
-Training. . .
-Epoch:  0
-Training Loss: 2172.241430282593 and Testing Loss: 546.2948169708252
-Epoch:  1
-Training Loss: 2167.6503393650055 and Testing Loss: 518.0872797966003
-Epoch:  2
-Training Loss: 2153.9896636009216 and Testing Loss: 516.5319867134094
-Epoch:  3
-Training Loss: 2147.3757786750793 and Testing Loss: 532.9895429611206
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 9 with time threshold: 0.5
-
-Number of trained player wins: 6
-Number of previous best player wins: 8
-Number of ties: 36
-Trained player win percentage:  0.42857142857142855
-Using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  3220
-Number of moves available for testing:  805
-
-Training. . .
-Epoch:  0
-Training Loss: 2376.032210826874 and Testing Loss: 579.3250317573547
-Epoch:  1
-Training Loss: 2373.848244905472 and Testing Loss: 570.9978229999542
-Epoch:  2
-Training Loss: 2353.631723880768 and Testing Loss: 584.4016900062561
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 10 with time threshold: 0.5
-
-Number of trained player wins: 9
-Number of previous best player wins: 10
-Number of ties: 31
-Trained player win percentage:  0.47368421052631576
-Using the previous best player.
-
-Comparing performance to older player at index:  0
-
-Number of trained player wins: 15
-Number of previous best player wins: 27
-Number of ties: 8
-Trained player win percentage:  0.35714285714285715
-
-Comparing performance to Pure MCTS
-
-Number of trained player wins: 8
-Number of previous best player wins: 15
-Number of ties: 27
-Trained player win percentage:  0.34782608695652173
-
-Running simulations. . .
-Number of moves available for training:  3488
-Number of moves available for testing:  872
-
-Training. . .
-Epoch:  0
-Training Loss: 2575.041003704071 and Testing Loss: 653.5856170654297
-Epoch:  1
-Training Loss: 2568.7869081497192 and Testing Loss: 638.3154211044312
-Epoch:  2
-Training Loss: 2544.749349594116 and Testing Loss: 664.5010914802551
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 11 with time threshold: 0.5
+Evaluating players at checkpoint:  0
 
 Number of trained player wins: 10
-Number of previous best player wins: 8
-Number of ties: 32
-Trained player win percentage:  0.5555555555555556
+Number of previous best player wins: 5
+Number of ties: 35
+Trained player win percentage:  0.6666666666666666
 Using the trained player.
 
 Running simulations. . .
-Number of moves available for training:  3795
-Number of moves available for testing:  949
+Number of moves available for training:  591
+Number of moves available for testing:  148
 
 Training. . .
 Epoch:  0
-Training Loss: 2811.5796823501587 and Testing Loss: 669.8814935684204
+Training Loss: 87.33050870895386 and Testing Loss: 23.255495071411133
 Epoch:  1
-Training Loss: 2805.925166130066 and Testing Loss: 668.6163644790649
+Training Loss: 85.91255593299866 and Testing Loss: 23.121418952941895
 Epoch:  2
-Training Loss: 2789.0058188438416 and Testing Loss: 667.560585975647
+Training Loss: 84.3048574924469 and Testing Loss: 22.79353404045105
 Epoch:  3
-Training Loss: 2795.209500312805 and Testing Loss: 661.2856540679932
-Epoch:  4
-Training Loss: 2780.0421166419983 and Testing Loss: 659.9776067733765
-
-Evaluating players at checkpoint: 12 with time threshold: 0.5
-
-Number of trained player wins: 7
-Number of previous best player wins: 9
-Number of ties: 34
-Trained player win percentage:  0.4375
-Using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2896.0597319602966 and Testing Loss: 756.145140171051
-Epoch:  1
-Training Loss: 2891.4552597999573 and Testing Loss: 781.9296655654907
+Training Loss: 83.2087812423706 and Testing Loss: 22.843628406524658
 Testing loss increasing, using model from one iteration earlier.
 
-Evaluating players at checkpoint: 13 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 18
-Number of ties: 32
-Trained player win percentage:  0.0
-Using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2854.252769947052 and Testing Loss: 717.6469268798828
-Epoch:  1
-Training Loss: 2847.1841390132904 and Testing Loss: 705.5165519714355
-Epoch:  2
-Training Loss: 2832.7096185684204 and Testing Loss: 715.1222715377808
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 14 with time threshold: 0.5
+Evaluating players at checkpoint:  1
 
 Number of trained player wins: 6
 Number of previous best player wins: 9
@@ -347,2249 +48,638 @@ Trained player win percentage:  0.4
 Using the previous best player.
 
 Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
+Number of moves available for training:  888
+Number of moves available for testing:  222
 
 Training. . .
 Epoch:  0
-Training Loss: 2862.731517314911 and Testing Loss: 761.9797859191895
+Training Loss: 131.12629961967468 and Testing Loss: 33.79692244529724
 Epoch:  1
-Training Loss: 2853.1394658088684 and Testing Loss: 753.8238792419434
+Training Loss: 129.45580983161926 and Testing Loss: 32.43826127052307
 Epoch:  2
-Training Loss: 2835.432497024536 and Testing Loss: 728.0457437038422
+Training Loss: 126.31606769561768 and Testing Loss: 32.29072403907776
 Epoch:  3
-Training Loss: 2824.9924006462097 and Testing Loss: 727.858669757843
+Training Loss: 124.77125453948975 and Testing Loss: 32.114598989486694
 Epoch:  4
-Training Loss: 2819.2467699050903 and Testing Loss: 742.0405054092407
-Testing loss increasing, using model from one iteration earlier.
+Training Loss: 123.2484827041626 and Testing Loss: 31.978749990463257
 
-Evaluating players at checkpoint: 15 with time threshold: 0.5
+Evaluating players at checkpoint:  2
+
+Number of trained player wins: 9
+Number of previous best player wins: 7
+Number of ties: 34
+Trained player win percentage:  0.5625
+Using the trained player.
+
+Running simulations. . .
+Number of moves available for training:  1196
+Number of moves available for testing:  299
+
+Training. . .
+Epoch:  0
+Training Loss: 169.4364755153656 and Testing Loss: 41.889575242996216
+Epoch:  1
+Training Loss: 163.78511714935303 and Testing Loss: 41.17330241203308
+Epoch:  2
+Training Loss: 160.53289890289307 and Testing Loss: 40.72824048995972
+Epoch:  3
+Training Loss: 157.94648659229279 and Testing Loss: 40.26893699169159
+Epoch:  4
+Training Loss: 155.86874306201935 and Testing Loss: 39.913309812545776
+
+Evaluating players at checkpoint:  3
+
+Number of trained player wins: 1
+Number of previous best player wins: 6
+Number of ties: 43
+Trained player win percentage:  0.14285714285714285
+Using the previous best player.
+
+Running simulations. . .
+Number of moves available for training:  1496
+Number of moves available for testing:  375
+
+Training. . .
+Epoch:  0
+Training Loss: 211.52358889579773 and Testing Loss: 53.09593176841736
+Epoch:  1
+Training Loss: 204.85845053195953 and Testing Loss: 51.826491832733154
+Epoch:  2
+Training Loss: 199.87159192562103 and Testing Loss: 50.670064091682434
+Epoch:  3
+Training Loss: 196.28590428829193 and Testing Loss: 50.187544465065
+Epoch:  4
+Training Loss: 193.58332228660583 and Testing Loss: 49.361124992370605
+
+Evaluating players at checkpoint:  4
+
+Number of trained player wins: 2
+Number of previous best player wins: 4
+Number of ties: 44
+Trained player win percentage:  0.3333333333333333
+Using the previous best player.
+
+Running simulations. . .
+Number of moves available for training:  1600
+Number of moves available for testing:  400
+
+Training. . .
+Epoch:  0
+Training Loss: 224.9734969139099 and Testing Loss: 55.497687101364136
+Epoch:  1
+Training Loss: 217.45736384391785 and Testing Loss: 54.064050912857056
+Epoch:  2
+Training Loss: 211.13793861865997 and Testing Loss: 53.21447956562042
+Epoch:  3
+Training Loss: 207.32474505901337 and Testing Loss: 52.434847712516785
+Epoch:  4
+Training Loss: 203.87066328525543 and Testing Loss: 51.76788151264191
+
+Evaluating players at checkpoint:  5
 
 Number of trained player wins: 5
-Number of previous best player wins: 0
-Number of ties: 45
-Trained player win percentage:  1.0
-Using the trained player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2835.740488052368 and Testing Loss: 812.1769871711731
-Epoch:  1
-Training Loss: 2822.9094185829163 and Testing Loss: 797.7170038223267
-Epoch:  2
-Training Loss: 2815.9105529785156 and Testing Loss: 792.3480682373047
-Epoch:  3
-Training Loss: 2813.703504562378 and Testing Loss: 799.7484683990479
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 16 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2929.94917345047 and Testing Loss: 712.9497542381287
-Epoch:  1
-Training Loss: 2916.4793095588684 and Testing Loss: 714.7127051353455
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 17 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2983.977482318878 and Testing Loss: 696.670492887497
-Epoch:  1
-Training Loss: 2965.167083263397 and Testing Loss: 690.6213455200195
-Epoch:  2
-Training Loss: 2956.046008348465 and Testing Loss: 700.4835505485535
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 18 with time threshold: 0.5
-
-Number of trained player wins: 1
-Number of previous best player wins: 0
-Number of ties: 49
-Trained player win percentage:  1.0
-Using the trained player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2805.6232435703278 and Testing Loss: 794.2099075317383
-Epoch:  1
-Training Loss: 2795.631185531616 and Testing Loss: 785.0329508781433
-Epoch:  2
-Training Loss: 2723.3606123924255 and Testing Loss: 752.5560531616211
-Epoch:  3
-Training Loss: 2716.410219669342 and Testing Loss: 775.5060987472534
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 19 with time threshold: 0.5
-
-Number of trained player wins: 1
-Number of previous best player wins: 12
-Number of ties: 37
-Trained player win percentage:  0.07692307692307693
-Using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2830.4362847805023 and Testing Loss: 703.7043099403381
-Epoch:  1
-Training Loss: 2812.815351963043 and Testing Loss: 678.4218397140503
-Epoch:  2
-Training Loss: 2731.9968428611755 and Testing Loss: 674.4564371109009
-Epoch:  3
-Training Loss: 2718.8763394355774 and Testing Loss: 657.7162449359894
-Epoch:  4
-Training Loss: 2696.895185470581 and Testing Loss: 669.8456926345825
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 20 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 6
-Number of ties: 44
-Trained player win percentage:  0.0
-Using the previous best player.
-
-Comparing performance to older player at index:  0
-
-Number of trained player wins: 14
-Number of previous best player wins: 3
-Number of ties: 33
-Trained player win percentage:  0.8235294117647058
-
-Comparing performance to older player at index:  1
-
-Number of trained player wins: 11
-Number of previous best player wins: 4
-Number of ties: 35
-Trained player win percentage:  0.7333333333333333
-
-Comparing performance to Pure MCTS
-
-Number of trained player wins: 2
-Number of previous best player wins: 27
-Number of ties: 21
-Trained player win percentage:  0.06896551724137931
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2858.929204940796 and Testing Loss: 694.5486912727356
-Epoch:  1
-Training Loss: 2837.2365851402283 and Testing Loss: 623.6581354141235
-Epoch:  2
-Training Loss: 2719.532744407654 and Testing Loss: 635.3075499534607
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 21 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 11
-Number of ties: 39
-Trained player win percentage:  0.0
-Using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2798.068166255951 and Testing Loss: 691.265793800354
-Epoch:  1
-Training Loss: 2771.8151540756226 and Testing Loss: 607.3736715316772
-Epoch:  2
-Training Loss: 2620.9775335788727 and Testing Loss: 600.8825988769531
-Epoch:  3
-Training Loss: 2610.1290757656097 and Testing Loss: 610.0382714271545
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 22 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2657.628973722458 and Testing Loss: 776.6269292831421
-Epoch:  1
-Training Loss: 2612.409033060074 and Testing Loss: 665.7406134605408
-Epoch:  2
-Training Loss: 2458.7174775600433 and Testing Loss: 679.5678191184998
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 23 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2676.6504220962524 and Testing Loss: 723.226197719574
-Epoch:  1
-Training Loss: 2583.02095079422 and Testing Loss: 621.0619893074036
-Epoch:  2
-Training Loss: 2437.6931574344635 and Testing Loss: 625.3537378311157
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 24 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2600.9389264583588 and Testing Loss: 776.5713109970093
-Epoch:  1
-Training Loss: 2529.547917842865 and Testing Loss: 649.6850414276123
-Epoch:  2
-Training Loss: 2362.4927563667297 and Testing Loss: 643.9855799674988
-Epoch:  3
-Training Loss: 2352.5933780670166 and Testing Loss: 642.7518758773804
-Epoch:  4
-Training Loss: 2349.312390089035 and Testing Loss: 632.0608172416687
-
-Evaluating players at checkpoint: 25 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 6
-Number of ties: 44
-Trained player win percentage:  0.0
-Using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2574.9415724277496 and Testing Loss: 673.8517422676086
-Epoch:  1
-Training Loss: 2516.8932960033417 and Testing Loss: 586.256590127945
-Epoch:  2
-Training Loss: 2344.07102060318 and Testing Loss: 579.2034182548523
-Epoch:  3
-Training Loss: 2335.877142906189 and Testing Loss: 585.4681620597839
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 26 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2579.700213432312 and Testing Loss: 637.8561038970947
-Epoch:  1
-Training Loss: 2497.080923318863 and Testing Loss: 529.1877784729004
-Epoch:  2
-Training Loss: 2327.475073337555 and Testing Loss: 524.7767326831818
-Epoch:  3
-Training Loss: 2319.611565351486 and Testing Loss: 524.2586312294006
-Epoch:  4
-Training Loss: 2317.5493273735046 and Testing Loss: 536.6778554916382
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 27 with time threshold: 0.5
-
-Number of trained player wins: 2
-Number of previous best player wins: 7
-Number of ties: 41
-Trained player win percentage:  0.2222222222222222
-Using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2493.7256937026978 and Testing Loss: 742.3586630821228
-Epoch:  1
-Training Loss: 2427.66387796402 and Testing Loss: 603.0539059638977
-Epoch:  2
-Training Loss: 2242.025246620178 and Testing Loss: 607.5917253494263
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 28 with time threshold: 0.5
-
-Number of trained player wins: 1
-Number of previous best player wins: 1
-Number of ties: 48
+Number of previous best player wins: 5
+Number of ties: 40
 Trained player win percentage:  0.5
 Using the previous best player.
 
 Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
+Number of moves available for training:  1600
+Number of moves available for testing:  400
 
 Training. . .
 Epoch:  0
-Training Loss: 2499.535056114197 and Testing Loss: 714.0044026374817
+Training Loss: 223.19895243644714 and Testing Loss: 55.190497398376465
 Epoch:  1
-Training Loss: 2426.7332801818848 and Testing Loss: 593.2836058139801
+Training Loss: 214.43341386318207 and Testing Loss: 53.8465313911438
 Epoch:  2
-Training Loss: 2250.291666984558 and Testing Loss: 588.2501802444458
+Training Loss: 207.92056000232697 and Testing Loss: 52.93911147117615
 Epoch:  3
-Training Loss: 2243.1974601745605 and Testing Loss: 577.0947332382202
+Training Loss: 203.33825480937958 and Testing Loss: 52.01837611198425
 Epoch:  4
-Training Loss: 2241.0684955120087 and Testing Loss: 586.4104347229004
-Testing loss increasing, using model from one iteration earlier.
+Training Loss: 199.84766602516174 and Testing Loss: 51.43313264846802
 
-Evaluating players at checkpoint: 29 with time threshold: 0.5
-
-Number of trained player wins: 2
-Number of previous best player wins: 4
-Number of ties: 44
-Trained player win percentage:  0.3333333333333333
-Using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2523.403823375702 and Testing Loss: 640.6175994873047
-Epoch:  1
-Training Loss: 2491.7525136470795 and Testing Loss: 555.599413394928
-Epoch:  2
-Training Loss: 2296.5553107261658 and Testing Loss: 537.1475105285645
-Epoch:  3
-Training Loss: 2289.6485562324524 and Testing Loss: 536.8234941959381
-Epoch:  4
-Training Loss: 2287.742264986038 and Testing Loss: 526.0382912158966
-
-Evaluating players at checkpoint: 30 with time threshold: 0.5
-
-Number of trained player wins: 2
-Number of previous best player wins: 4
-Number of ties: 44
-Trained player win percentage:  0.3333333333333333
-Using the previous best player.
-
-Comparing performance to older player at index:  0
-
-Number of trained player wins: 15
-Number of previous best player wins: 5
-Number of ties: 30
-Trained player win percentage:  0.75
-
-Comparing performance to older player at index:  1
-
-Number of trained player wins: 13
-Number of previous best player wins: 2
-Number of ties: 35
-Trained player win percentage:  0.8666666666666667
-
-Comparing performance to older player at index:  2
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Comparing performance to Pure MCTS
-
-Number of trained player wins: 4
-Number of previous best player wins: 18
-Number of ties: 28
-Trained player win percentage:  0.18181818181818182
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2457.20201420784 and Testing Loss: 775.8317670822144
-Epoch:  1
-Training Loss: 2401.665452003479 and Testing Loss: 641.2638506889343
-Epoch:  2
-Training Loss: 2228.326400279999 and Testing Loss: 612.7020778656006
-Epoch:  3
-Training Loss: 2210.206193447113 and Testing Loss: 612.4268450737
-Epoch:  4
-Training Loss: 2208.3489549160004 and Testing Loss: 612.0885941982269
-
-Evaluating players at checkpoint: 31 with time threshold: 0.5
-
-Number of trained player wins: 5
-Number of previous best player wins: 0
-Number of ties: 45
-Trained player win percentage:  1.0
-Using the trained player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2174.456954240799 and Testing Loss: 683.4540348052979
-Epoch:  1
-Training Loss: 2146.026374578476 and Testing Loss: 643.600124835968
-Epoch:  2
-Training Loss: 2142.6889729499817 and Testing Loss: 676.4620742797852
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 32 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2189.89892077446 and Testing Loss: 617.3125445842743
-Epoch:  1
-Training Loss: 2158.485893011093 and Testing Loss: 627.069836139679
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 33 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2237.759357213974 and Testing Loss: 533.0641198158264
-Epoch:  1
-Training Loss: 2210.4820716381073 and Testing Loss: 534.5381541252136
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 34 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2226.1245832443237 and Testing Loss: 534.1574859619141
-Epoch:  1
-Training Loss: 2188.0000557899475 and Testing Loss: 516.458181142807
-Epoch:  2
-Training Loss: 2183.8568704128265 and Testing Loss: 516.2786228656769
-Epoch:  3
-Training Loss: 2183.4449982643127 and Testing Loss: 525.6062421798706
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 35 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2216.5056426525116 and Testing Loss: 509.68126678466797
-Epoch:  1
-Training Loss: 2183.925292491913 and Testing Loss: 503.17631220817566
-Epoch:  2
-Training Loss: 2179.6689207553864 and Testing Loss: 503.98811435699463
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 36 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2123.8296394348145 and Testing Loss: 574.3201892375946
-Epoch:  1
-Training Loss: 2091.3465802669525 and Testing Loss: 573.9789552688599
-Epoch:  2
-Training Loss: 2086.6867282390594 and Testing Loss: 550.9596416950226
-Epoch:  3
-Training Loss: 2086.261734485626 and Testing Loss: 550.9860808849335
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 37 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2110.3747045993805 and Testing Loss: 559.132194519043
-Epoch:  1
-Training Loss: 2078.7482402324677 and Testing Loss: 547.4410753250122
-Epoch:  2
-Training Loss: 2074.3122777938843 and Testing Loss: 528.2869558334351
-Epoch:  3
-Training Loss: 2073.937572002411 and Testing Loss: 528.3188195228577
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 38 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2111.3567974567413 and Testing Loss: 535.109543800354
-Epoch:  1
-Training Loss: 2072.364975452423 and Testing Loss: 533.4680738449097
-Epoch:  2
-Training Loss: 2067.4960408210754 and Testing Loss: 535.1248254776001
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 39 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2137.4300816059113 and Testing Loss: 476.6135106086731
-Epoch:  1
-Training Loss: 2103.8129444122314 and Testing Loss: 465.30065965652466
-Epoch:  2
-Training Loss: 2099.503948688507 and Testing Loss: 464.80638313293457
-Epoch:  3
-Training Loss: 2099.1208171844482 and Testing Loss: 465.01206254959106
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 40 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Comparing performance to older player at index:  0
-
-Number of trained player wins: 25
-Number of previous best player wins: 24
-Number of ties: 1
-Trained player win percentage:  0.5102040816326531
-
-Comparing performance to older player at index:  1
-
-Number of trained player wins: 7
-Number of previous best player wins: 4
-Number of ties: 39
-Trained player win percentage:  0.6363636363636364
-
-Comparing performance to older player at index:  2
+Evaluating players at checkpoint:  6
 
 Number of trained player wins: 3
-Number of previous best player wins: 0
-Number of ties: 47
-Trained player win percentage:  1.0
-
-Comparing performance to Pure MCTS
-
-Number of trained player wins: 0
-Number of previous best player wins: 22
-Number of ties: 28
-Trained player win percentage:  0.0
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2047.4101603031158 and Testing Loss: 536.9263823032379
-Epoch:  1
-Training Loss: 2007.5225973129272 and Testing Loss: 555.2338147163391
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 41 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 1975.2174618244171 and Testing Loss: 600.7624635696411
-Epoch:  1
-Training Loss: 1935.7084851264954 and Testing Loss: 577.3041272163391
-Epoch:  2
-Training Loss: 1931.2753920555115 and Testing Loss: 618.8786730766296
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 42 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2035.9526143074036 and Testing Loss: 497.7251319885254
-Epoch:  1
-Training Loss: 2001.5551798343658 and Testing Loss: 486.03819036483765
-Epoch:  2
-Training Loss: 1997.6811797618866 and Testing Loss: 486.1445109844208
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 43 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2025.511501789093 and Testing Loss: 497.3891644477844
-Epoch:  1
-Training Loss: 1994.0071454048157 and Testing Loss: 477.79600524902344
-Epoch:  2
-Training Loss: 1990.8785693645477 and Testing Loss: 487.2030234336853
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 44 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 4
-Number of ties: 46
-Trained player win percentage:  0.0
+Number of previous best player wins: 3
+Number of ties: 44
+Trained player win percentage:  0.5
 Using the previous best player.
 
 Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
+Number of moves available for training:  1600
+Number of moves available for testing:  400
 
 Training. . .
 Epoch:  0
-Training Loss: 1998.3142836093903 and Testing Loss: 524.5098793506622
+Training Loss: 222.33013081550598 and Testing Loss: 54.81697225570679
 Epoch:  1
-Training Loss: 1970.930183172226 and Testing Loss: 512.9989504814148
+Training Loss: 214.89186191558838 and Testing Loss: 53.11520600318909
 Epoch:  2
-Training Loss: 1967.4207708835602 and Testing Loss: 522.6478114128113
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 45 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 1997.4568390846252 and Testing Loss: 535.8645448684692
-Epoch:  1
-Training Loss: 1962.748878955841 and Testing Loss: 533.0631194114685
-Epoch:  2
-Training Loss: 1959.1056160926819 and Testing Loss: 523.552942276001
+Training Loss: 208.77187287807465 and Testing Loss: 52.00751042366028
 Epoch:  3
-Training Loss: 1958.8803803920746 and Testing Loss: 523.5849752426147
-Testing loss increasing, using model from one iteration earlier.
+Training Loss: 204.0961298942566 and Testing Loss: 51.06324791908264
+Epoch:  4
+Training Loss: 200.85501301288605 and Testing Loss: 50.34306049346924
 
-Evaluating players at checkpoint: 46 with time threshold: 0.5
+Evaluating players at checkpoint:  7
 
 Number of trained player wins: 3
-Number of previous best player wins: 0
-Number of ties: 47
-Trained player win percentage:  1.0
-Using the trained player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2075.4486207962036 and Testing Loss: 474.40081214904785
-Epoch:  1
-Training Loss: 2068.4765198230743 and Testing Loss: 502.57025051116943
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 47 with time threshold: 0.5
-
-Number of trained player wins: 10
 Number of previous best player wins: 9
-Number of ties: 31
-Trained player win percentage:  0.5263157894736842
+Number of ties: 38
+Trained player win percentage:  0.25
 Using the previous best player.
 
 Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
+Number of moves available for training:  1600
+Number of moves available for testing:  400
 
 Training. . .
 Epoch:  0
-Training Loss: 2056.319058895111 and Testing Loss: 559.6212637424469
+Training Loss: 223.2755925655365 and Testing Loss: 54.97412133216858
 Epoch:  1
-Training Loss: 2049.6602544784546 and Testing Loss: 595.5963943004608
+Training Loss: 215.2826828956604 and Testing Loss: 53.55373525619507
+Epoch:  2
+Training Loss: 208.6741338968277 and Testing Loss: 52.499852418899536
+Epoch:  3
+Training Loss: 204.17383420467377 and Testing Loss: 51.74507033824921
+Epoch:  4
+Training Loss: 200.4078459739685 and Testing Loss: 51.13601493835449
+
+Evaluating players at checkpoint:  8
+
+Number of trained player wins: 4
+Number of previous best player wins: 5
+Number of ties: 41
+Trained player win percentage:  0.4444444444444444
+Using the previous best player.
+
+Running simulations. . .
+Number of moves available for training:  1600
+Number of moves available for testing:  400
+
+Training. . .
+Epoch:  0
+Training Loss: 223.5933928489685 and Testing Loss: 55.224852323532104
+Epoch:  1
+Training Loss: 216.332803606987 and Testing Loss: 53.58168303966522
+Epoch:  2
+Training Loss: 210.22640025615692 and Testing Loss: 52.62890040874481
+Epoch:  3
+Training Loss: 205.90832567214966 and Testing Loss: 51.65043914318085
+Epoch:  4
+Training Loss: 202.668199300766 and Testing Loss: 51.29011273384094
+
+Evaluating players at checkpoint:  9
+
+Number of trained player wins: 3
+Number of previous best player wins: 4
+Number of ties: 43
+Trained player win percentage:  0.42857142857142855
+Using the previous best player.
+
+Running simulations. . .
+Number of moves available for training:  1600
+Number of moves available for testing:  400
+
+Training. . .
+Epoch:  0
+Training Loss: 223.6122922897339 and Testing Loss: 55.94419813156128
+Epoch:  1
+Training Loss: 216.0819525718689 and Testing Loss: 54.4872043132782
+Epoch:  2
+Training Loss: 210.04427862167358 and Testing Loss: 53.47308599948883
+Epoch:  3
+Training Loss: 206.02341222763062 and Testing Loss: 52.573315143585205
+Epoch:  4
+Training Loss: 202.93235576152802 and Testing Loss: 51.817092418670654
+
+Evaluating players at checkpoint:  10
+
+Number of trained player wins: 4
+Number of previous best player wins: 3
+Number of ties: 43
+Trained player win percentage:  0.5714285714285714
+Using the trained player.
+
+Comparing performance to older player at index:  0
+
+Number of trained player wins: 9
+Number of previous best player wins: 8
+Number of ties: 33
+Trained player win percentage:  0.5294117647058824
+
+Comparing performance to Pure MCTS
+
+Number of trained player wins: 5
+Number of previous best player wins: 3
+Number of ties: 42
+Trained player win percentage:  0.625
+
+Running simulations. . .
+Number of moves available for training:  1600
+Number of moves available for testing:  400
+
+Training. . .
+Epoch:  0
+Training Loss: 213.16037118434906 and Testing Loss: 51.900052309036255
+Epoch:  1
+Training Loss: 202.89401578903198 and Testing Loss: 50.58492660522461
+Epoch:  2
+Training Loss: 199.1431474685669 and Testing Loss: 50.12017238140106
+Epoch:  3
+Training Loss: 196.84751617908478 and Testing Loss: 49.52660000324249
+Epoch:  4
+Training Loss: 194.9768260717392 and Testing Loss: 49.364985704422
+
+Evaluating players at checkpoint:  11
+
+Number of trained player wins: 9
+Number of previous best player wins: 8
+Number of ties: 33
+Trained player win percentage:  0.5294117647058824
+Using the previous best player.
+
+Running simulations. . .
+Number of moves available for training:  1600
+Number of moves available for testing:  400
+
+Training. . .
+Epoch:  0
+Training Loss: 215.08572268486023 and Testing Loss: 51.79733383655548
+Epoch:  1
+Training Loss: 205.05840611457825 and Testing Loss: 50.732558727264404
+Epoch:  2
+Training Loss: 200.80297553539276 and Testing Loss: 50.332090854644775
+Epoch:  3
+Training Loss: 198.64085292816162 and Testing Loss: 50.052499532699585
+Epoch:  4
+Training Loss: 196.61448645591736 and Testing Loss: 49.5686229467392
+
+Evaluating players at checkpoint:  12
+
+Number of trained player wins: 3
+Number of previous best player wins: 5
+Number of ties: 42
+Trained player win percentage:  0.375
+Using the previous best player.
+
+Running simulations. . .
+Number of moves available for training:  1600
+Number of moves available for testing:  400
+
+Training. . .
+Epoch:  0
+Training Loss: 215.89782309532166 and Testing Loss: 51.01491165161133
+Epoch:  1
+Training Loss: 205.1121850013733 and Testing Loss: 50.19172966480255
+Epoch:  2
+Training Loss: 201.25309789180756 and Testing Loss: 49.550511598587036
+Epoch:  3
+Training Loss: 198.30802714824677 and Testing Loss: 49.29431736469269
+Epoch:  4
+Training Loss: 196.3679130077362 and Testing Loss: 48.986748695373535
+
+Evaluating players at checkpoint:  13
+
+Number of trained player wins: 2
+Number of previous best player wins: 7
+Number of ties: 41
+Trained player win percentage:  0.2222222222222222
+Using the previous best player.
+
+Running simulations. . .
+Number of moves available for training:  1600
+Number of moves available for testing:  400
+
+Training. . .
+Epoch:  0
+Training Loss: 215.12952184677124 and Testing Loss: 51.370643734931946
+Epoch:  1
+Training Loss: 203.73219108581543 and Testing Loss: 50.38316476345062
+Epoch:  2
+Training Loss: 199.44944643974304 and Testing Loss: 49.76373052597046
+Epoch:  3
+Training Loss: 196.8980597257614 and Testing Loss: 49.31563973426819
+Epoch:  4
+Training Loss: 195.08915412425995 and Testing Loss: 49.24224293231964
+
+Evaluating players at checkpoint:  14
+
+Number of trained player wins: 5
+Number of previous best player wins: 7
+Number of ties: 38
+Trained player win percentage:  0.4166666666666667
+Using the previous best player.
+
+Running simulations. . .
+Number of moves available for training:  1600
+Number of moves available for testing:  400
+
+Training. . .
+Epoch:  0
+Training Loss: 216.2964972257614 and Testing Loss: 52.415111899375916
+Epoch:  1
+Training Loss: 206.09871673583984 and Testing Loss: 50.77035355567932
+Epoch:  2
+Training Loss: 201.42076170444489 and Testing Loss: 50.18288457393646
+Epoch:  3
+Training Loss: 198.4643989801407 and Testing Loss: 49.696733713150024
+Epoch:  4
+Training Loss: 196.5532306432724 and Testing Loss: 49.33076620101929
+
+Evaluating players at checkpoint:  15
+
+Number of trained player wins: 4
+Number of previous best player wins: 4
+Number of ties: 42
+Trained player win percentage:  0.5
+Using the previous best player.
+
+Running simulations. . .
+Number of moves available for training:  1600
+Number of moves available for testing:  400
+
+Training. . .
+Epoch:  0
+Training Loss: 218.039204120636 and Testing Loss: 52.10838556289673
+Epoch:  1
+Training Loss: 207.02513587474823 and Testing Loss: 50.49998867511749
+Epoch:  2
+Training Loss: 202.18159234523773 and Testing Loss: 49.95458734035492
+Epoch:  3
+Training Loss: 200.10746562480927 and Testing Loss: 49.55960297584534
+Epoch:  4
+Training Loss: 197.56253004074097 and Testing Loss: 49.18072259426117
+
+Evaluating players at checkpoint:  16
+
+Number of trained player wins: 6
+Number of previous best player wins: 3
+Number of ties: 41
+Trained player win percentage:  0.6666666666666666
+Using the trained player.
+
+Running simulations. . .
+Number of moves available for training:  1600
+Number of moves available for testing:  400
+
+Training. . .
+Epoch:  0
+Training Loss: 207.846417427063 and Testing Loss: 49.5974303483963
+Epoch:  1
+Training Loss: 197.83728289604187 and Testing Loss: 48.87886679172516
+Epoch:  2
+Training Loss: 194.60811591148376 and Testing Loss: 48.56622326374054
+Epoch:  3
+Training Loss: 192.76038491725922 and Testing Loss: 48.27782595157623
+Epoch:  4
+Training Loss: 190.9067553281784 and Testing Loss: 48.004679441452026
+
+Evaluating players at checkpoint:  17
+
+Number of trained player wins: 2
+Number of previous best player wins: 5
+Number of ties: 43
+Trained player win percentage:  0.2857142857142857
+Using the previous best player.
+
+Running simulations. . .
+Number of moves available for training:  1600
+Number of moves available for testing:  400
+
+Training. . .
+Epoch:  0
+Training Loss: 209.74899578094482 and Testing Loss: 49.55485701560974
+Epoch:  1
+Training Loss: 199.68502640724182 and Testing Loss: 48.8176988363266
+Epoch:  2
+Training Loss: 197.04558420181274 and Testing Loss: 48.420628905296326
+Epoch:  3
+Training Loss: 195.1991971731186 and Testing Loss: 48.438392877578735
 Testing loss increasing, using model from one iteration earlier.
 
-Evaluating players at checkpoint: 48 with time threshold: 0.5
+Evaluating players at checkpoint:  18
+
+Number of trained player wins: 5
+Number of previous best player wins: 2
+Number of ties: 43
+Trained player win percentage:  0.7142857142857143
+Using the trained player.
+
+Running simulations. . .
+Number of moves available for training:  1600
+Number of moves available for testing:  400
+
+Training. . .
+Epoch:  0
+Training Loss: 205.95392537117004 and Testing Loss: 50.34338688850403
+Epoch:  1
+Training Loss: 196.46584808826447 and Testing Loss: 49.565948367118835
+Epoch:  2
+Training Loss: 193.87793445587158 and Testing Loss: 49.14433991909027
+Epoch:  3
+Training Loss: 192.15885484218597 and Testing Loss: 48.70018684864044
+Epoch:  4
+Training Loss: 190.65181386470795 and Testing Loss: 48.68470799922943
+
+Evaluating players at checkpoint:  19
+
+Number of trained player wins: 3
+Number of previous best player wins: 5
+Number of ties: 42
+Trained player win percentage:  0.375
+Using the previous best player.
+
+Running simulations. . .
+Number of moves available for training:  1600
+Number of moves available for testing:  400
+
+Training. . .
+Epoch:  0
+Training Loss: 206.3331195116043 and Testing Loss: 50.79304254055023
+Epoch:  1
+Training Loss: 197.78267443180084 and Testing Loss: 49.816977977752686
+Epoch:  2
+Training Loss: 194.6861127614975 and Testing Loss: 49.59874701499939
+Epoch:  3
+Training Loss: 192.86689114570618 and Testing Loss: 49.60816705226898
+Testing loss increasing, using model from one iteration earlier.
+
+Evaluating players at checkpoint:  20
+
+Number of trained player wins: 4
+Number of previous best player wins: 6
+Number of ties: 40
+Trained player win percentage:  0.4
+Using the previous best player.
+
+Comparing performance to older player at index:  0
+
+Number of trained player wins: 9
+Number of previous best player wins: 4
+Number of ties: 37
+Trained player win percentage:  0.6923076923076923
+
+Comparing performance to older player at index:  1
 
 Number of trained player wins: 6
 Number of previous best player wins: 2
 Number of ties: 42
 Trained player win percentage:  0.75
-Using the trained player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2120.2058136463165 and Testing Loss: 570.3653497695923
-Epoch:  1
-Training Loss: 2117.73140001297 and Testing Loss: 551.4040620326996
-Epoch:  2
-Training Loss: 2098.0291657447815 and Testing Loss: 550.2075932025909
-Epoch:  3
-Training Loss: 2096.8543281555176 and Testing Loss: 550.1489398479462
-Epoch:  4
-Training Loss: 2094.992952108383 and Testing Loss: 558.6594285964966
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 49 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2133.1545724868774 and Testing Loss: 625.0451245307922
-Epoch:  1
-Training Loss: 2130.253748893738 and Testing Loss: 629.4399404525757
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 50 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 3
-Number of ties: 47
-Trained player win percentage:  0.0
-Using the previous best player.
-
-Comparing performance to older player at index:  0
-
-Number of trained player wins: 5
-Number of previous best player wins: 35
-Number of ties: 10
-Trained player win percentage:  0.125
-
-Comparing performance to older player at index:  1
-
-Number of trained player wins: 1
-Number of previous best player wins: 13
-Number of ties: 36
-Trained player win percentage:  0.07142857142857142
-
-Comparing performance to older player at index:  2
-
-Number of trained player wins: 3
-Number of previous best player wins: 7
-Number of ties: 40
-Trained player win percentage:  0.3
-
-Comparing performance to older player at index:  3
-
-Number of trained player wins: 4
-Number of previous best player wins: 0
-Number of ties: 46
-Trained player win percentage:  1.0
 
 Comparing performance to Pure MCTS
 
 Number of trained player wins: 5
-Number of previous best player wins: 29
-Number of ties: 16
-Trained player win percentage:  0.14705882352941177
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2280.782376766205 and Testing Loss: 564.1655731201172
-Epoch:  1
-Training Loss: 2274.040768146515 and Testing Loss: 540.3123834133148
-Epoch:  2
-Training Loss: 2254.896546125412 and Testing Loss: 551.2241039276123
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 51 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2280.3219470977783 and Testing Loss: 607.2719950675964
-Epoch:  1
-Training Loss: 2275.525277853012 and Testing Loss: 610.3704323768616
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 52 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 6
-Number of ties: 44
-Trained player win percentage:  0.0
-Using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2263.1747040748596 and Testing Loss: 695.111798286438
-Epoch:  1
-Training Loss: 2258.2972865104675 and Testing Loss: 685.5251181125641
-Epoch:  2
-Training Loss: 2238.915810108185 and Testing Loss: 697.899001121521
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 53 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2401.160246372223 and Testing Loss: 637.4581589698792
-Epoch:  1
-Training Loss: 2393.782089948654 and Testing Loss: 639.8864521980286
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 54 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 7
-Number of ties: 43
-Trained player win percentage:  0.0
-Using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2458.0876173973083 and Testing Loss: 671.4624376296997
-Epoch:  1
-Training Loss: 2451.665065050125 and Testing Loss: 647.0342984199524
-Epoch:  2
-Training Loss: 2431.3844423294067 and Testing Loss: 642.3990666866302
-Epoch:  3
-Training Loss: 2429.971707344055 and Testing Loss: 642.5166568756104
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 55 with time threshold: 0.5
-
-Number of trained player wins: 25
-Number of previous best player wins: 0
-Number of ties: 25
-Trained player win percentage:  1.0
-Using the trained player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2576.7315945625305 and Testing Loss: 666.2699718475342
-Epoch:  1
-Training Loss: 2560.593581199646 and Testing Loss: 650.5149450302124
-Epoch:  2
-Training Loss: 2552.8562874794006 and Testing Loss: 650.0473494529724
-Epoch:  3
-Training Loss: 2552.37672996521 and Testing Loss: 649.6205410957336
-Epoch:  4
-Training Loss: 2551.9761526584625 and Testing Loss: 677.1822972297668
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 56 with time threshold: 0.5
-
-Number of trained player wins: 48
-Number of previous best player wins: 0
-Number of ties: 2
-Trained player win percentage:  1.0
-Using the trained player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2665.8931386470795 and Testing Loss: 683.7647752761841
-Epoch:  1
-Training Loss: 2659.2211627960205 and Testing Loss: 679.22398853302
-Epoch:  2
-Training Loss: 2652.5754210948944 and Testing Loss: 688.9980888366699
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 57 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2739.384419441223 and Testing Loss: 689.2215662002563
-Epoch:  1
-Training Loss: 2734.722095966339 and Testing Loss: 707.1932497024536
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 58 with time threshold: 0.5
-
-Number of trained player wins: 2
-Number of previous best player wins: 0
-Number of ties: 48
-Trained player win percentage:  1.0
-Using the trained player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2755.7461535930634 and Testing Loss: 703.439596414566
-Epoch:  1
-Training Loss: 2772.6016476154327 and Testing Loss: 696.3469376564026
-Epoch:  2
-Training Loss: 2751.8108203411102 and Testing Loss: 695.0870685577393
-Epoch:  3
-Training Loss: 2751.4181168079376 and Testing Loss: 694.813150882721
-Epoch:  4
-Training Loss: 2751.053633451462 and Testing Loss: 682.1224362850189
-
-Evaluating players at checkpoint: 59 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2742.3008818626404 and Testing Loss: 735.4856061935425
-Epoch:  1
-Training Loss: 2758.519651889801 and Testing Loss: 695.6558885574341
-Epoch:  2
-Training Loss: 2739.0518016815186 and Testing Loss: 668.994891166687
-Epoch:  3
-Training Loss: 2738.482157945633 and Testing Loss: 668.0591516494751
-Epoch:  4
-Training Loss: 2738.280759334564 and Testing Loss: 682.1672215461731
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 60 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Comparing performance to older player at index:  0
-
-Number of trained player wins: 0
-Number of previous best player wins: 25
-Number of ties: 25
-Trained player win percentage:  0.0
-
-Comparing performance to older player at index:  1
-
-Number of trained player wins: 27
-Number of previous best player wins: 3
-Number of ties: 20
-Trained player win percentage:  0.9
-
-Comparing performance to older player at index:  2
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Comparing performance to older player at index:  3
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Comparing performance to older player at index:  4
-
-Number of trained player wins: 25
-Number of previous best player wins: 0
-Number of ties: 25
-Trained player win percentage:  1.0
-
-Comparing performance to Pure MCTS
-
-Number of trained player wins: 4
-Number of previous best player wins: 14
-Number of ties: 32
-Trained player win percentage:  0.2222222222222222
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2753.1558532714844 and Testing Loss: 683.1538877487183
-Epoch:  1
-Training Loss: 2778.6158270835876 and Testing Loss: 630.2605295181274
-Epoch:  2
-Training Loss: 2748.8520560264587 and Testing Loss: 642.91015625
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 61 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2622.479905128479 and Testing Loss: 817.3072624206543
-Epoch:  1
-Training Loss: 2645.800613641739 and Testing Loss: 743.6898760795593
-Epoch:  2
-Training Loss: 2618.8709592819214 and Testing Loss: 731.7769951820374
-Epoch:  3
-Training Loss: 2618.2583606243134 and Testing Loss: 745.2825965881348
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 62 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2675.6453416347504 and Testing Loss: 744.979419708252
-Epoch:  1
-Training Loss: 2696.5362465381622 and Testing Loss: 665.6220018863678
-Epoch:  2
-Training Loss: 2672.0857887268066 and Testing Loss: 663.6423654556274
-Epoch:  3
-Training Loss: 2671.755363225937 and Testing Loss: 688.6466658115387
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 63 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2634.927405834198 and Testing Loss: 817.9242420196533
-Epoch:  1
-Training Loss: 2658.278835773468 and Testing Loss: 690.7691385746002
-Epoch:  2
-Training Loss: 2630.5739302635193 and Testing Loss: 679.7200002670288
-Epoch:  3
-Training Loss: 2630.1282908916473 and Testing Loss: 665.6333131790161
-Epoch:  4
-Training Loss: 2629.9241123199463 and Testing Loss: 665.9192349910736
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 64 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2671.6842947006226 and Testing Loss: 744.9403948783875
-Epoch:  1
-Training Loss: 2690.350570201874 and Testing Loss: 611.289475440979
-Epoch:  2
-Training Loss: 2667.627053260803 and Testing Loss: 637.8567552566528
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 65 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2641.879715681076 and Testing Loss: 733.1658687591553
-Epoch:  1
-Training Loss: 2666.162097930908 and Testing Loss: 597.5432977676392
-Epoch:  2
-Training Loss: 2638.360917568207 and Testing Loss: 597.4755547046661
-Epoch:  3
-Training Loss: 2636.972776889801 and Testing Loss: 596.8003792762756
-Epoch:  4
-Training Loss: 2636.645917892456 and Testing Loss: 629.8060760498047
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 66 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2539.5137944221497 and Testing Loss: 875.6157460212708
-Epoch:  1
-Training Loss: 2559.491979598999 and Testing Loss: 684.2739815711975
-Epoch:  2
-Training Loss: 2534.255656003952 and Testing Loss: 695.7569839954376
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 67 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2522.3391740322113 and Testing Loss: 842.9360189437866
-Epoch:  1
-Training Loss: 2548.544763326645 and Testing Loss: 672.9829666614532
-Epoch:  2
-Training Loss: 2517.4129049777985 and Testing Loss: 660.6698770523071
-Epoch:  3
-Training Loss: 2517.148572206497 and Testing Loss: 649.1699965000153
-Epoch:  4
-Training Loss: 2517.0802416801453 and Testing Loss: 651.5589120388031
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 68 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 1
-Number of ties: 49
-Trained player win percentage:  0.0
-Using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2393.4378962516785 and Testing Loss: 784.4757480621338
-Epoch:  1
-Training Loss: 2416.9715337753296 and Testing Loss: 627.5739574432373
-Epoch:  2
-Training Loss: 2388.1665465831757 and Testing Loss: 615.8187770843506
-Epoch:  3
-Training Loss: 2387.9470953941345 and Testing Loss: 639.3054828643799
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 69 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 25
-Number of ties: 25
-Trained player win percentage:  0.0
-Using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2349.01136636734 and Testing Loss: 785.3490810394287
-Epoch:  1
-Training Loss: 2373.369918823242 and Testing Loss: 612.4122202396393
-Epoch:  2
-Training Loss: 2344.4454715251923 and Testing Loss: 623.9698734283447
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 70 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Comparing performance to older player at index:  0
-
-Number of trained player wins: 0
-Number of previous best player wins: 25
-Number of ties: 25
-Trained player win percentage:  0.0
-
-Comparing performance to older player at index:  1
-
-Number of trained player wins: 28
-Number of previous best player wins: 3
-Number of ties: 19
-Trained player win percentage:  0.9032258064516129
-
-Comparing performance to older player at index:  2
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Comparing performance to older player at index:  3
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Comparing performance to older player at index:  4
-
-Number of trained player wins: 25
-Number of previous best player wins: 0
-Number of ties: 25
-Trained player win percentage:  1.0
-
-Comparing performance to older player at index:  5
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Comparing performance to Pure MCTS
-
-Number of trained player wins: 6
-Number of previous best player wins: 14
-Number of ties: 30
-Trained player win percentage:  0.3
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2357.893619775772 and Testing Loss: 748.5524263381958
-Epoch:  1
-Training Loss: 2377.0343012809753 and Testing Loss: 595.2643394470215
-Epoch:  2
-Training Loss: 2354.614289045334 and Testing Loss: 595.5421147346497
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 71 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2402.5036549568176 and Testing Loss: 707.3083386421204
-Epoch:  1
-Training Loss: 2428.934914588928 and Testing Loss: 563.0827450752258
-Epoch:  2
-Training Loss: 2398.820755004883 and Testing Loss: 539.4813077449799
-Epoch:  3
-Training Loss: 2398.075849056244 and Testing Loss: 558.8219046592712
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 72 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2381.3857140541077 and Testing Loss: 737.7941026687622
-Epoch:  1
-Training Loss: 2414.7813444137573 and Testing Loss: 584.1008758544922
-Epoch:  2
-Training Loss: 2377.339270591736 and Testing Loss: 583.9032082557678
-Epoch:  3
-Training Loss: 2376.4659764766693 and Testing Loss: 560.781313419342
-Epoch:  4
-Training Loss: 2376.336018562317 and Testing Loss: 572.6481091976166
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 73 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2295.018931388855 and Testing Loss: 868.3778133392334
-Epoch:  1
-Training Loss: 2323.662868499756 and Testing Loss: 659.1670837402344
-Epoch:  2
-Training Loss: 2290.7155723571777 and Testing Loss: 659.20094871521
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 74 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2263.5852329730988 and Testing Loss: 876.7468140125275
-Epoch:  1
-Training Loss: 2286.419870376587 and Testing Loss: 678.4227044582367
-Epoch:  2
-Training Loss: 2258.693964958191 and Testing Loss: 678.1236064434052
-Epoch:  3
-Training Loss: 2258.5357937812805 and Testing Loss: 678.263578414917
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 75 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2302.0520181655884 and Testing Loss: 843.8160848617554
-Epoch:  1
-Training Loss: 2326.048166036606 and Testing Loss: 663.7321801185608
-Epoch:  2
-Training Loss: 2297.3376393318176 and Testing Loss: 640.0538861751556
-Epoch:  3
-Training Loss: 2296.992129802704 and Testing Loss: 663.822199344635
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 76 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2327.992901325226 and Testing Loss: 823.1585655212402
-Epoch:  1
-Training Loss: 2354.116298675537 and Testing Loss: 626.4837427139282
-Epoch:  2
-Training Loss: 2322.434907436371 and Testing Loss: 626.1403260231018
-Epoch:  3
-Training Loss: 2322.038858652115 and Testing Loss: 625.9674944877625
-Epoch:  4
-Training Loss: 2321.8452076911926 and Testing Loss: 614.4582242965698
-
-Evaluating players at checkpoint: 77 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2346.349372148514 and Testing Loss: 777.9632959365845
-Epoch:  1
-Training Loss: 2370.8752257823944 and Testing Loss: 606.1768445968628
-Epoch:  2
-Training Loss: 2342.100450515747 and Testing Loss: 618.2032260894775
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 78 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2369.5970063209534 and Testing Loss: 750.9197266101837
-Epoch:  1
-Training Loss: 2389.97296333313 and Testing Loss: 597.3532392978668
-Epoch:  2
-Training Loss: 2365.910407304764 and Testing Loss: 583.6548418998718
-Epoch:  3
-Training Loss: 2365.0768945217133 and Testing Loss: 583.582793712616
-Epoch:  4
-Training Loss: 2364.8599548339844 and Testing Loss: 583.2911231517792
-
-Evaluating players at checkpoint: 79 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2359.0380811691284 and Testing Loss: 763.6757934093475
-Epoch:  1
-Training Loss: 2381.363823413849 and Testing Loss: 581.5038259029388
-Epoch:  2
-Training Loss: 2354.9541730880737 and Testing Loss: 604.9934632778168
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 80 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Comparing performance to older player at index:  0
-
-Number of trained player wins: 0
-Number of previous best player wins: 25
-Number of ties: 25
-Trained player win percentage:  0.0
-
-Comparing performance to older player at index:  1
-
-Number of trained player wins: 29
 Number of previous best player wins: 4
-Number of ties: 17
-Trained player win percentage:  0.8787878787878788
-
-Comparing performance to older player at index:  2
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Comparing performance to older player at index:  3
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Comparing performance to older player at index:  4
-
-Number of trained player wins: 25
-Number of previous best player wins: 0
-Number of ties: 25
-Trained player win percentage:  1.0
-
-Comparing performance to older player at index:  5
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Comparing performance to Pure MCTS
-
-Number of trained player wins: 3
-Number of previous best player wins: 14
-Number of ties: 33
-Trained player win percentage:  0.17647058823529413
+Number of ties: 41
+Trained player win percentage:  0.5555555555555556
 
 Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
+Number of moves available for training:  1600
+Number of moves available for testing:  400
 
 Training. . .
 Epoch:  0
-Training Loss: 2334.1764991283417 and Testing Loss: 815.669424533844
+Training Loss: 206.7035013437271 and Testing Loss: 50.0708487033844
 Epoch:  1
-Training Loss: 2359.645196914673 and Testing Loss: 629.7591135501862
+Training Loss: 197.51588487625122 and Testing Loss: 49.69109523296356
 Epoch:  2
-Training Loss: 2328.5198040008545 and Testing Loss: 606.2595117092133
+Training Loss: 194.14277803897858 and Testing Loss: 48.97848856449127
 Epoch:  3
-Training Loss: 2328.218097925186 and Testing Loss: 641.4171614646912
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 81 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2351.4164288043976 and Testing Loss: 785.8543281555176
-Epoch:  1
-Training Loss: 2378.015899181366 and Testing Loss: 597.1370282173157
-Epoch:  2
-Training Loss: 2347.102822780609 and Testing Loss: 598.1312322616577
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 82 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2304.2020678520203 and Testing Loss: 818.0175309181213
-Epoch:  1
-Training Loss: 2330.131061077118 and Testing Loss: 645.8301124572754
-Epoch:  2
-Training Loss: 2299.69278550148 and Testing Loss: 676.707225561142
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 83 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2384.501685142517 and Testing Loss: 752.8481159210205
-Epoch:  1
-Training Loss: 2408.509491443634 and Testing Loss: 564.7525577545166
-Epoch:  2
-Training Loss: 2379.233656644821 and Testing Loss: 564.3251132965088
-Epoch:  3
-Training Loss: 2378.982694387436 and Testing Loss: 564.3048028945923
+Training Loss: 191.93513238430023 and Testing Loss: 48.6506267786026
 Epoch:  4
-Training Loss: 2378.8779816627502 and Testing Loss: 552.6038391590118
+Training Loss: 190.14925980567932 and Testing Loss: 48.635061264038086
 
-Evaluating players at checkpoint: 84 with time threshold: 0.5
+Evaluating players at checkpoint:  21
 
 Number of trained player wins: 1
-Number of previous best player wins: 0
-Number of ties: 49
-Trained player win percentage:  1.0
-Using the trained player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2286.4232981204987 and Testing Loss: 620.2779550552368
-Epoch:  1
-Training Loss: 2286.2349569797516 and Testing Loss: 606.1603376865387
-Epoch:  2
-Training Loss: 2285.5908629894257 and Testing Loss: 606.0773792266846
-Epoch:  3
-Training Loss: 2285.2837171554565 and Testing Loss: 617.9610817432404
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 85 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2408.8435180187225 and Testing Loss: 447.01519680023193
-Epoch:  1
-Training Loss: 2408.747699022293 and Testing Loss: 443.3495981693268
-Epoch:  2
-Training Loss: 2407.7811970710754 and Testing Loss: 443.3350315093994
-Epoch:  3
-Training Loss: 2407.632527112961 and Testing Loss: 455.15549659729004
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 86 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2262.8464086055756 and Testing Loss: 562.9145913124084
-Epoch:  1
-Training Loss: 2262.438149690628 and Testing Loss: 549.8530766963959
-Epoch:  2
-Training Loss: 2261.932160139084 and Testing Loss: 549.8274104595184
-Epoch:  3
-Training Loss: 2261.8354098796844 and Testing Loss: 549.7461485862732
-Epoch:  4
-Training Loss: 2261.99534535408 and Testing Loss: 570.7043871879578
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 87 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2245.0726561546326 and Testing Loss: 551.636442899704
-Epoch:  1
-Training Loss: 2244.6656227111816 and Testing Loss: 527.0480971336365
-Epoch:  2
-Training Loss: 2243.9366919994354 and Testing Loss: 537.1585555076599
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 88 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2138.750764131546 and Testing Loss: 618.5126984119415
-Epoch:  1
-Training Loss: 2138.4256830215454 and Testing Loss: 607.3890838623047
-Epoch:  2
-Training Loss: 2137.761573791504 and Testing Loss: 595.9197082519531
-Epoch:  3
-Training Loss: 2137.745714187622 and Testing Loss: 607.6607627868652
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 89 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2135.2812860012054 and Testing Loss: 584.2993907928467
-Epoch:  1
-Training Loss: 2135.105238199234 and Testing Loss: 584.4961121082306
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 90 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Comparing performance to older player at index:  0
-
-Number of trained player wins: 7
-Number of previous best player wins: 1
-Number of ties: 42
-Trained player win percentage:  0.875
-
-Comparing performance to older player at index:  1
-
-Number of trained player wins: 14
-Number of previous best player wins: 25
-Number of ties: 11
-Trained player win percentage:  0.358974358974359
-
-Comparing performance to older player at index:  2
-
-Number of trained player wins: 4
-Number of previous best player wins: 7
-Number of ties: 39
-Trained player win percentage:  0.36363636363636365
-
-Comparing performance to older player at index:  3
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Comparing performance to older player at index:  4
-
-Number of trained player wins: 13
-Number of previous best player wins: 0
-Number of ties: 37
-Trained player win percentage:  1.0
-
-Comparing performance to older player at index:  5
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Comparing performance to Pure MCTS
-
-Number of trained player wins: 3
-Number of previous best player wins: 35
-Number of ties: 12
-Trained player win percentage:  0.07894736842105263
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2076.5710439682007 and Testing Loss: 579.2748129367828
-Epoch:  1
-Training Loss: 2076.4291179180145 and Testing Loss: 609.157030582428
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 91 with time threshold: 0.5
-
-Number of trained player wins: 23
-Number of previous best player wins: 0
-Number of ties: 27
-Trained player win percentage:  1.0
-Using the trained player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2169.737782716751 and Testing Loss: 568.5334467887878
-Epoch:  1
-Training Loss: 2169.8329241275787 and Testing Loss: 574.0677938461304
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 92 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2218.4257624149323 and Testing Loss: 587.9055242538452
-Epoch:  1
-Training Loss: 2219.1034848690033 and Testing Loss: 586.0410904884338
-Epoch:  2
-Training Loss: 2122.5728166103363 and Testing Loss: 548.2077994346619
-Epoch:  3
-Training Loss: 2076.201191663742 and Testing Loss: 559.6865329742432
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 93 with time threshold: 0.5
-
-Number of trained player wins: 6
-Number of previous best player wins: 0
-Number of ties: 44
-Trained player win percentage:  1.0
-Using the trained player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2094.151773452759 and Testing Loss: 577.0421333312988
-Epoch:  1
-Training Loss: 2070.8098821640015 and Testing Loss: 587.1660022735596
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 94 with time threshold: 0.5
-
-Number of trained player wins: 26
-Number of previous best player wins: 8
-Number of ties: 16
-Trained player win percentage:  0.7647058823529411
-Using the trained player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2122.993658065796 and Testing Loss: 597.8980884552002
-Epoch:  1
-Training Loss: 2138.186383485794 and Testing Loss: 584.9346208572388
-Epoch:  2
-Training Loss: 2102.272191762924 and Testing Loss: 574.5043048858643
-Epoch:  3
-Training Loss: 2100.275139093399 and Testing Loss: 583.5960285663605
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 95 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2189.490086078644 and Testing Loss: 573.6451616287231
-Epoch:  1
-Training Loss: 2189.0637187957764 and Testing Loss: 541.8114142417908
-Epoch:  2
-Training Loss: 2154.106342792511 and Testing Loss: 551.1372480392456
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 96 with time threshold: 0.5
-
-Number of trained player wins: 2
-Number of previous best player wins: 8
-Number of ties: 40
+Number of previous best player wins: 4
+Number of ties: 45
 Trained player win percentage:  0.2
 Using the previous best player.
 
 Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
+Number of moves available for training:  1600
+Number of moves available for testing:  400
 
 Training. . .
 Epoch:  0
-Training Loss: 2259.716246843338 and Testing Loss: 556.8033769130707
+Training Loss: 206.82940447330475 and Testing Loss: 50.64404237270355
 Epoch:  1
-Training Loss: 2250.4457936286926 and Testing Loss: 538.1591620445251
+Training Loss: 197.60346949100494 and Testing Loss: 49.70985174179077
 Epoch:  2
-Training Loss: 2209.7982988357544 and Testing Loss: 516.6943438053131
+Training Loss: 194.09098732471466 and Testing Loss: 49.47675395011902
 Epoch:  3
-Training Loss: 2208.8447046279907 and Testing Loss: 516.6711506843567
+Training Loss: 191.84698855876923 and Testing Loss: 49.18197476863861
 Epoch:  4
-Training Loss: 2208.4371190071106 and Testing Loss: 528.8449602127075
-Testing loss increasing, using model from one iteration earlier.
+Training Loss: 190.3008359670639 and Testing Loss: 48.76611328125
 
-Evaluating players at checkpoint: 97 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 14
-Number of ties: 36
-Trained player win percentage:  0.0
-Using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2294.2397091388702 and Testing Loss: 580.7975611686707
-Epoch:  1
-Training Loss: 2290.4249625205994 and Testing Loss: 560.6175584793091
-Epoch:  2
-Training Loss: 2243.107298374176 and Testing Loss: 558.2269239425659
-Epoch:  3
-Training Loss: 2242.0159392356873 and Testing Loss: 548.8133873939514
-Epoch:  4
-Training Loss: 2241.555595397949 and Testing Loss: 560.0115752220154
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 98 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 12
-Number of ties: 38
-Trained player win percentage:  0.0
-Using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2321.98272895813 and Testing Loss: 645.6296045780182
-Epoch:  1
-Training Loss: 2311.2356417179108 and Testing Loss: 607.0977864265442
-Epoch:  2
-Training Loss: 2268.8604147434235 and Testing Loss: 607.7738618850708
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 99 with time threshold: 0.5
-
-Number of trained player wins: 3
-Number of previous best player wins: 10
-Number of ties: 37
-Trained player win percentage:  0.23076923076923078
-Using the previous best player.
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2417.20588350296 and Testing Loss: 643.5278158187866
-Epoch:  1
-Training Loss: 2395.949737548828 and Testing Loss: 583.2125482559204
-Epoch:  2
-Training Loss: 2343.044946670532 and Testing Loss: 581.1426038742065
-Epoch:  3
-Training Loss: 2341.6250410079956 and Testing Loss: 571.3714823722839
-Epoch:  4
-Training Loss: 2341.1188414096832 and Testing Loss: 591.547105550766
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 100 with time threshold: 0.5
-
-Number of trained player wins: 0
-Number of previous best player wins: 9
-Number of ties: 41
-Trained player win percentage:  0.0
-Using the previous best player.
-
-Comparing performance to older player at index:  0
+Evaluating players at checkpoint:  22
 
 Number of trained player wins: 5
-Number of previous best player wins: 36
-Number of ties: 9
-Trained player win percentage:  0.12195121951219512
-
-Comparing performance to older player at index:  1
-
-Number of trained player wins: 1
-Number of previous best player wins: 16
-Number of ties: 33
-Trained player win percentage:  0.058823529411764705
-
-Comparing performance to older player at index:  2
-
-Number of trained player wins: 3
-Number of previous best player wins: 28
-Number of ties: 19
-Trained player win percentage:  0.0967741935483871
-
-Comparing performance to older player at index:  3
-
-Number of trained player wins: 0
-Number of previous best player wins: 11
+Number of previous best player wins: 6
 Number of ties: 39
-Trained player win percentage:  0.0
-
-Comparing performance to older player at index:  4
-
-Number of trained player wins: 0
-Number of previous best player wins: 0
-Number of ties: 50
-All ties, using the previous best player.
-
-Comparing performance to older player at index:  5
-
-Number of trained player wins: 0
-Number of previous best player wins: 12
-Number of ties: 38
-Trained player win percentage:  0.0
-
-Comparing performance to older player at index:  6
-
-Number of trained player wins: 0
-Number of previous best player wins: 31
-Number of ties: 19
-Trained player win percentage:  0.0
-
-Comparing performance to Pure MCTS
-
-Number of trained player wins: 4
-Number of previous best player wins: 40
-Number of ties: 6
-Trained player win percentage:  0.09090909090909091
-
-Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
-
-Training. . .
-Epoch:  0
-Training Loss: 2439.7042756080627 and Testing Loss: 695.9460020065308
-Epoch:  1
-Training Loss: 2415.3165225982666 and Testing Loss: 638.6153149604797
-Epoch:  2
-Training Loss: 2367.7680830955505 and Testing Loss: 626.198260307312
-Epoch:  3
-Training Loss: 2366.538256406784 and Testing Loss: 628.4651403427124
-Testing loss increasing, using model from one iteration earlier.
-
-Evaluating players at checkpoint: 101 with time threshold: 0.5
-
-Number of trained player wins: 7
-Number of previous best player wins: 9
-Number of ties: 34
-Trained player win percentage:  0.4375
+Trained player win percentage:  0.45454545454545453
 Using the previous best player.
 
 Running simulations. . .
-Number of moves available for training:  4000
-Number of moves available for testing:  1000
+Number of moves available for training:  1600
+Number of moves available for testing:  400
 
 Training. . .
 Epoch:  0
-Training Loss: 2542.266485452652 and Testing Loss: 694.46497631073
+Training Loss: 207.554056763649 and Testing Loss: 51.27138924598694
 Epoch:  1
-Training Loss: 2517.6339449882507 and Testing Loss: 634.4845645427704
+Training Loss: 198.54320752620697 and Testing Loss: 50.066322684288025
 Epoch:  2
-Training Loss: 2458.2008562088013 and Testing Loss: 585.678603887558
+Training Loss: 194.87251353263855 and Testing Loss: 49.95888900756836
 Epoch:  3
-Training Loss: 2456.507456302643 and Testing Loss: 585.2318062782288
+Training Loss: 192.75976300239563 and Testing Loss: 49.17418646812439
 Epoch:  4
-Training Loss: 2455.85861825943 and Testing Loss: 608.7234721183777
+Training Loss: 190.81828796863556 and Testing Loss: 49.22745335102081
 Testing loss increasing, using model from one iteration earlier.
 
-Evaluating players at checkpoint: 102 with time threshold: 0.5
+Evaluating players at checkpoint:  23
+
+Number of trained player wins: 1
+Number of previous best player wins: 6
+Number of ties: 43
+Trained player win percentage:  0.14285714285714285
+Using the previous best player.
+
+Running simulations. . .
+Number of moves available for training:  1600
+Number of moves available for testing:  400
+
+Training. . .
+Epoch:  0
+Training Loss: 207.33001387119293 and Testing Loss: 50.21937334537506
+Epoch:  1
+Training Loss: 197.78433179855347 and Testing Loss: 49.44673442840576
+Epoch:  2
+Training Loss: 194.5517954826355 and Testing Loss: 49.04824602603912
+Epoch:  3
+Training Loss: 192.24964666366577 and Testing Loss: 48.69821238517761
+Epoch:  4
+Training Loss: 190.3396053314209 and Testing Loss: 48.503424286842346
+
+Evaluating players at checkpoint:  24
+
+Number of trained player wins: 5
+Number of previous best player wins: 7
+Number of ties: 38
+Trained player win percentage:  0.4166666666666667
+Using the previous best player.
+
+Running simulations. . .
+Number of moves available for training:  1600
+Number of moves available for testing:  400
+
+Training. . .
+Epoch:  0
+Training Loss: 207.45018112659454 and Testing Loss: 48.95647954940796
+Epoch:  1
+Training Loss: 198.0179979801178 and Testing Loss: 48.02636253833771
+Epoch:  2
+Training Loss: 194.2122848033905 and Testing Loss: 47.47359228134155
+Epoch:  3
+Training Loss: 192.20200192928314 and Testing Loss: 47.12422227859497
+Epoch:  4
+Training Loss: 190.46336555480957 and Testing Loss: 46.87004995346069
+
+Evaluating players at checkpoint:  25
+
+Number of trained player wins: 3
+Number of previous best player wins: 4
+Number of ties: 43
+Trained player win percentage:  0.42857142857142855
+Using the previous best player.
+
+Running simulations. . .
+Number of moves available for training:  1600
+Number of moves available for testing:  400
+
+Training. . .
+Epoch:  0
+Training Loss: 205.59545576572418 and Testing Loss: 49.58220732212067
+Epoch:  1
+Training Loss: 196.54161190986633 and Testing Loss: 48.662246346473694
+Epoch:  2
+Training Loss: 193.15918338298798 and Testing Loss: 48.16375005245209
+Epoch:  3
+Training Loss: 190.85927736759186 and Testing Loss: 47.95519578456879
+Epoch:  4
+Training Loss: 189.18257582187653 and Testing Loss: 47.97454333305359
+Testing loss increasing, using model from one iteration earlier.
+
+Evaluating players at checkpoint:  26
+
+Number of trained player wins: 4
+Number of previous best player wins: 3
+Number of ties: 43
+Trained player win percentage:  0.5714285714285714
+Using the trained player.
+
+Running simulations. . .

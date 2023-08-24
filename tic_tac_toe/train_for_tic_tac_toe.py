@@ -115,13 +115,13 @@ def get_best_player(trained_player, best_player, trained_player_win_count, best_
         return best_player, False
 
 
-def run_simulations(game, num_simulations, player1, player2, num_searches):
+def run_simulations(game, num_simulations, player, num_searches):
     print("\nRunning simulations. . .")
     results = []
     player_1_roots = []
     player_2_roots = []
     games = []
-    players = [player1, player2]
+    players = [player, copy.deepcopy(player)]
     for game_num in range(num_simulations):
         new_game = copy.deepcopy(game)
         result_num, player_1_root, player_2_root = play(new_game, players, num_searches, False)
@@ -129,7 +129,6 @@ def run_simulations(game, num_simulations, player1, player2, num_searches):
         player_1_roots.append(player_1_root)
         player_2_roots.append(player_2_root)
         games.append(new_game)
-        players[0], players[1] = players[1], players[0]
     return results, player_1_roots, player_2_roots, games
 
 
@@ -217,26 +216,17 @@ def join_data(all_data, all_labels, data, labels, max_data_size):
         return all_data, all_labels
 
 
-def get_opposing_player(best_player, use_raw_mcts, raw_mcts_player):
-    if use_raw_mcts:
-        return raw_mcts_player
-    else:
-        return copy.deepcopy(best_player)
-
-
 def run_reinforcement(num_checkpoints, game, device, criterion, num_simulations, num_eval_games, epochs, num_searches, lr, max_data_size, num_checkpoints_before_comparison):
     print("Running Reinforcement Learning")
     player_factory = PlayerFactory()
     best_player = player_factory.get_player(PlayerType.Untrained_MCTS_CNN, device)
-    raw_mcts_player = player_factory.get_player(PlayerType.Raw_MCTS, device)
+    pure_mcts_player = player_factory.get_player(PlayerType.Raw_MCTS, device)
     all_data, all_labels = [], []
     old_players = [best_player]
     best_player_improved = False
-    use_raw_mcts = False
 
     for checkpoint in range(num_checkpoints + 1):
-        opposing_player = get_opposing_player(best_player, use_raw_mcts, raw_mcts_player)
-        results, player_1_roots, player_2_roots, games = run_simulations(game, num_simulations, opposing_player, best_player, num_searches)
+        results, player_1_roots, player_2_roots, games = run_simulations(game, num_simulations, best_player, num_searches)
         data, labels = preprocess_data(results, player_1_roots, player_2_roots, games, best_player)
         all_data, all_labels = join_data(all_data, all_labels, data, labels, max_data_size)
         training_loader, testing_loader = get_data_loaders(all_data, all_labels)
@@ -246,24 +236,19 @@ def run_reinforcement(num_checkpoints, game, device, criterion, num_simulations,
         trained_player.cnn = trained_model
 
         print("\nEvaluating players at checkpoint: ", checkpoint)
-        best_player, is_new_best_player = evaluate_players(game, num_eval_games, trained_player, best_player, num_searches, True)
-        if is_new_best_player:
+        best_player, new_best_player = evaluate_players(game, num_eval_games, trained_player, best_player, num_searches, True)
+        if new_best_player:
             best_player_improved = True
 
         if checkpoint % num_checkpoints_before_comparison == 0 and checkpoint != 0:
             for index, player in enumerate(old_players):
                 print("\nComparing performance to older player at index: ", index)
                 evaluate_players(game, num_eval_games, best_player, player, num_searches, False)
-            print("\nComparing performance to raw MCTS")
-            evaluate_players(game, num_eval_games, best_player, raw_mcts_player, num_searches, False)
+            print("\nComparing performance to Pure MCTS")
+            evaluate_players(game, num_eval_games, best_player, pure_mcts_player, num_searches, False)
             if best_player_improved:
                 old_players.append(copy.deepcopy(best_player))
                 best_player_improved = False
-                use_raw_mcts = False
-            else:
-                # This is not faithful to the original AlphaGo Zero paper, could potentially use temperature and noise to avoid
-                print("Using raw MCTS player for simulations in next 10 checkpoints as best player is not improving.")
-                use_raw_mcts = True
 
 
 lr = 0.00001

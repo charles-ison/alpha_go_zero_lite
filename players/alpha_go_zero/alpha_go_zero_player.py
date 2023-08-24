@@ -46,7 +46,8 @@ class AlphaGoZeroPlayer(Player):
         searches_count = 0
         expansion_move_performed = False
         start_time = time.time()
-        self.initialize_run_mcts(mcts_move, mcts_turn_count, mcts_game)
+        mcts_player_num = utilities.get_player_num(mcts_turn_count)
+        self.initialize_run_mcts(mcts_move, mcts_turn_count, mcts_game, mcts_player_num)
         while searches_count < num_searches:
             mcts_player_num = utilities.get_player_num(mcts_turn_count)
             mcts_move = self.get_next_mcts_move(mcts_game, mcts_player_num, mcts_move, expansion_move_performed)
@@ -75,7 +76,7 @@ class AlphaGoZeroPlayer(Player):
         if print_games:
             print("\nAlphaGo Zero Lite ran " + str(num_searches) + " searches in " + str(run_time) + " seconds.")
 
-    def initialize_run_mcts(self, mcts_move, mcts_turn_count, mcts_game):
+    def initialize_run_mcts(self, mcts_move, mcts_turn_count, mcts_game, mcts_player_num):
         raise NotImplementedError("Must override initialize_run_mcts().")
 
     def get_next_mcts_move(self, mcts_game, mcts_player_num, last_mcts_move, expansion_move_performed):

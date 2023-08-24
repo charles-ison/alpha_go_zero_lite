@@ -15,5 +15,5 @@ class AlphaGoZeroRawMTCSPlayer(AlphaGoZeroPlayer):
     def should_stop_rollout(self, expansion_move_performed):
         return False
 
-    def initialize_run_mcts(self, mcts_move, mcts_turn_count, mcts_game):
+    def initialize_run_mcts(self, mcts_move, mcts_turn_count, mcts_game, mcts_player_num):
         return

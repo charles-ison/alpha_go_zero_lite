@@ -23,8 +23,8 @@ class AlphaGoZeroCNNPlayer(AlphaGoZeroPlayer):
         else:
             return self.call_cnn(mcts_move, mcts_game, mcts_turn_count, player_num)
 
-    def should_stop_rollout(self, performing_rollout):
-        return performing_rollout
+    def should_stop_rollout(self, expansion_move_performed):
+        return expansion_move_performed
 
     def initialize_run_mcts(self, mcts_move, mcts_turn_count, mcts_game):
         if mcts_turn_count == 0:

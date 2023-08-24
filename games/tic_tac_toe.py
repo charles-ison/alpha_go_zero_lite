@@ -13,15 +13,10 @@ class TicTacToe(Game):
     # Not the board history is not required for tic-tac-toe, but leaving one move history here to be faithful
     # to the original Alpha Zero paper design
     def get_board_history(self, turn_count, player_num):
-        if turn_count == 0:
-            last_layer_num = 0
-        else:
-            last_layer_num = player_num
-
         board_history = torch.stack((
             self.board_history[turn_count + 1],
             self.board_history[turn_count],
-            torch.full((self.board_size, self.board_size), last_layer_num)
+            torch.full((self.board_size, self.board_size), player_num)
         ))
         return board_history.to(self.device)
 

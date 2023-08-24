@@ -44,20 +44,20 @@ class AlphaGoZeroPlayer(Player):
         mcts_move = last_move
         mcts_turn_count = turn_count
         searches_count = 0
-        performing_rollout = False
+        expansion_move_performed = False
         start_time = time.time()
-        self.initialize_run_mcts(mcts_move, mcts_turn_count, mcts_game)
+        #self.initialize_run_mcts(mcts_move, mcts_turn_count, mcts_game)
         while searches_count < num_searches:
             mcts_player_num = utilities.get_player_num(mcts_turn_count)
-            mcts_move = self.get_next_mcts_move(mcts_game, mcts_player_num, mcts_move, performing_rollout)
+            mcts_move = self.get_next_mcts_move(mcts_game, mcts_player_num, mcts_move, expansion_move_performed)
             mcts_game.update_board(mcts_move.row, mcts_move.column, mcts_player_num)
             mcts_turn_count += 1
 
             win_detected = mcts_game.detect_winner()
             tie_detected = mcts_game.detect_tie()
             if mcts_move.num_visits == 0:
-                performing_rollout = True
-            if win_detected or tie_detected or self.should_stop_rollout(performing_rollout):
+                expansion_move_performed = True
+            if win_detected or tie_detected or self.should_stop_rollout(expansion_move_performed):
                 current_val, opposing_val = self.get_action_values(win_detected, tie_detected, mcts_game, mcts_move, mcts_turn_count, mcts_player_num)
                 action_value_dict = {
                     mcts_player_num: current_val,
@@ -67,7 +67,7 @@ class AlphaGoZeroPlayer(Player):
                 mcts_game = copy.deepcopy(game)
                 mcts_move = last_move
                 mcts_turn_count = turn_count
-                performing_rollout = False
+                expansion_move_performed = False
                 searches_count += 1
 
         stop_time = time.time()
@@ -78,11 +78,11 @@ class AlphaGoZeroPlayer(Player):
     def initialize_run_mcts(self, mcts_move, mcts_turn_count, mcts_game):
         raise NotImplementedError("Must override initialize_run_mcts().")
 
-    def get_next_mcts_move(self, mcts_game, mcts_player_num, last_mcts_move, performing_rollout):
+    def get_next_mcts_move(self, mcts_game, mcts_player_num, last_mcts_move, expansion_move_performed):
         potential_moves = mcts_game.fetch_potential_moves()
         if self.should_add_new_tree_layer(potential_moves, last_mcts_move.children):
             self.add_new_tree_layer(potential_moves, last_mcts_move, mcts_game, mcts_player_num)
-        if performing_rollout:
+        if expansion_move_performed:
             return self.get_random_move(last_mcts_move.children)
         return self.get_selection_move(last_mcts_move.children)
 
@@ -98,7 +98,7 @@ class AlphaGoZeroPlayer(Player):
     def should_add_new_tree_layer(self, potential_moves, last_mcts_move_children):
         return len(potential_moves) != len(last_mcts_move_children)
 
-    def should_stop_rollout(self, performing_rollout):
+    def should_stop_rollout(self, expansion_move_performed):
         raise NotImplementedError("Must override should_stop_rollout().")
 
     def add_new_tree_layer(self, potential_moves, last_mcts_move, mcts_game, mcts_player_num):

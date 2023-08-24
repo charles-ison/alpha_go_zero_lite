@@ -22,7 +22,7 @@ class Move(Node):
 
     def get_upper_confidence_bound(self):
         exploration_factor = math.sqrt(2)
-        # Adding one to the denominator is not faithful to the UCT algorithm, but it allows for
+        # Adding 1 to the denominator is not 100% faithful to the UCT algorithm, but it allows for
         # consistent code with AlphaGo Zero
         parent_visit_ratio = math.log(self.parent.num_visits) / (self.num_visits + 1)
         return self.mean_action_value + exploration_factor * math.sqrt(parent_visit_ratio)

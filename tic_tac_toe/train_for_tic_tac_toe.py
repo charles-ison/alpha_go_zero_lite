@@ -51,6 +51,10 @@ def get_probabilities(player_1_node, player_2_node, player_num, game):
     probabilities = torch.zeros(game.board_size, game.board_size)
     for child in player_node.children:
         probabilities[child.row][child.column] = child.num_visits / player_node.num_visits
+
+    if probabilities.sum() != 1.0:
+        raise Exception("Probabilities do not sum to 1")
+
     return probabilities
 
 

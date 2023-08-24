@@ -18,7 +18,7 @@ class AlphaGoZeroPlayer(Player):
         self.run_monte_carlo_tree_search(turn_count, game, last_move, num_searches, print_games)
         potential_moves = last_move.children
         if len(potential_moves) == 0:
-            print("Bug encountered, no potential AlphaGo Zero Lite moves found. More searches need to be run.")
+            raise Exception("Bug encountered, no potential AlphaGo Zero Lite moves found. More searches need to be run.")
         return self.get_most_visited_potential_move(potential_moves)
 
     def get_most_visited_potential_move(self, potential_moves):

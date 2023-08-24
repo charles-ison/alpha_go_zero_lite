@@ -28,5 +28,5 @@ class AlphaGoZeroCNNPlayer(AlphaGoZeroPlayer):
 
     def initialize_run_mcts(self, mcts_move, mcts_turn_count, mcts_game):
         if mcts_turn_count == 0:
-            # Using number 2 as the last players number for the first move of the game
-            self.call_cnn(mcts_move, mcts_game, mcts_turn_count, 2)
+            # Using 0 as the last players number for the first move of the game
+            self.call_cnn(mcts_move, mcts_game, mcts_turn_count, 0)

@@ -46,7 +46,7 @@ class AlphaGoZeroPlayer(Player):
         searches_count = 0
         expansion_move_performed = False
         start_time = time.time()
-        #self.initialize_run_mcts(mcts_move, mcts_turn_count, mcts_game)
+        self.initialize_run_mcts(mcts_move, mcts_turn_count, mcts_game)
         while searches_count < num_searches:
             mcts_player_num = utilities.get_player_num(mcts_turn_count)
             mcts_move = self.get_next_mcts_move(mcts_game, mcts_player_num, mcts_move, expansion_move_performed)

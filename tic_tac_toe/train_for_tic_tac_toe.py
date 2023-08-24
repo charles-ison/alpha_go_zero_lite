@@ -24,8 +24,8 @@ class MoveDataSet(torch.utils.data.Dataset):
 
 
 def get_game_value(turn_count, result, player_num, best_player):
-    #if turn_count == 0:
-    #    return 0
+    if turn_count == 0:
+        return 0
     if result == player_num:
         return best_player.win_value
     elif result == 0:
@@ -79,13 +79,9 @@ def preprocess_data(results, player_1_roots, player_2_roots, games, best_player)
     for (result, player_1_node, player_2_node, game) in zip(results, player_1_roots, player_2_roots, games):
         turn_count = 0
 
-        # Skipping roots
-        player_1_node = get_next_move(player_1_node)
-        player_2_node = get_next_move(player_2_node)
-
         while len(player_1_node.children) != 0 and len(player_2_node.children) != 0:
-            player_num = get_player_num(turn_count)
-            board_history = game.get_board_history(turn_count + 1, player_num)
+            player_num = get_player_num(turn_count - 1)
+            board_history = game.get_board_history(turn_count, player_num)
             data.append(board_history)
 
             probabilities = get_probabilities(player_1_node, player_2_node, player_num, game)
@@ -256,8 +252,8 @@ def run_reinforcement(num_checkpoints, game, device, criterion, num_simulations,
 
 
 lr = 0.00001
-batch_size = 16
-num_searches = 100
+batch_size = 32
+num_searches = 50
 num_checkpoints = 100
 num_simulations = 50
 num_eval_games = 50

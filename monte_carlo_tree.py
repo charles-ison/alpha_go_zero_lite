@@ -3,15 +3,15 @@ import torch
 
 
 class Node:
-    def __init__(self, board_size):
+    def __init__(self, board_size, num_visits):
         self.children = []
         self.child_probabilities = torch.full((board_size, board_size), 1.0 / board_size)
-        self.num_visits = 0
+        self.num_visits = num_visits
 
 
 class Move(Node):
-    def __init__(self, board_size, player_num, row, column, parent):
-        super().__init__(board_size)
+    def __init__(self, board_size, player_num, row, column, parent, num_visits):
+        super().__init__(board_size, num_visits)
         self.player_num = player_num
         self.action_value = 0.0
         self.mean_action_value = 0.0
@@ -22,9 +22,9 @@ class Move(Node):
 
     def get_upper_confidence_bound(self):
         exploration_factor = math.sqrt(2)
-        # Adding 1 to the numerator and denominator is not 100% faithful to the UCT formula,
-        # but changing to keep code concise for AlphaGo Zero. Should not impact results
-        parent_visit_ratio = math.log(self.parent.num_visits + 1) / (self.num_visits + 1)
+        # Adding one to the denominator is not faithful to the UCT algorithm, but it allows for
+        # consistent code with AlphaGo Zero
+        parent_visit_ratio = math.log(self.parent.num_visits) / (self.num_visits + 1)
         return self.mean_action_value + exploration_factor * math.sqrt(parent_visit_ratio)
 
     def get_predictor_upper_confidence_bound_applied_to_trees(self):

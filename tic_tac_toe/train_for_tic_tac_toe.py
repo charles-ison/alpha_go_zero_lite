@@ -23,8 +23,10 @@ class MoveDataSet(torch.utils.data.Dataset):
         return {'data': self.data[index], 'label': self.labels[index]}
 
 
-def get_game_value(result, player_num, best_player):
-    if result == player_num:
+def get_game_value(turn_count, result, player_num, best_player):
+    if turn_count == 0:
+        return 0
+    elif result == player_num:
         return best_player.win_value
     elif result == 0:
         return best_player.tie_value
@@ -50,10 +52,10 @@ def get_probabilities(player_1_node, player_2_node, player_num, game):
     player_node = get_player_node(player_1_node, player_2_node, player_num)
     probabilities = torch.zeros(game.board_size, game.board_size)
     for child in player_node.children:
-        probabilities[child.row][child.column] = child.num_visits / player_node.num_visits
+        probabilities[child.row][child.column] = child.num_visits / (player_node.num_visits - 1)
 
-    if probabilities.sum() != 1.0:
-        raise Exception("Probabilities do not sum to 1")
+    if round(probabilities.sum().item(), 5) != 1.0:
+        raise Exception("Probabilities do not sum to 1.")
 
     return probabilities
 
@@ -77,17 +79,13 @@ def preprocess_data(results, player_1_roots, player_2_roots, games, best_player)
     for (result, player_1_node, player_2_node, game) in zip(results, player_1_roots, player_2_roots, games):
         turn_count = 0
 
-        # Skipping roots
-        player_1_node = get_next_move(player_1_node)
-        player_2_node = get_next_move(player_2_node)
-
         while len(player_1_node.children) != 0 and len(player_2_node.children) != 0:
-            player_num = get_player_num(turn_count)
-            board_history = game.get_board_history(turn_count + 1, player_num)
+            player_num = get_player_num(turn_count + 1)
+            board_history = game.get_board_history(turn_count, player_num)
             data.append(board_history)
 
             probabilities = get_probabilities(player_1_node, player_2_node, player_num, game)
-            game_value = get_game_value(result, player_num, best_player)
+            game_value = get_game_value(turn_count, result, player_num, best_player)
             labels.append((probabilities, game_value))
 
             player_1_node = get_next_move(player_1_node)

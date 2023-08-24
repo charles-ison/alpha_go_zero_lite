@@ -14,7 +14,7 @@ def play(game, players, num_searches, print_games):
     turn_count = 0
     if print_games:
         game.print_board()
-    player_1_root, player_2_root = mct.Node(game.board_size), mct.Node(game.board_size)
+    player_1_root, player_2_root = mct.Node(game.board_size, 1), mct.Node(game.board_size, 1)
     current_player_node, waiting_player_node = player_1_root, player_2_root
 
     while True:
@@ -22,8 +22,8 @@ def play(game, players, num_searches, print_games):
         player = players[player_num - 1]
         current_player_node = player.play_move(game, player_num, turn_count, current_player_node, num_searches, print_games)
         waiting_player_node = utilities.append_move(game, player_num, waiting_player_node, current_player_node.row, current_player_node.column)
-
         game.update_board(current_player_node.row, current_player_node.column, player_num)
+
         if print_games:
             game.print_board()
 

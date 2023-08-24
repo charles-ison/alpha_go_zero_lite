@@ -15,7 +15,7 @@ class AlphaGoZeroPlayer(Player):
         self.tie_value = 0
 
     def play_move(self, game, player_num, turn_count, last_move, num_searches, print_games):
-        self.run_monte_carlo_tree_search(turn_count, game, last_move, num_searches, print_games)
+        self.run_mcts(turn_count, game, last_move, num_searches, print_games)
         potential_moves = last_move.children
         if len(potential_moves) == 0:
             raise Exception("Bug encountered, no potential AlphaGo Zero Lite moves found. More searches need to be run.")
@@ -39,22 +39,25 @@ class AlphaGoZeroPlayer(Player):
         return best_move
 
 
-    def run_monte_carlo_tree_search(self, turn_count, game, last_move, num_searches, print_games):
+    def run_mcts(self, turn_count, game, last_move, num_searches, print_games):
         mcts_game = copy.deepcopy(game)
         mcts_move = last_move
         mcts_turn_count = turn_count
         searches_count = 0
+        performing_rollout = False
         start_time = time.time()
+        self.initialize_run_mcts(mcts_move, mcts_turn_count, mcts_game)
         while searches_count < num_searches:
             mcts_player_num = utilities.get_player_num(mcts_turn_count)
-            mcts_move = self.get_next_mcts_move(mcts_game, mcts_player_num, mcts_move)
+            mcts_move = self.get_next_mcts_move(mcts_game, mcts_player_num, mcts_move, performing_rollout)
             mcts_game.update_board(mcts_move.row, mcts_move.column, mcts_player_num)
             mcts_turn_count += 1
 
             win_detected = mcts_game.detect_winner()
             tie_detected = mcts_game.detect_tie()
-            is_expansion_move = mcts_move.num_visits == 1
-            if win_detected or tie_detected or self.should_stop_rollout(is_expansion_move):
+            if mcts_move.num_visits == 0:
+                performing_rollout = True
+            if win_detected or tie_detected or self.should_stop_rollout(performing_rollout):
                 current_val, opposing_val = self.get_action_values(win_detected, tie_detected, mcts_game, mcts_move, mcts_turn_count, mcts_player_num)
                 action_value_dict = {
                     mcts_player_num: current_val,
@@ -64,6 +67,7 @@ class AlphaGoZeroPlayer(Player):
                 mcts_game = copy.deepcopy(game)
                 mcts_move = last_move
                 mcts_turn_count = turn_count
+                performing_rollout = False
                 searches_count += 1
 
         stop_time = time.time()
@@ -71,10 +75,15 @@ class AlphaGoZeroPlayer(Player):
         if print_games:
             print("\nAlphaGo Zero Lite ran " + str(num_searches) + " searches in " + str(run_time) + " seconds.")
 
-    def get_next_mcts_move(self, mcts_game, mcts_player_num, last_mcts_move):
+    def initialize_run_mcts(self, mcts_move, mcts_turn_count, mcts_game):
+        raise NotImplementedError("Must override initialize_run_mcts().")
+
+    def get_next_mcts_move(self, mcts_game, mcts_player_num, last_mcts_move, performing_rollout):
         potential_moves = mcts_game.fetch_potential_moves()
         if self.should_add_new_tree_layer(potential_moves, last_mcts_move.children):
             self.add_new_tree_layer(potential_moves, last_mcts_move, mcts_game, mcts_player_num)
+        if performing_rollout:
+            return self.get_random_move(last_mcts_move.children)
         return self.get_selection_move(last_mcts_move.children)
 
     def run_backpropagation(self, backpropagation_leaf, mcts_root, action_value_dict):
@@ -89,7 +98,7 @@ class AlphaGoZeroPlayer(Player):
     def should_add_new_tree_layer(self, potential_moves, last_mcts_move_children):
         return len(potential_moves) != len(last_mcts_move_children)
 
-    def should_stop_rollout(self, is_expansion_move):
+    def should_stop_rollout(self, performing_rollout):
         raise NotImplementedError("Must override should_stop_rollout().")
 
     def add_new_tree_layer(self, potential_moves, last_mcts_move, mcts_game, mcts_player_num):
@@ -99,7 +108,7 @@ class AlphaGoZeroPlayer(Player):
                 board_size = mcts_game.board_size
                 row = potential_move_tuple[0]
                 column = potential_move_tuple[1]
-                potential_move = mct.Move(board_size, mcts_player_num,  row, column, last_mcts_move)
+                potential_move = mct.Move(board_size, mcts_player_num,  row, column, last_mcts_move, 0)
                 last_mcts_move_children.append(potential_move)
 
     def move_unexplored(self, potential_move_tuple, last_mcts_move_children):

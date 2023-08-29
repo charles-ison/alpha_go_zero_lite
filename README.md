@@ -32,6 +32,10 @@ How to start virtual environment and load required modules:
 
 ```module load python/3.10 cuda/11.7```
 
+How to asynchronously run job on HPC:
+
+```sbatch	run_on_hpc.sh```
+
 ## Running Code
 
 To train for Tic-Tac-Toe, please using the follwing command:

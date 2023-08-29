@@ -268,7 +268,7 @@ def run_reinforcement(num_checkpoints, game, device, criterion, num_simulations,
                 print("Increasing simulation number of searches 2x, due to player not improving")
                 increase_simulation_num_searches = True
 
-lr = 0.00001
+lr = 0.0001
 batch_size = 32
 num_searches = 100
 num_checkpoints = 100

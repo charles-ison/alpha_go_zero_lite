@@ -14,8 +14,8 @@ class AlphaGoZeroPlayer(Player):
         self.lose_value = -1
         self.tie_value = 0
 
-    def play_move(self, game, player_num, turn_count, last_move, num_searches, print_games):
-        self.run_mcts(turn_count, game, last_move, num_searches, print_games)
+    def play_move(self, game, player_num, turn_count, last_move, num_searches, add_noise, print_games):
+        self.run_mcts(turn_count, game, last_move, num_searches, add_noise, print_games)
         potential_moves = last_move.children
         if len(potential_moves) == 0:
             raise Exception("Bug encountered, no potential AlphaGo Zero Lite moves found. More searches need to be run.")
@@ -39,7 +39,7 @@ class AlphaGoZeroPlayer(Player):
         return best_move
 
 
-    def run_mcts(self, turn_count, game, last_move, num_searches, print_games):
+    def run_mcts(self, turn_count, game, last_move, num_searches, add_noise, print_games):
         mcts_game = copy.deepcopy(game)
         mcts_move = last_move
         mcts_turn_count = turn_count
@@ -50,7 +50,7 @@ class AlphaGoZeroPlayer(Player):
         self.initialize_run_mcts(mcts_move, mcts_turn_count, mcts_game, mcts_player_num)
         while searches_count < num_searches:
             mcts_player_num = utilities.get_player_num(mcts_turn_count)
-            mcts_move = self.get_next_mcts_move(mcts_game, mcts_player_num, mcts_move, expansion_move_performed)
+            mcts_move = self.get_next_mcts_move(mcts_game, mcts_player_num, mcts_move, expansion_move_performed, add_noise)
             mcts_game.update_board(mcts_move.row, mcts_move.column, mcts_player_num)
             mcts_turn_count += 1
 
@@ -79,13 +79,13 @@ class AlphaGoZeroPlayer(Player):
     def initialize_run_mcts(self, mcts_move, mcts_turn_count, mcts_game, mcts_player_num):
         raise NotImplementedError("Must override initialize_run_mcts().")
 
-    def get_next_mcts_move(self, mcts_game, mcts_player_num, last_mcts_move, expansion_move_performed):
+    def get_next_mcts_move(self, mcts_game, mcts_player_num, last_mcts_move, expansion_move_performed, add_noise):
         potential_moves = mcts_game.fetch_potential_moves()
         if self.should_add_new_tree_layer(potential_moves, last_mcts_move.children):
             self.add_new_tree_layer(potential_moves, last_mcts_move, mcts_game, mcts_player_num)
         if expansion_move_performed:
             return self.get_random_move(last_mcts_move.children)
-        return self.get_selection_move(last_mcts_move.children)
+        return self.get_selection_move(last_mcts_move.children, add_noise)
 
     def run_backpropagation(self, backpropagation_leaf, mcts_root, action_value_dict):
         backprop_move = backpropagation_leaf
@@ -129,19 +129,19 @@ class AlphaGoZeroPlayer(Player):
         else:
             return self.tie_value, self.tie_value
 
-    def get_selection_value(self, move):
+    def get_selection_value(self, move, add_noise):
         raise NotImplementedError("Must override get_selection_value().")
 
     def get_random_move(self, potential_moves):
         return potential_moves[random.randint(0, len(potential_moves) - 1)]
 
-    def get_selection_move(self, last_expansion_move_children):
+    def get_selection_move(self, last_expansion_move_children, add_noise):
         best_move = last_expansion_move_children[0]
         tie_moves = [best_move]
         is_tie = False
         for move in last_expansion_move_children[1:]:
-            move_selection_value = self.get_selection_value(move)
-            best_move_selection_value = self.get_selection_value(best_move)
+            move_selection_value = self.get_selection_value(move, add_noise)
+            best_move_selection_value = self.get_selection_value(best_move, add_noise)
             if move_selection_value > best_move_selection_value:
                 best_move = move
                 tie_moves = [best_move]

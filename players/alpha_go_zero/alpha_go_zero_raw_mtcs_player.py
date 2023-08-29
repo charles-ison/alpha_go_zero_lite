@@ -6,7 +6,7 @@ class AlphaGoZeroRawMTCSPlayer(AlphaGoZeroPlayer):
     def __init__(self):
         super().__init__()
 
-    def get_selection_value(self, move):
+    def get_selection_value(self, move, add_noise):
         return move.get_upper_confidence_bound()
 
     def get_action_values(self, win_detected, tie_detected, mcts_game, mcts_move, turn_count, player_num):

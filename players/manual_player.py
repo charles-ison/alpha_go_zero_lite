@@ -3,7 +3,7 @@ from players.player import Player
 
 
 class ManualPlayer(Player):
-    def play_move(self, game, player_num, turn_count, last_move, num_searches, print_games):
+    def play_move(self, game, player_num, turn_count, last_move, num_searches, add_noise, print_games):
         row, column = input("\nPlayer " + str(player_num) + " please enter move coordinates: ").split(",")
         row, column = int(row), int(column)
 

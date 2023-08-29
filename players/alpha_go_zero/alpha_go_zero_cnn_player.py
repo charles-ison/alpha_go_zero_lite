@@ -14,8 +14,8 @@ class AlphaGoZeroCNNPlayer(AlphaGoZeroPlayer):
         mcts_move.child_probabilities = child_probabilities.squeeze()
         return action_value, -action_value
 
-    def get_selection_value(self, move):
-        return move.get_mean_action_value_plus_puct()
+    def get_selection_value(self, move, add_noise):
+        return move.get_mean_action_value_plus_puct(add_noise)
 
     def get_action_values(self, win_detected, tie_detected, mcts_game, mcts_move, mcts_turn_count, player_num):
         if win_detected or tie_detected:

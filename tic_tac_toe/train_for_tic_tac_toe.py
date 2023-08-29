@@ -124,7 +124,7 @@ def run_simulations(game, num_simulations, player, num_searches):
     players = [player, copy.deepcopy(player)]
     for game_num in range(num_simulations):
         new_game = copy.deepcopy(game)
-        result_num, player_1_root, player_2_root = play(new_game, players, num_searches, False)
+        result_num, player_1_root, player_2_root = play(new_game, players, num_searches, True, False)
         results.append(result_num)
         player_1_roots.append(player_1_root)
         player_2_roots.append(player_2_root)
@@ -137,7 +137,7 @@ def evaluate_players(game, num_eval_games, trained_player, best_player, num_sear
     players = [trained_player, best_player]
     for game_num in range(num_eval_games):
         new_game = copy.deepcopy(game)
-        result_num, _, _ = play(new_game, players, num_searches, False)
+        result_num, _, _ = play(new_game, players, num_searches, False, False)
         players[0], players[1] = players[1], players[0]
 
         if result_num == get_player_num(game_num):

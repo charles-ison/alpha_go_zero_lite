@@ -216,16 +216,6 @@ def join_data(all_data, all_labels, data, labels, max_data_size):
         return all_data, all_labels
 
 
-increase_simulation_num_searches = False
-
-
-def get_simulation_num_searches(increase_simulation_num_searches, num_searches):
-    if increase_simulation_num_searches:
-        return 2 * num_searches
-    else:
-        return num_searches
-
-
 def run_reinforcement(num_checkpoints, game, device, criterion, num_simulations, num_eval_games, epochs, num_searches, lr, max_data_size, num_checkpoints_before_comparison):
     print("Running Reinforcement Learning")
     player_factory = PlayerFactory()
@@ -233,12 +223,9 @@ def run_reinforcement(num_checkpoints, game, device, criterion, num_simulations,
     pure_mcts_player = player_factory.get_player(PlayerType.Raw_MCTS, device)
     all_data, all_labels = [], []
     old_players = [best_player]
-    best_player_improved = False
-    increase_simulation_num_searches = False
 
     for checkpoint in range(num_checkpoints + 1):
-        simulation_num_searches = get_simulation_num_searches(increase_simulation_num_searches, num_searches)
-        results, player_1_roots, player_2_roots, games = run_simulations(game, num_simulations, best_player, simulation_num_searches)
+        results, player_1_roots, player_2_roots, games = run_simulations(game, num_simulations, best_player, num_searches)
         data, labels = preprocess_data(results, player_1_roots, player_2_roots, games, best_player)
         all_data, all_labels = join_data(all_data, all_labels, data, labels, max_data_size)
         training_loader, testing_loader = get_data_loaders(all_data, all_labels)
@@ -250,7 +237,7 @@ def run_reinforcement(num_checkpoints, game, device, criterion, num_simulations,
         print("\nEvaluating players at checkpoint: ", checkpoint)
         best_player, is_new_best_player = evaluate_players(game, num_eval_games, trained_player, best_player, num_searches, True)
         if is_new_best_player:
-            best_player_improved = True
+            old_players.append(copy.deepcopy(best_player))
 
         if checkpoint % num_checkpoints_before_comparison == 0 and checkpoint != 0:
             for index, player in enumerate(old_players):
@@ -258,15 +245,7 @@ def run_reinforcement(num_checkpoints, game, device, criterion, num_simulations,
                 evaluate_players(game, num_eval_games, best_player, player, num_searches, False)
             print("\nComparing performance to Pure MCTS")
             evaluate_players(game, num_eval_games, best_player, pure_mcts_player, num_searches, False)
-            if best_player_improved:
-                old_players.append(copy.deepcopy(best_player))
-                best_player_improved = False
-                increase_simulation_num_searches = False
-            else:
-                # This is not faithful with the original AlphaGo Zero implementation,
-                # adding temperature and noise could also help
-                print("Increasing simulation number of searches 2x, due to player not improving")
-                increase_simulation_num_searches = True
+
 
 lr = 0.0001
 batch_size = 32
@@ -275,7 +254,7 @@ num_checkpoints = 100
 num_simulations = 100
 num_eval_games = 100
 num_checkpoints_before_comparison = 10
-epochs = 10
+epochs = 3
 max_data_size = 3000
 criterion = Loss()
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")

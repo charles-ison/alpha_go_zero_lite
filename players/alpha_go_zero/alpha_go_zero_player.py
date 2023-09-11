@@ -19,7 +19,7 @@ class AlphaGoZeroPlayer(Player):
         potential_moves = last_move.children
         if len(potential_moves) == 0:
             raise Exception("Bug encountered, no potential AlphaGo Zero Lite moves found. More searches need to be run.")
-        return self.get_most_visited_potential_move(potential_moves)
+        return self.get_next_move(potential_moves, add_noise)
 
     def get_most_visited_potential_move(self, potential_moves):
         best_move = potential_moves[0]
@@ -79,6 +79,9 @@ class AlphaGoZeroPlayer(Player):
     def initialize_run_mcts(self, mcts_move, mcts_turn_count, mcts_game, mcts_player_num):
         raise NotImplementedError("Must override initialize_run_mcts().")
 
+    def get_next_move(self, potential_moves, add_noise):
+        raise NotImplementedError("Must override get_next_move().")
+
     def get_next_mcts_move(self, mcts_game, mcts_player_num, last_mcts_move, expansion_move_performed, add_noise):
         potential_moves = mcts_game.fetch_potential_moves()
         if self.should_add_new_tree_layer(potential_moves, last_mcts_move.children):
@@ -93,7 +96,6 @@ class AlphaGoZeroPlayer(Player):
         while backprop_move != mcts_root:
             backprop_move.action_value += action_value_dict[backprop_move.player_num]
             backprop_move.num_visits += 1.0
-            backprop_move.mean_action_value = backprop_move.action_value / backprop_move.num_visits
             backprop_move = backprop_move.parent
 
     def should_add_new_tree_layer(self, potential_moves, last_mcts_move_children):

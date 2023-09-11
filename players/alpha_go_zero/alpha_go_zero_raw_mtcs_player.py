@@ -17,3 +17,6 @@ class AlphaGoZeroRawMTCSPlayer(AlphaGoZeroPlayer):
 
     def initialize_run_mcts(self, mcts_move, mcts_turn_count, mcts_game, mcts_player_num):
         return
+
+    def get_next_move(self, potential_moves, add_noise):
+        return self.get_most_visited_potential_move(potential_moves)

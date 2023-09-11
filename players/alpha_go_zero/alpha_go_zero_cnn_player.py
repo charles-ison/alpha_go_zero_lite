@@ -1,3 +1,4 @@
+import random
 from players.alpha_go_zero.alpha_go_zero_player import AlphaGoZeroPlayer
 
 
@@ -30,3 +31,17 @@ class AlphaGoZeroCNNPlayer(AlphaGoZeroPlayer):
         if mcts_turn_count == 0:
             # Using 0 as the last players number for the first move of the game
             self.call_cnn(mcts_move, mcts_game, mcts_turn_count, mcts_player_num)
+
+    def get_potential_moves_num_visits(self, potential_moves):
+        potential_moves_num_visits = []
+        for move in potential_moves:
+            num_visits = move.num_visits
+            potential_moves_num_visits.append(num_visits)
+        return potential_moves_num_visits
+
+    def get_next_move(self, potential_moves, add_noise):
+        if add_noise:
+            potential_moves_num_visits = self.get_potential_moves_num_visits(potential_moves)
+            return random.choices(potential_moves, weights=potential_moves_num_visits)[0]
+        else:
+            return self.get_most_visited_potential_move(potential_moves)

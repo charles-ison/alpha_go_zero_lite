@@ -16,7 +16,6 @@ class Move(Node):
         super().__init__(board_size, num_visits)
         self.player_num = player_num
         self.action_value = 0.0
-        self.mean_action_value = 0.0
         self.row = row
         self.column = column
         self.parent = parent
@@ -27,7 +26,7 @@ class Move(Node):
         # Adding 1 to the denominator is not 100% faithful to the UCT algorithm, but it allows for
         # consistent code with AlphaGo Zero
         parent_visit_ratio = math.log(self.parent.num_visits) / (self.num_visits + 1)
-        return self.mean_action_value + exploration_factor * math.sqrt(parent_visit_ratio)
+        return self.get_mean_action_value() + exploration_factor * math.sqrt(parent_visit_ratio)
 
     def get_predictor_upper_confidence_bound_applied_to_trees(self, add_noise):
         exploration_factor = math.sqrt(2)
@@ -45,4 +44,10 @@ class Move(Node):
         return probability
 
     def get_mean_action_value_plus_puct(self, add_noise):
-        return self.mean_action_value + self.get_predictor_upper_confidence_bound_applied_to_trees(add_noise)
+        return self.get_mean_action_value() + self.get_predictor_upper_confidence_bound_applied_to_trees(add_noise)
+
+    def get_mean_action_value(self):
+        if self.num_visits == 0:
+            return 0.0
+        else:
+            return self.action_value / self.num_visits

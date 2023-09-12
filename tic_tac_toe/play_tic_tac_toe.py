@@ -23,8 +23,8 @@ def get_num_games():
     return int(input("\nHow many games would you like to play? "))
 
 
-# About 2 seconds is required for pure MCTS to achieve perfect play
-time_limit = 2
+# About 1-2 seconds is required for pure MCTS to achieve perfect play
+time_limit = 0.1
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 player_factory = PlayerFactory()
 players = [get_player(player_factory, 1, device), get_player(player_factory, 2, device)]

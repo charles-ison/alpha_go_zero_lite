@@ -17,8 +17,6 @@ class AlphaGoZeroPlayer(Player):
     def play_move(self, game, player_num, turn_count, last_move, time_limit, add_noise, print_games):
         self.run_mcts(turn_count, game, last_move, time_limit, add_noise, print_games)
         potential_moves = last_move.children
-        if len(potential_moves) == 0:
-            raise Exception("Bug encountered, no potential AlphaGo Zero Lite moves found. More searches need to be run.")
         return self.get_next_move(potential_moves, game, turn_count, add_noise)
 
     def get_most_visited_potential_move(self, potential_moves):
@@ -48,7 +46,7 @@ class AlphaGoZeroPlayer(Player):
         start_time = time.time()
         mcts_player_num = utilities.get_player_num(mcts_turn_count)
         self.initialize_run_mcts(mcts_move, mcts_turn_count, mcts_game, mcts_player_num)
-        while time.time() < start_time + time_limit:
+        while time.time() < start_time + time_limit or searches_count < 1:
             mcts_player_num = utilities.get_player_num(mcts_turn_count)
             mcts_move = self.get_next_mcts_move(mcts_game, mcts_player_num, mcts_move, expansion_move_performed, add_noise)
             mcts_game.update_board(mcts_move.row, mcts_move.column, mcts_player_num)

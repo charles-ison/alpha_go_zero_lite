@@ -252,12 +252,12 @@ def run_reinforcement(num_checkpoints, num_simulations, num_eval_games, epochs, 
 
 lr = 0.0001
 batch_size = 32
-time_limit = 1
+time_limit = 0.1
 num_checkpoints = 100
 num_simulations = 50
 num_eval_games = 50
 num_checkpoints_before_comparison = 10
-epochs = 5
-max_data_size = 3000
+epochs = 1
+max_data_size = 10000
 
 run_reinforcement(num_checkpoints, num_simulations, num_eval_games, epochs, time_limit, lr, max_data_size, num_checkpoints_before_comparison)

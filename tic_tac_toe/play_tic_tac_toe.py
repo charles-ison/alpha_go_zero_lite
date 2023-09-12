@@ -23,12 +23,12 @@ def get_num_games():
     return int(input("\nHow many games would you like to play? "))
 
 
-# About 500 searches is required for the pure MCTS to achieve perfect play
-num_searches = 500
+# About 2 seconds is required for pure MCTS to achieve perfect play
+time_limit = 2
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 player_factory = PlayerFactory()
 players = [get_player(player_factory, 1, device), get_player(player_factory, 2, device)]
 num_games = get_num_games()
 game = TicTacToe(device)
-play_games(game, num_games, players, num_searches)
+play_games(game, num_games, players, time_limit)
 

@@ -16,7 +16,7 @@ class PlayerFactory:
             player = AlphaGoZeroRawMTCSPlayer()
         elif player_type == PlayerType.MCTS_CNN:
             cnn = TicTacToeCNN()
-            cnn.load_state_dict(torch.load("neural_networks/saved_models/tic_tac_toe_cnn.pt"))
+            cnn.load_state_dict(torch.load("neural_networks/saved_models/best_tic_tac_toe_cnn.pt"))
             cnn.to(device)
             player = AlphaGoZeroCNNPlayer(cnn)
         elif player_type == PlayerType.Untrained_MCTS_CNN:

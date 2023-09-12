@@ -14,8 +14,8 @@ class AlphaGoZeroPlayer(Player):
         self.lose_value = -1
         self.tie_value = 0
 
-    def play_move(self, game, player_num, turn_count, last_move, num_searches, add_noise, print_games):
-        self.run_mcts(turn_count, game, last_move, num_searches, add_noise, print_games)
+    def play_move(self, game, player_num, turn_count, last_move, time_limit, add_noise, print_games):
+        self.run_mcts(turn_count, game, last_move, time_limit, add_noise, print_games)
         potential_moves = last_move.children
         if len(potential_moves) == 0:
             raise Exception("Bug encountered, no potential AlphaGo Zero Lite moves found. More searches need to be run.")
@@ -39,7 +39,7 @@ class AlphaGoZeroPlayer(Player):
         return best_move
 
 
-    def run_mcts(self, turn_count, game, last_move, num_searches, add_noise, print_games):
+    def run_mcts(self, turn_count, game, last_move, time_limit, add_noise, print_games):
         mcts_game = copy.deepcopy(game)
         mcts_move = last_move
         mcts_turn_count = turn_count
@@ -48,7 +48,7 @@ class AlphaGoZeroPlayer(Player):
         start_time = time.time()
         mcts_player_num = utilities.get_player_num(mcts_turn_count)
         self.initialize_run_mcts(mcts_move, mcts_turn_count, mcts_game, mcts_player_num)
-        while searches_count < num_searches:
+        while time.time() < start_time + time_limit:
             mcts_player_num = utilities.get_player_num(mcts_turn_count)
             mcts_move = self.get_next_mcts_move(mcts_game, mcts_player_num, mcts_move, expansion_move_performed, add_noise)
             mcts_game.update_board(mcts_move.row, mcts_move.column, mcts_player_num)
@@ -73,8 +73,9 @@ class AlphaGoZeroPlayer(Player):
 
         stop_time = time.time()
         run_time = float(stop_time - start_time)
+        rounded_run_time = round(run_time, 3)
         if print_games:
-            print("\nAlphaGo Zero Lite ran " + str(num_searches) + " searches in " + str(run_time) + " seconds.")
+            print("\nAlphaGo Zero Lite ran " + str(searches_count) + " searches in " + str(rounded_run_time) + " seconds.")
 
     def initialize_run_mcts(self, mcts_move, mcts_turn_count, mcts_game, mcts_player_num):
         raise NotImplementedError("Must override initialize_run_mcts().")

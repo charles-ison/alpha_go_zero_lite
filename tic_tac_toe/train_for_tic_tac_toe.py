@@ -115,7 +115,7 @@ def get_best_player(trained_player, best_player, trained_player_win_count, best_
         return best_player, False
 
 
-def run_simulations(game, num_simulations, player, num_searches):
+def run_simulations(game, num_simulations, player, time_limit):
     print("\nRunning simulations. . .")
     results = []
     player_1_roots = []
@@ -124,7 +124,7 @@ def run_simulations(game, num_simulations, player, num_searches):
     players = [player, copy.deepcopy(player)]
     for game_num in range(num_simulations):
         new_game = copy.deepcopy(game)
-        result_num, player_1_root, player_2_root = play(new_game, players, num_searches, True, False)
+        result_num, player_1_root, player_2_root = play(new_game, players, time_limit, True, False)
         results.append(result_num)
         player_1_roots.append(player_1_root)
         player_2_roots.append(player_2_root)
@@ -132,12 +132,12 @@ def run_simulations(game, num_simulations, player, num_searches):
     return results, player_1_roots, player_2_roots, games
 
 
-def evaluate_players(game, num_eval_games, trained_player, best_player, num_searches, log_player_selection):
+def evaluate_players(game, num_eval_games, trained_player, best_player, time_limit, log_player_selection):
     trained_player_win_count, best_player_win_count, tie_count = 0, 0, 0
     players = [trained_player, best_player]
     for game_num in range(num_eval_games):
         new_game = copy.deepcopy(game)
-        result_num, _, _ = play(new_game, players, num_searches, False, False)
+        result_num, _, _ = play(new_game, players, time_limit, False, False)
         players[0], players[1] = players[1], players[0]
 
         if result_num == get_player_num(game_num):
@@ -216,7 +216,7 @@ def join_data(all_data, all_labels, data, labels, max_data_size):
         return all_data, all_labels
 
 
-def run_reinforcement(num_checkpoints, num_simulations, num_eval_games, epochs, num_searches, lr, max_data_size, num_checkpoints_before_comparison):
+def run_reinforcement(num_checkpoints, num_simulations, num_eval_games, epochs, time_limit, lr, max_data_size, num_checkpoints_before_comparison):
     print("Running Reinforcement Learning")
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     game = TicTacToe(device)
@@ -228,7 +228,7 @@ def run_reinforcement(num_checkpoints, num_simulations, num_eval_games, epochs, 
     old_players = [best_player]
 
     for checkpoint in range(num_checkpoints + 1):
-        results, player_1_roots, player_2_roots, games = run_simulations(game, num_simulations, best_player, num_searches)
+        results, player_1_roots, player_2_roots, games = run_simulations(game, num_simulations, best_player, time_limit)
         data, labels = preprocess_data(results, player_1_roots, player_2_roots, games, best_player)
         all_data, all_labels = join_data(all_data, all_labels, data, labels, max_data_size)
         training_loader, testing_loader = get_data_loaders(all_data, all_labels)
@@ -238,21 +238,21 @@ def run_reinforcement(num_checkpoints, num_simulations, num_eval_games, epochs, 
         trained_player.cnn = trained_model
 
         print("\nEvaluating players at checkpoint: ", checkpoint)
-        best_player, is_new_best_player = evaluate_players(game, num_eval_games, trained_player, best_player, num_searches, True)
+        best_player, is_new_best_player = evaluate_players(game, num_eval_games, trained_player, best_player, time_limit, True)
         if is_new_best_player:
             old_players.append(copy.deepcopy(best_player))
 
         if checkpoint % num_checkpoints_before_comparison == 0 and checkpoint != 0:
             for index, player in enumerate(old_players):
                 print("\nComparing performance to older player at index: ", index)
-                evaluate_players(game, num_eval_games, best_player, player, num_searches, False)
+                evaluate_players(game, num_eval_games, best_player, player, time_limit, False)
             print("\nComparing performance to Pure MCTS")
-            evaluate_players(game, num_eval_games, best_player, pure_mcts_player, num_searches, False)
+            evaluate_players(game, num_eval_games, best_player, pure_mcts_player, time_limit, False)
 
 
 lr = 0.0001
 batch_size = 32
-num_searches = 50
+time_limit = 1
 num_checkpoints = 100
 num_simulations = 50
 num_eval_games = 50
@@ -260,4 +260,4 @@ num_checkpoints_before_comparison = 10
 epochs = 5
 max_data_size = 3000
 
-run_reinforcement(num_checkpoints, num_simulations, num_eval_games, epochs, num_searches, lr, max_data_size, num_checkpoints_before_comparison)
+run_reinforcement(num_checkpoints, num_simulations, num_eval_games, epochs, time_limit, lr, max_data_size, num_checkpoints_before_comparison)

@@ -39,8 +39,10 @@ class AlphaGoZeroCNNPlayer(AlphaGoZeroPlayer):
             potential_moves_num_visits.append(num_visits)
         return potential_moves_num_visits
 
-    def get_next_move(self, potential_moves, add_noise):
-        if add_noise:
+    def get_next_move(self, potential_moves, game, turn_count, add_noise):
+        # This replicates the binary behavior of flipping the temperature from 1->0 in the original behavior
+        # In AlphaGo Zero they use a turn count of 30 before flipping, but I am trying to make more generic here
+        if add_noise and turn_count < game.board_size:
             potential_moves_num_visits = self.get_potential_moves_num_visits(potential_moves)
             return random.choices(potential_moves, weights=potential_moves_num_visits)[0]
         else:

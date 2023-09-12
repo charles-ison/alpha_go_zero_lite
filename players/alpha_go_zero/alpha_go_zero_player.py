@@ -19,7 +19,7 @@ class AlphaGoZeroPlayer(Player):
         potential_moves = last_move.children
         if len(potential_moves) == 0:
             raise Exception("Bug encountered, no potential AlphaGo Zero Lite moves found. More searches need to be run.")
-        return self.get_next_move(potential_moves, add_noise)
+        return self.get_next_move(potential_moves, game, turn_count, add_noise)
 
     def get_most_visited_potential_move(self, potential_moves):
         best_move = potential_moves[0]
@@ -79,7 +79,7 @@ class AlphaGoZeroPlayer(Player):
     def initialize_run_mcts(self, mcts_move, mcts_turn_count, mcts_game, mcts_player_num):
         raise NotImplementedError("Must override initialize_run_mcts().")
 
-    def get_next_move(self, potential_moves, add_noise):
+    def get_next_move(self, potential_moves, game, turn_count, add_noise):
         raise NotImplementedError("Must override get_next_move().")
 
     def get_next_mcts_move(self, mcts_game, mcts_player_num, last_mcts_move, expansion_move_performed, add_noise):
@@ -135,7 +135,7 @@ class AlphaGoZeroPlayer(Player):
         raise NotImplementedError("Must override get_selection_value().")
 
     def get_random_move(self, potential_moves):
-        return potential_moves[random.randint(0, len(potential_moves) - 1)]
+        return random.choices(potential_moves)[0]
 
     def get_selection_move(self, last_expansion_move_children, add_noise):
         best_move = last_expansion_move_children[0]

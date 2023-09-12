@@ -216,8 +216,11 @@ def join_data(all_data, all_labels, data, labels, max_data_size):
         return all_data, all_labels
 
 
-def run_reinforcement(num_checkpoints, game, device, criterion, num_simulations, num_eval_games, epochs, num_searches, lr, max_data_size, num_checkpoints_before_comparison):
+def run_reinforcement(num_checkpoints, num_simulations, num_eval_games, epochs, num_searches, lr, max_data_size, num_checkpoints_before_comparison):
     print("Running Reinforcement Learning")
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    game = TicTacToe(device)
+    criterion = Loss()
     player_factory = PlayerFactory()
     best_player = player_factory.get_player(PlayerType.Untrained_MCTS_CNN, device)
     pure_mcts_player = player_factory.get_player(PlayerType.Raw_MCTS, device)
@@ -249,15 +252,12 @@ def run_reinforcement(num_checkpoints, game, device, criterion, num_simulations,
 
 lr = 0.0001
 batch_size = 32
-num_searches = 100
+num_searches = 50
 num_checkpoints = 100
-num_simulations = 100
-num_eval_games = 100
+num_simulations = 50
+num_eval_games = 50
 num_checkpoints_before_comparison = 10
 epochs = 5
 max_data_size = 3000
-criterion = Loss()
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-game = TicTacToe(device)
 
-run_reinforcement(num_checkpoints, game, device, criterion, num_simulations, num_eval_games, epochs, num_searches, lr, max_data_size, num_checkpoints_before_comparison)
+run_reinforcement(num_checkpoints, num_simulations, num_eval_games, epochs, num_searches, lr, max_data_size, num_checkpoints_before_comparison)

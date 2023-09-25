@@ -11,4 +11,4 @@ class ManualPlayer(Player):
             return utilities.append_move(game, player_num, last_move, row, column)
         else:
             print("\nInvalid move. Please try again.")
-            return self.get_manual_move(player_num, game, last_move)
+            return self.play_move(game, player_num, turn_count, last_move, num_searches, add_noise, print_games)

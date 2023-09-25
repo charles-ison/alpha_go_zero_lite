@@ -15,7 +15,8 @@ def get_player_type(player_num):
     print("1. AlphaGo Zero Lite with pure Monte Carlo Tree Search")
     print("2. AlphaGo Zero Lite with CNN")
     print("3. AlphaGo Zero Lite with Untrained CNN")
-    print("4. Manual player")
+    print("4. AlphaGo Zero Lite with pure probabilities")
+    print("5. Manual player")
     return PlayerType(int(input("Please enter your selection: ")))
 
 

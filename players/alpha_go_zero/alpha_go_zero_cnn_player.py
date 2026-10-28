@@ -1,4 +1,5 @@
 import random
+import torch
 from players.alpha_go_zero.alpha_go_zero_player import AlphaGoZeroPlayer
 
 
@@ -11,8 +12,9 @@ class AlphaGoZeroCNNPlayer(AlphaGoZeroPlayer):
     def call_cnn(self, mcts_move, mcts_game, mcts_turn_count, player_num):
         board_history = mcts_game.get_board_history(mcts_turn_count, player_num)
         self.cnn.eval()
-        child_probabilities, action_value = self.cnn(board_history.unsqueeze(dim=0))
-        mcts_move.child_probabilities = child_probabilities.squeeze()
+        policy_logits, action_value = self.cnn(board_history.unsqueeze(dim=0))
+        child_probabilities = torch.softmax(policy_logits.flatten(), dim=0)
+        mcts_move.child_probabilities = child_probabilities.view(mcts_game.board_size, mcts_game.board_size)
         return action_value, -action_value
 
     def get_selection_value(self, move, add_noise):

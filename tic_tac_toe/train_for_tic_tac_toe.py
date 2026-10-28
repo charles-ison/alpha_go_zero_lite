@@ -159,12 +159,12 @@ def test(model, testing_loader, device, criterion):
     total_loss = 0.0
     for batch in testing_loader:
         data, prob, value = batch['data'].to(device), batch['label'][0].to(device), batch['label'][1].to(device)
-        predicted_prob, predicted_value = model(data)
+        predicted_logits, predicted_value = model(data)
         prob = prob.flatten(start_dim=1)
         value = value.float()
-        predicted_prob = predicted_prob.flatten(start_dim=1)
+        predicted_logits = predicted_logits.flatten(start_dim=1)
         predicted_value = predicted_value.flatten()
-        loss = criterion.calculate(predicted_prob, prob, predicted_value, value)
+        loss = criterion.calculate(predicted_logits, prob, predicted_value, value)
         total_loss += loss.item()
     return total_loss
 
@@ -181,14 +181,14 @@ def train(model, training_loader, testing_loader, device, criterion, epochs, lr)
         for batch in training_loader:
             data, prob, value = batch['data'].to(device), batch['label'][0].to(device), batch['label'][1].to(device)
             optimizer.zero_grad()
-            predicted_prob, predicted_value = model(data)
+            predicted_logits, predicted_value = model(data)
 
             prob = prob.flatten(start_dim=1)
             value = value.float()
-            predicted_prob = predicted_prob.flatten(start_dim=1)
+            predicted_logits = predicted_logits.flatten(start_dim=1)
             predicted_value = predicted_value.flatten()
 
-            loss = criterion.calculate(predicted_prob, prob, predicted_value, value)
+            loss = criterion.calculate(predicted_logits, prob, predicted_value, value)
             total_training_loss += loss.item()
             loss.backward()
             optimizer.step()
@@ -257,7 +257,7 @@ num_checkpoints = 100
 num_simulations = 50
 num_eval_games = 50
 num_checkpoints_before_comparison = 10
-epochs = 1
+epochs = 10
 max_data_size = 10000
 
 run_reinforcement(num_checkpoints, num_simulations, num_eval_games, epochs, time_limit, lr, max_data_size, num_checkpoints_before_comparison)

@@ -10,35 +10,39 @@ class TicTacToeCNN(nn.Module):
         self.conv2 = nn.Conv2d(in_channels=num_channels, out_channels=num_channels, kernel_size=3, stride=1, padding=1)
         self.conv3 = nn.Conv2d(in_channels=num_channels, out_channels=num_channels, kernel_size=3, stride=1, padding=1)
         self.conv4 = nn.Conv2d(in_channels=num_channels, out_channels=num_channels, kernel_size=3, stride=1, padding=1)
-        self.batch_norm = nn.BatchNorm2d(num_channels)
+        self.batch_norm0 = nn.BatchNorm2d(num_channels)
+        self.batch_norm1 = nn.BatchNorm2d(num_channels)
+        self.batch_norm2 = nn.BatchNorm2d(num_channels)
+        self.batch_norm3 = nn.BatchNorm2d(num_channels)
+        self.batch_norm4 = nn.BatchNorm2d(num_channels)
         self.relu = nn.ReLU()
         self.policy_head = PolicyHead(num_channels)
         self.value_head = ValueHead(num_channels)
 
     def convolution_block(self, x):
         x = self.conv0(x)
-        x = self.batch_norm(x)
+        x = self.batch_norm0(x)
         return self.relu(x)
 
     def residual_block0(self, x):
         residual = x
         x = self.conv1(x)
-        x = self.batch_norm(x)
+        x = self.batch_norm1(x)
         x = self.relu(x)
 
         x = self.conv2(x)
-        x = self.batch_norm(x)
+        x = self.batch_norm2(x)
         x += residual
         return self.relu(x)
 
     def residual_block1(self, x):
         residual = x
         x = self.conv3(x)
-        x = self.batch_norm(x)
+        x = self.batch_norm3(x)
         x = self.relu(x)
 
         x = self.conv4(x)
-        x = self.batch_norm(x)
+        x = self.batch_norm4(x)
         x += residual
         return self.relu(x)
 

@@ -12,8 +12,9 @@ class AlphaGoZeroProbability(Player):
     def play_move(self, game, player_num, turn_count, last_move, num_searches, add_noise, print_games):
         board_history = game.get_board_history(turn_count, player_num)
         self.cnn.eval()
-        child_probabilities, _ = self.cnn(board_history.unsqueeze(dim=0))
-        child_probabilities = child_probabilities.squeeze()
+        policy_logits, _ = self.cnn(board_history.unsqueeze(dim=0))
+        child_probabilities = torch.softmax(policy_logits.flatten(), dim=0)
+        child_probabilities = child_probabilities.view(game.board_size, game.board_size)
         most_recent_board = board_history[0]
         masked_child_probabilities = self.mask_child_probabilities(child_probabilities, most_recent_board)
         row, column = self.get_max_probability_indices(masked_child_probabilities)

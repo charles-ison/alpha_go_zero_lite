@@ -58,7 +58,6 @@ class PolicyHead(nn.Module):
         self.batch_norm = nn.BatchNorm2d(num_out_channels)
         self.relu = nn.ReLU()
         self.fc = nn.Linear(num_out_channels * 3 * 3, 3 * 3)
-        self.softmax = nn.Softmax(dim=1)
 
     def forward(self, x):
         x = self.conv0(x)
@@ -66,7 +65,6 @@ class PolicyHead(nn.Module):
         x = self.relu(x)
         x = x.flatten(start_dim=1)
         x = self.fc(x)
-        x = self.softmax(x)
         return x.view(-1, 3, 3)
 
 

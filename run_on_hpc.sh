@@ -7,7 +7,7 @@
 #SBATCH --gres=gpu:1       
 #SBATCH --mem=20G  
 
-#SBATCH -o neural_networks/saved_models/logs.out
+#SBATCH -o /dev/null
 #SBATCH -e neural_networks/saved_models/logs.err
 
 # load env

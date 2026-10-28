@@ -1,4 +1,5 @@
 import copy
+import sys
 import torch
 import torch.optim as optim
 from play_games import play
@@ -9,6 +10,21 @@ from utilities import get_player_num
 from torch.utils.data import DataLoader
 from neural_networks.loss import Loss
 from sklearn.model_selection import train_test_split
+
+
+# Writes everything printed to both the terminal and a log file
+class Logger:
+    def __init__(self, log_file_path):
+        self.terminal = sys.stdout
+        self.log_file = open(log_file_path, "w", buffering=1)
+
+    def write(self, message):
+        self.terminal.write(message)
+        self.log_file.write(message)
+
+    def flush(self):
+        self.terminal.flush()
+        self.log_file.flush()
 
 
 class MoveDataSet(torch.utils.data.Dataset):
@@ -259,5 +275,6 @@ num_eval_games = 50
 num_checkpoints_before_comparison = 10
 epochs = 10
 max_data_size = 10000
-
+log_path = "neural_networks/saved_models/logs.out"
+sys.stdout = Logger(log_path)
 run_reinforcement(num_checkpoints, num_simulations, num_eval_games, epochs, time_limit, lr, max_data_size, num_checkpoints_before_comparison)

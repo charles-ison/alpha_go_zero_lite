@@ -1,5 +1,6 @@
 import random
 import torch
+import utilities
 from players.alpha_go_zero.alpha_go_zero_player import AlphaGoZeroPlayer
 
 
@@ -30,9 +31,9 @@ class AlphaGoZeroCNNPlayer(AlphaGoZeroPlayer):
         return expansion_move_performed
 
     def initialize_run_mcts(self, mcts_move, mcts_turn_count, mcts_game, mcts_player_num):
-        if mcts_turn_count == 0:
-            # Using 0 as the last players number for the first move of the game
-            self.call_cnn(mcts_move, mcts_game, mcts_turn_count, mcts_player_num)
+        if mcts_move.child_probabilities is None:
+            opposing_player_num = utilities.get_opposing_player_num(mcts_player_num)
+            self.call_cnn(mcts_move, mcts_game, mcts_turn_count, opposing_player_num)
 
     def get_potential_moves_num_visits(self, potential_moves):
         potential_moves_num_visits = []

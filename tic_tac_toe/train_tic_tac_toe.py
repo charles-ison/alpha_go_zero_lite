@@ -173,25 +173,26 @@ def evaluate_players(game, num_eval_games, trained_player, best_player, time_lim
 def test(model, testing_loader, device, criterion):
     model.eval()
     total_loss = 0.0
-    for batch in testing_loader:
-        data, prob, value = batch['data'].to(device), batch['label'][0].to(device), batch['label'][1].to(device)
-        predicted_logits, predicted_value = model(data)
-        prob = prob.flatten(start_dim=1)
-        value = value.float()
-        predicted_logits = predicted_logits.flatten(start_dim=1)
-        predicted_value = predicted_value.flatten()
-        loss = criterion.calculate(predicted_logits, prob, predicted_value, value)
-        total_loss += loss.item()
+    with torch.no_grad():
+        for batch in testing_loader:
+            data, prob, value = batch['data'].to(device), batch['label'][0].to(device), batch['label'][1].to(device)
+            predicted_logits, predicted_value = model(data)
+            prob = prob.flatten(start_dim=1)
+            value = value.float()
+            predicted_logits = predicted_logits.flatten(start_dim=1)
+            predicted_value = predicted_value.flatten()
+            loss = criterion.calculate(predicted_logits, prob, predicted_value, value)
+            total_loss += loss.item()
     return total_loss
 
 
 def train(model, training_loader, testing_loader, device, criterion, epochs, lr):
     print("\nTraining. . .")
     optimizer = optim.Adam(model.parameters(), lr=lr)
-    model.train()
     old_testing_loss = None
     for epoch in range(epochs):
         print("Epoch: ", epoch)
+        model.train()
         total_training_loss = 0.0
         old_model = copy.deepcopy(model)
         for batch in training_loader:

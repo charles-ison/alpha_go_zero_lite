@@ -5,8 +5,9 @@ import torch
 class Node:
     def __init__(self, board_size, num_visits):
         self.children = []
-        self.child_probabilities = torch.full((board_size, board_size), 1.0 / board_size)
-        dirichlet_distribution = torch.distributions.dirichlet.Dirichlet(self.child_probabilities.flatten())
+        self.child_probabilities = None
+        dirichlet_concentration = torch.full((board_size * board_size,), 1.0 / board_size)
+        dirichlet_distribution = torch.distributions.dirichlet.Dirichlet(dirichlet_concentration)
         self.probability_noise = dirichlet_distribution.sample().reshape((board_size, board_size))
         self.num_visits = num_visits
 

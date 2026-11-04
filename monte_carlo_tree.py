@@ -3,22 +3,21 @@ import torch
 
 
 class Node:
-    def __init__(self, board_size, num_visits):
+    def __init__(self, action_space_size, dirichlet_alpha, num_visits):
         self.children = []
         self.child_probabilities = None
-        dirichlet_concentration = torch.full((board_size * board_size,), 1.0 / board_size)
+        dirichlet_concentration = torch.full((action_space_size,), dirichlet_alpha)
         dirichlet_distribution = torch.distributions.dirichlet.Dirichlet(dirichlet_concentration)
-        self.probability_noise = dirichlet_distribution.sample().reshape((board_size, board_size))
+        self.probability_noise = dirichlet_distribution.sample()
         self.num_visits = num_visits
 
 
 class Move(Node):
-    def __init__(self, board_size, player_num, row, column, parent, num_visits):
-        super().__init__(board_size, num_visits)
+    def __init__(self, action_space_size, dirichlet_alpha, player_num, action, parent, num_visits):
+        super().__init__(action_space_size, dirichlet_alpha, num_visits)
         self.player_num = player_num
         self.action_value = 0.0
-        self.row = row
-        self.column = column
+        self.action = action
         self.parent = parent
         self.was_played = False
 
@@ -37,10 +36,10 @@ class Move(Node):
         return exploration_factor * probability * (alternative_move_visits/self_visit_denominator)
 
     def get_probability(self, add_noise):
-        probability = self.parent.child_probabilities[self.row][self.column]
+        probability = self.parent.child_probabilities[self.action]
         if add_noise:
             epsilon = 0.25
-            probability_noise = self.parent.probability_noise[self.row][self.column]
+            probability_noise = self.parent.probability_noise[self.action]
             probability = (1 - epsilon) * probability + epsilon * probability_noise
         return probability
 

@@ -4,7 +4,7 @@ from games.game import Game
 
 class Go(Game):
     def __init__(self, device):
-        super().__init__(9)
+        super().__init__(9, 9 * 9 + 1, 0.03, 30)
         self.board_history.append(torch.zeros(self.board_size, self.board_size))
         self.board_history.append(torch.zeros(self.board_size, self.board_size))
         self.board_history.append(torch.zeros(self.board_size, self.board_size))

@@ -4,25 +4,25 @@ import utilities
 
 
 def play_game(game, players, time_limit, add_noise, print_games):
-    turn_count = 0
     if print_games:
         game.print_board()
-    player_1_root, player_2_root = mct.Node(game.board_size, 1), mct.Node(game.board_size, 1)
-    current_player_node, waiting_player_node = player_1_root, player_2_root
+    player_1_root = mct.Node(game.action_space_size, game.dirichlet_alpha, 1)
+    player_2_root = mct.Node(game.action_space_size, game.dirichlet_alpha, 1)
+    player_nodes = {1: player_1_root, 2: player_2_root}
 
     while True:
-        player_num = utilities.get_player_num(turn_count)
+        player_num = game.current_player
+        opposing_player_num = utilities.get_opposing_player_num(player_num)
         player = players[player_num - 1]
-        current_player_node = player.play_move(game, player_num, turn_count, current_player_node, time_limit, add_noise, print_games)
-        waiting_player_node = utilities.append_move(game, player_num, waiting_player_node, current_player_node.row, current_player_node.column)
-        game.update_board(current_player_node.row, current_player_node.column, player_num)
+        player_nodes[player_num] = player.play_move(game, player_nodes[player_num], time_limit, add_noise, print_games)
+        action = player_nodes[player_num].action
+        player_nodes[opposing_player_num] = utilities.append_move(game, player_num, player_nodes[opposing_player_num], action)
+        game.apply_action(action)
 
         if print_games:
             game.print_board()
 
-        current_player_node.was_played, waiting_player_node.was_played = True, True
-        current_player_node, waiting_player_node = waiting_player_node, current_player_node
-        turn_count += 1
+        player_nodes[player_num].was_played, player_nodes[opposing_player_num].was_played = True, True
 
         if game.detect_winner():
             return player_num, player_1_root, player_2_root

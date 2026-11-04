@@ -14,4 +14,4 @@
 source env/bin/activate
 module load python/3.10 cuda/11.7
 
-python3 -u -m tic_tac_toe.train_tic_tac_toe
+python3 -u train.py --game tic_tac_toe

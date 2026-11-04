@@ -3,14 +3,7 @@ import monte_carlo_tree as mct
 import utilities
 
 
-def get_current_player_tree(player_num, player_1_node, player_2_node):
-    if player_num == 1:
-        return player_1_node
-    else:
-        return player_2_node
-
-
-def play(game, players, time_limit, add_noise, print_games):
+def play_game(game, players, time_limit, add_noise, print_games):
     turn_count = 0
     if print_games:
         game.print_board()
@@ -37,13 +30,13 @@ def play(game, players, time_limit, add_noise, print_games):
             return 0, player_1_root, player_2_root
 
 
-def play_games(game, num_games, players, time_limit):
+def play_match(game, num_games, players, time_limit):
     num_ties = 0
     num_player_1_wins = 0
     num_player_2_wins = 0
     for game_num in range(num_games):
         new_game = copy.deepcopy(game)
-        result_num, _, _ = play(new_game, players, time_limit, False, True)
+        result_num, _, _ = play_game(new_game, players, time_limit, False, True)
         player_1_type = type(players[0]).__name__
         player_2_type = type(players[1]).__name__
         print("\nGame " + str(game_num + 1) + " finished!")

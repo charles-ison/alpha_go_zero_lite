@@ -2,9 +2,10 @@ import copy
 import sys
 import torch
 import torch.optim as optim
-from play_games import play
-from games.tic_tac_toe import TicTacToe
-from players.player_factory import PlayerFactory
+from game_runner import play_game
+import argparse
+from games.game_type import GameType, GameFactory
+from players.player_factory import PlayerFactory, get_model_path
 from players.player_type import PlayerType
 from utilities import get_player_num
 from torch.utils.data import DataLoader
@@ -123,7 +124,6 @@ def get_best_player(trained_player, best_player, trained_player_win_count, best_
     if trained_win_percentage >= 0.55:
         if log_player_selection:
             print("Using the trained player.")
-        save_best_player(trained_player)
         return trained_player, True
     else:
         if log_player_selection:
@@ -140,7 +140,7 @@ def run_simulations(game, num_simulations, player, time_limit):
     players = [player, copy.deepcopy(player)]
     for game_num in range(num_simulations):
         new_game = copy.deepcopy(game)
-        result_num, player_1_root, player_2_root = play(new_game, players, time_limit, True, False)
+        result_num, player_1_root, player_2_root = play_game(new_game, players, time_limit, True, False)
         results.append(result_num)
         player_1_roots.append(player_1_root)
         player_2_roots.append(player_2_root)
@@ -153,7 +153,7 @@ def evaluate_players(game, num_eval_games, trained_player, best_player, time_lim
     players = [trained_player, best_player]
     for game_num in range(num_eval_games):
         new_game = copy.deepcopy(game)
-        result_num, _, _ = play(new_game, players, time_limit, False, False)
+        result_num, _, _ = play_game(new_game, players, time_limit, False, False)
         players[0], players[1] = players[1], players[0]
 
         if result_num == get_player_num(game_num):
@@ -219,8 +219,8 @@ def train(model, training_loader, testing_loader, device, criterion, epochs, lr)
     return model
 
 
-def save_best_player(best_player):
-    torch.save(best_player.cnn.state_dict(), "models/saved/tic_tac_toe_cnn.pt")
+def save_best_player(best_player, game_type):
+    torch.save(best_player.cnn.state_dict(), get_model_path(game_type))
 
 
 def join_data(all_data, all_labels, data, labels, max_data_size):
@@ -233,14 +233,15 @@ def join_data(all_data, all_labels, data, labels, max_data_size):
         return all_data, all_labels
 
 
-def run_reinforcement(num_checkpoints, num_simulations, num_eval_games, epochs, time_limit, lr, max_data_size, num_checkpoints_before_comparison):
+def run_reinforcement(game_type, num_checkpoints, num_simulations, num_eval_games, epochs, time_limit, lr, max_data_size, num_checkpoints_before_comparison):
     print("Running Reinforcement Learning")
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-    game = TicTacToe(device)
+    game_factory = GameFactory()
+    game = game_factory.get_game(game_type, device)
     criterion = Loss()
     player_factory = PlayerFactory()
-    best_player = player_factory.get_player(PlayerType.Untrained_MCTS_CNN, device)
-    pure_mcts_player = player_factory.get_player(PlayerType.Raw_MCTS, device)
+    best_player = player_factory.get_player(PlayerType.Untrained_MCTS_CNN, game_type, device)
+    pure_mcts_player = player_factory.get_player(PlayerType.Raw_MCTS, game_type, device)
     all_data, all_labels = [], []
     old_players = [best_player]
 
@@ -257,6 +258,7 @@ def run_reinforcement(num_checkpoints, num_simulations, num_eval_games, epochs, 
         print("\nEvaluating players at checkpoint: ", checkpoint)
         best_player, is_new_best_player = evaluate_players(game, num_eval_games, trained_player, best_player, time_limit, True)
         if is_new_best_player:
+            save_best_player(best_player, game_type)
             old_players.append(copy.deepcopy(best_player))
 
         if checkpoint % num_checkpoints_before_comparison == 0 and checkpoint != 0:
@@ -267,15 +269,23 @@ def run_reinforcement(num_checkpoints, num_simulations, num_eval_games, epochs, 
             evaluate_players(game, num_eval_games, best_player, pure_mcts_player, time_limit, False)
 
 
-lr = 0.0001
-batch_size = 32
-time_limit = 0.1
-num_checkpoints = 100
-num_simulations = 50
-num_eval_games = 50
-num_checkpoints_before_comparison = 10
-epochs = 10
-max_data_size = 10000
-log_path = "models/saved/logs.out"
-sys.stdout = Logger(log_path)
-run_reinforcement(num_checkpoints, num_simulations, num_eval_games, epochs, time_limit, lr, max_data_size, num_checkpoints_before_comparison)
+def parse_args():
+    parser = argparse.ArgumentParser(description="Train an AlphaGo Zero Lite player through self-play.")
+    parser.add_argument("--game", type=GameType, choices=list(GameType), metavar="{" + ",".join(game_type.value for game_type in GameType) + "}")
+    return parser.parse_args()
+
+
+if __name__ == "__main__":
+    args = parse_args()
+    lr = 0.0001
+    batch_size = 32
+    time_limit = 0.1
+    num_checkpoints = 100
+    num_simulations = 50
+    num_eval_games = 50
+    num_checkpoints_before_comparison = 10
+    epochs = 10
+    max_data_size = 10000
+    log_path = "models/saved/logs.out"
+    sys.stdout = Logger(log_path)
+    run_reinforcement(args.game, num_checkpoints, num_simulations, num_eval_games, epochs, time_limit, lr, max_data_size, num_checkpoints_before_comparison)

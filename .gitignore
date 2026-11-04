@@ -2,5 +2,5 @@ __pycache__/
 .idea/
 .DS_Store
 venv/
-neural_networks/saved_models/*
-!neural_networks/saved_models/best_logs.out
+models/saved/*
+!models/saved/best_logs.out

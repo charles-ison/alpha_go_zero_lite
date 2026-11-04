@@ -17,7 +17,7 @@ pip freeze > requirements.txt
 
 To train for Tic-Tac-Toe, please using the follwing command:
 
-```python -m tic_tac_toe.train_for_tic_tac_toe```
+```python -m tic_tac_toe.train_tic_tac_toe```
 
 To play Tic-Tac-Toe, please using the follwing command:
 

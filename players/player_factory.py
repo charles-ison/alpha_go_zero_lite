@@ -4,7 +4,7 @@ from players.player_type import PlayerType
 from players.alpha_go_zero.alpha_go_zero_raw_mtcs_player import AlphaGoZeroRawMTCSPlayer
 from players.alpha_go_zero.alpha_go_zero_cnn_player import AlphaGoZeroCNNPlayer
 from players.alpha_go_zero.alpha_go_zero_probability import AlphaGoZeroProbability
-from neural_networks.tic_tac_toe_cnn import TicTacToeCNN
+from models.tic_tac_toe_cnn import TicTacToeCNN
 
 
 class PlayerFactory:
@@ -17,7 +17,7 @@ class PlayerFactory:
             player = AlphaGoZeroRawMTCSPlayer()
         elif player_type == PlayerType.MCTS_CNN:
             cnn = TicTacToeCNN()
-            cnn.load_state_dict(torch.load("neural_networks/saved_models/best_tic_tac_toe_cnn.pt", map_location=device))
+            cnn.load_state_dict(torch.load("models/saved/best_tic_tac_toe_cnn.pt", map_location=device))
             cnn.to(device)
             player = AlphaGoZeroCNNPlayer(cnn)
         elif player_type == PlayerType.Untrained_MCTS_CNN:
@@ -26,7 +26,7 @@ class PlayerFactory:
             player = AlphaGoZeroCNNPlayer(cnn)
         elif player_type == PlayerType.Probability:
             cnn = TicTacToeCNN()
-            cnn.load_state_dict(torch.load("neural_networks/saved_models/best_tic_tac_toe_cnn.pt", map_location=device))
+            cnn.load_state_dict(torch.load("models/saved/best_tic_tac_toe_cnn.pt", map_location=device))
             cnn.to(device)
             player = AlphaGoZeroProbability(cnn)
         return player

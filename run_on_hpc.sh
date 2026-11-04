@@ -8,10 +8,10 @@
 #SBATCH --mem=20G  
 
 #SBATCH -o /dev/null
-#SBATCH -e neural_networks/saved_models/logs.err
+#SBATCH -e models/saved/logs.err
 
 # load env
 source env/bin/activate
 module load python/3.10 cuda/11.7
 
-python3 -u -m tic_tac_toe.train_for_tic_tac_toe.py
+python3 -u -m tic_tac_toe.train_tic_tac_toe

@@ -8,7 +8,7 @@ from players.player_factory import PlayerFactory
 from players.player_type import PlayerType
 from utilities import get_player_num
 from torch.utils.data import DataLoader
-from neural_networks.loss import Loss
+from loss import Loss
 from sklearn.model_selection import train_test_split
 
 
@@ -220,7 +220,7 @@ def train(model, training_loader, testing_loader, device, criterion, epochs, lr)
 
 
 def save_best_player(best_player):
-    torch.save(best_player.cnn.state_dict(), "neural_networks/saved_models/tic_tac_toe_cnn.pt")
+    torch.save(best_player.cnn.state_dict(), "models/saved/tic_tac_toe_cnn.pt")
 
 
 def join_data(all_data, all_labels, data, labels, max_data_size):
@@ -276,6 +276,6 @@ num_eval_games = 50
 num_checkpoints_before_comparison = 10
 epochs = 10
 max_data_size = 10000
-log_path = "neural_networks/saved_models/logs.out"
+log_path = "models/saved/logs.out"
 sys.stdout = Logger(log_path)
 run_reinforcement(num_checkpoints, num_simulations, num_eval_games, epochs, time_limit, lr, max_data_size, num_checkpoints_before_comparison)

@@ -1,6 +1,5 @@
 import random
 import torch
-import utilities
 from players.alpha_go_zero.alpha_go_zero_player import AlphaGoZeroPlayer
 
 
@@ -10,30 +9,28 @@ class AlphaGoZeroCNNPlayer(AlphaGoZeroPlayer):
         super().__init__()
         self.cnn = cnn
 
-    def call_cnn(self, mcts_move, mcts_game, mcts_turn_count, player_num):
-        board_history = mcts_game.get_board_history(mcts_turn_count, player_num)
+    def call_cnn(self, mcts_move, mcts_game):
+        state = mcts_game.encode_state()
         self.cnn.eval()
-        policy_logits, action_value = self.cnn(board_history.unsqueeze(dim=0))
-        child_probabilities = torch.softmax(policy_logits.flatten(), dim=0)
-        mcts_move.child_probabilities = child_probabilities.view(mcts_game.board_size, mcts_game.board_size)
+        policy_logits, action_value = self.cnn(state.unsqueeze(dim=0))
+        mcts_move.child_probabilities = torch.softmax(policy_logits.flatten(), dim=0)
         return action_value, -action_value
 
     def get_selection_value(self, move, add_noise):
         return move.get_mean_action_value_plus_puct(add_noise)
 
-    def get_action_values(self, win_detected, tie_detected, mcts_game, mcts_move, mcts_turn_count, player_num):
+    def get_action_values(self, win_detected, tie_detected, mcts_game, mcts_move):
         if win_detected or tie_detected:
             return self.get_finished_game_values(win_detected)
         else:
-            return self.call_cnn(mcts_move, mcts_game, mcts_turn_count, player_num)
+            return self.call_cnn(mcts_move, mcts_game)
 
     def should_stop_rollout(self, expansion_move_performed):
         return expansion_move_performed
 
-    def initialize_run_mcts(self, mcts_move, mcts_turn_count, mcts_game, mcts_player_num):
+    def initialize_run_mcts(self, mcts_move, mcts_game):
         if mcts_move.child_probabilities is None:
-            opposing_player_num = utilities.get_opposing_player_num(mcts_player_num)
-            self.call_cnn(mcts_move, mcts_game, mcts_turn_count, opposing_player_num)
+            self.call_cnn(mcts_move, mcts_game)
 
     def get_potential_moves_num_visits(self, potential_moves):
         potential_moves_num_visits = []
@@ -42,10 +39,10 @@ class AlphaGoZeroCNNPlayer(AlphaGoZeroPlayer):
             potential_moves_num_visits.append(num_visits)
         return potential_moves_num_visits
 
-    def get_next_move(self, potential_moves, game, turn_count, add_noise):
+    def get_next_move(self, potential_moves, game, add_noise):
         # This replicates the binary behavior of flipping the temperature from 1->0 in the original behavior
         # In AlphaGo Zero they use a turn count of 30 before flipping, but I am trying to make more generic here
-        if add_noise and turn_count < game.board_size:
+        if add_noise and game.turn_count < game.num_exploration_moves:
             potential_moves_num_visits = self.get_potential_moves_num_visits(potential_moves)
             return random.choices(potential_moves, weights=potential_moves_num_visits)[0]
         else:

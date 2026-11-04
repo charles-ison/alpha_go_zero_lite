@@ -9,23 +9,13 @@ class AlphaGoZeroProbability(Player):
         super().__init__()
         self.cnn = cnn
 
-    def play_move(self, game, player_num, turn_count, last_move, num_searches, add_noise, print_games):
-        board_history = game.get_board_history(turn_count, player_num)
+    def play_move(self, game, last_move, time_limit, add_noise, print_games):
+        state = game.encode_state()
         self.cnn.eval()
-        policy_logits, _ = self.cnn(board_history.unsqueeze(dim=0))
+        policy_logits, _ = self.cnn(state.unsqueeze(dim=0))
         child_probabilities = torch.softmax(policy_logits.flatten(), dim=0)
-        child_probabilities = child_probabilities.view(game.board_size, game.board_size)
-        most_recent_board = board_history[0]
-        masked_child_probabilities = self.mask_child_probabilities(child_probabilities, most_recent_board)
-        row, column = self.get_max_probability_indices(masked_child_probabilities)
-        return utilities.append_move(game, player_num, last_move, row, column)
+        action = self.get_max_probability_action(child_probabilities, game.get_legal_actions())
+        return utilities.append_move(game, game.current_player, last_move, action)
 
-    def mask_child_probabilities(self, child_probabilities, most_recent_board):
-        for row_index, row in enumerate(most_recent_board):
-            for column_index, element in enumerate(row):
-                if element != 0:
-                    child_probabilities[row_index][column_index] = 0
-        return child_probabilities
-
-    def get_max_probability_indices(self, masked_child_probabilities):
-        return (masked_child_probabilities == torch.max(masked_child_probabilities)).nonzero().squeeze()
+    def get_max_probability_action(self, child_probabilities, legal_actions):
+        return max(legal_actions, key=lambda action: child_probabilities[action])

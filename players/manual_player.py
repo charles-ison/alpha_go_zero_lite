@@ -3,12 +3,11 @@ from players.player import Player
 
 
 class ManualPlayer(Player):
-    def play_move(self, game, player_num, turn_count, last_move, num_searches, add_noise, print_games):
-        row, column = input("\nPlayer " + str(player_num) + " please enter move coordinates: ").split(",")
-        row, column = int(row), int(column)
+    def play_move(self, game, last_move, time_limit, add_noise, print_games):
+        action = game.parse_action(input("\nPlayer " + str(game.current_player) + " please enter move coordinates: "))
 
-        if game.is_valid_move(row, column):
-            return utilities.append_move(game, player_num, last_move, row, column)
+        if action is not None:
+            return utilities.append_move(game, game.current_player, last_move, action)
         else:
             print("\nInvalid move. Please try again.")
-            return self.play_move(game, player_num, turn_count, last_move, num_searches, add_noise, print_games)
+            return self.play_move(game, last_move, time_limit, add_noise, print_games)

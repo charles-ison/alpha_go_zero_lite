@@ -58,18 +58,10 @@ def get_next_move(node):
     print("Bug encountered, no next move found in the MCST")
 
 
-def get_player_node(player_1_node, player_2_node, player_num):
-    if player_num == 1:
-        return player_2_node
-    else:
-        return player_1_node
-
-
-def get_probabilities(player_1_node, player_2_node, player_num, game):
-    player_node = get_player_node(player_1_node, player_2_node, player_num)
-    probabilities = torch.zeros(game.board_size, game.board_size)
+def get_probabilities(player_node, game):
+    probabilities = torch.zeros(game.action_space_size)
     for child in player_node.children:
-        probabilities[child.row][child.column] = child.num_visits / (player_node.num_visits - 1)
+        probabilities[child.action] = child.num_visits / (player_node.num_visits - 1)
 
     if round(probabilities.sum().item(), 5) != 1.0:
         raise Exception("Probabilities do not sum to 1.")
@@ -94,20 +86,18 @@ def preprocess_data(results, player_1_roots, player_2_roots, games, best_player)
     data, labels = [], []
 
     for (result, player_1_node, player_2_node, game) in zip(results, player_1_roots, player_2_roots, games):
-        turn_count = 0
+        player_nodes = {1: player_1_node, 2: player_2_node}
 
-        while len(player_1_node.children) != 0 and len(player_2_node.children) != 0:
-            player_num = get_player_num(turn_count - 1)
-            board_history = game.get_board_history(turn_count, player_num)
-            data.append(board_history)
+        for turn_count in range(game.turn_count):
+            data.append(game.encode_state(turn_count))
 
-            probabilities = get_probabilities(player_1_node, player_2_node, player_num, game)
-            game_value = get_game_value(turn_count, result, player_num, best_player)
+            player_to_move_num = game.player_history[turn_count]
+            probabilities = get_probabilities(player_nodes[player_to_move_num], game)
+            last_player_num = game.get_last_player_num(turn_count)
+            game_value = get_game_value(turn_count, result, last_player_num, best_player)
             labels.append((probabilities, game_value))
 
-            player_1_node = get_next_move(player_1_node)
-            player_2_node = get_next_move(player_2_node)
-            turn_count += 1
+            player_nodes = {player_num: get_next_move(node) for player_num, node in player_nodes.items()}
 
     return data, labels
 
